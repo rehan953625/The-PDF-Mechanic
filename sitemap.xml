@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+   <url>
+      <loc>https://www.thepdfmechanic.com/</loc>
+      <lastmod>2025-12-21</lastmod>
+      <priority>1.00</priority>
+   </url>
+   
+   <url>
+      <loc>https://www.thepdfmechanic.com/compressor.html</loc>
+      <lastmod>2025-12-21</lastmod>
+      <priority>0.90</priority>
+   </url>
+   
+   <url>
+      <loc>https://www.thepdfmechanic.com/merger.html</loc>
+      <lastmod>2025-12-21</lastmod>
+      <priority>0.80</priority>
+   </url>
+   
+   <url>
+      <loc>https://www.thepdfmechanic.com/splitter.html</loc>
+      <lastmod>2025-12-21</lastmod>
+      <priority>0.80</priority>
+   </url>
+
+   <url>
+      <loc>https://www.thepdfmechanic.com/delete-pages.html</loc>
+      <lastmod>2025-12-21</lastmod>
+      <priority>0.80</priority>
+   </url>
+
+   <url>
+      <loc>https://www.thepdfmechanic.com/pdf-editor.html</loc>
+      <lastmod>2025-12-21</lastmod>
+      <priority>0.85</priority>
+   </url>
+
+   <url>
+      <loc>https://www.thepdfmechanic.com/pdf-to-word.html</loc>
+      <lastmod>2025-12-21</lastmod>
+      <priority>0.85</priority>
+   </url>
+
+   <url>
+      <loc>https://www.thepdfmechanic.com/images-to-pdf.html</loc>
+      <lastmod>2025-12-21</lastmod>
+      <priority>0.85</priority>
+   </url>
+
+   <url>
+      <loc>https://www.thepdfmechanic.com/pdf-to-images.html</loc>
+      <lastmod>2025-12-21</lastmod>
+      <priority>0.85</priority>
+   </url>
+
+   <url>
+      <loc>https://www.thepdfmechanic.com/reorder-pages.html</loc>
+      <lastmod>2025-12-21</lastmod>
+      <priority>0.70</priority>
+   </url>
+</urlset>

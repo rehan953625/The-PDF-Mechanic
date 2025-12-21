@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>Reorder PDF Pages | Organize PDF Online Free - The PDF Mechanic</title>
+    <meta name="description" content="Rearrange PDF pages instantly in your browser. Organize, move, and reorder pages visually. Free, secure, and private." />
+    <meta name="keywords" content="reorder pdf pages, organize pdf, rearrange pdf, move pdf pages, pdf page organizer, free pdf tool" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.pdfmechanic.com/reorder-pages.html" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.pdfmechanic.com/reorder-pages.html" />
+    <meta property="og:title" content="Reorder PDF Pages - Free & Secure" />
+    <meta property="og:description" content="Organize your PDF pages visually. Drag, drop, or click to move pages." />
+    <meta property="og:image" content="https://www.pdfmechanic.com/images/reorder-preview.jpg" />
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        
+        // INDIGO THEME (#6366f1)
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { brand: '#6366f1', brandDark: '#4f46e5', bg: '#F3F4F6' },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <script type="application/ld+json">
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "The PDF Mechanic Reorder Pages",
+        "operatingSystem": "Web Browser",
+        "applicationCategory": "ProductivityApplication",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "description": "A free online tool to rearrange and organize pages within a PDF document securely.",
+        "featureList": "Visual page reordering, Client-side processing, High quality output"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.pdfmechanic.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Reorder PDF", "item": "https://www.pdfmechanic.com/reorder-pages.html" }
+        ]
+      }
+    ]
+    </script>
+</head>
+<body class="font-sans bg-bg text-gray-900 flex flex-col min-h-screen">
+
+    <nav class="w-full bg-brand text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center gap-3">
+            <a href="index.html" class="font-bold text-xl flex items-center gap-2 hover:opacity-90 transition">
+                <i class="fa-solid fa-arrow-left text-sm opacity-80"></i> The PDF Mechanic
+            </a>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 py-3">
+        <nav class="flex text-sm text-gray-500">
+            <ol class="inline-flex items-center space-x-1">
+                <li><a href="index.html" class="hover:text-brand">Home</a></li>
+                <li><i class="fa-solid fa-chevron-right text-xs mx-2"></i></li>
+                <li class="text-gray-800 font-medium">Reorder Pages</li>
+            </ol>
+        </nav>
+    </div>
+
+    <main class="flex-grow max-w-6xl mx-auto px-4 py-8 w-full">
+        
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">Reorder PDF Pages</h1>
+            <p class="text-gray-600 mt-2">Move pages to organize your document.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-6 border-t-4 border-brand min-h-[400px]">
+            
+            <div id="uploadArea" class="border-2 border-dashed border-gray-300 rounded-xl p-10 text-center hover:bg-gray-50 transition cursor-pointer group" onclick="document.getElementById('fileInput').click()">
+                <input type="file" id="fileInput" accept="application/pdf" class="hidden" onchange="handleFileSelect(event)">
+                <div class="text-brand text-5xl mb-4 group-hover:scale-110 transition duration-300"><i class="fa-solid fa-arrow-up-right-dots"></i></div>
+                <h3 class="text-xl font-semibold text-gray-700">Select PDF to Reorder</h3>
+                <p class="text-sm text-gray-500 mt-2">Max 50MB recommended</p>
+            </div>
+
+            <div id="loading" class="hidden text-center py-10">
+                <i class="fa-solid fa-circle-notch fa-spin text-brand text-4xl"></i>
+                <p class="text-gray-600 mt-4 font-medium">Rendering pages...</p>
+            </div>
+
+            <div id="editorArea" class="hidden">
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6 sticky top-0 bg-white z-10 py-2 border-b">
+                    <div class="text-sm font-semibold text-gray-700">
+                        Total Pages: <span id="pageCount" class="text-brand font-bold text-lg">0</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="location.reload()" class="px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded text-gray-700 font-medium">Reset</button>
+                        <button onclick="savePDF()" id="saveBtn" class="bg-brand text-white px-6 py-2 rounded-lg font-bold hover:bg-brandDark transition shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
+                            Save & Download
+                        </button>
+                    </div>
+                </div>
+
+                <div id="pagesGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    </div>
+            </div>
+
+            <div id="resultArea" class="hidden mt-8 text-center pt-8">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
+                    <i class="fa-solid fa-check text-green-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800">Done!</h3>
+                <p class="text-gray-600 mb-6">Your reordered PDF is ready.</p>
+                
+                <a id="downloadLink" class="inline-block bg-green-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-green-700 shadow-lg cursor-pointer transition transform hover:-translate-y-1">
+                    Download New PDF
+                </a>
+                
+                <button onclick="location.reload()" class="block w-full mt-6 text-brand text-sm hover:underline">Reorder Another File</button>
+            </div>
+        </div>
+
+        <section class="mt-16 pt-10 border-t">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Organize PDF Pages Online</h2>
+                    <p class="text-gray-700 mb-4">
+                        Need to fix the page order of a scanned document? Our <strong>Reorder PDF</strong> tool lets you rearrange pages visually. Simply upload your file, move pages to their correct position, and save.
+                    </p>
+                    <ul class="list-disc pl-5 text-gray-700 space-y-2 mb-4">
+                        <li><strong>Visual Interface:</strong> See thumbnails of every page.</li>
+                        <li><strong>Easy Controls:</strong> Use buttons to move pages left or right.</li>
+                        <li><strong>Secure:</strong> Processing happens on your device.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">FAQ</h3>
+                    <div class="space-y-4">
+                        <details class="group bg-white p-4 rounded-lg border shadow-sm cursor-pointer">
+                            <summary class="font-medium flex justify-between items-center">
+                                Can I delete pages here? <i class="fa-solid fa-chevron-down text-brand"></i>
+                            </summary>
+                            <p class="text-gray-600 mt-2 text-sm">This tool is specifically for reordering. Use our "Delete Pages" tool if you wish to remove pages entirely.</p>
+                        </details>
+                        <details class="group bg-white p-4 rounded-lg border shadow-sm cursor-pointer">
+                            <summary class="font-medium flex justify-between items-center">
+                                Is it free? <i class="fa-solid fa-chevron-down text-brand"></i>
+                            </summary>
+                            <p class="text-gray-600 mt-2 text-sm">Yes, completely free with no watermarks.</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-auto bg-gray-900 text-white pt-10 pb-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">The PDF Mechanic</h3>
+                    <p class="text-gray-400 text-sm">Secure, client-side PDF tools.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Tools</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="compressor.html" class="hover:text-brand transition">Compress PDF</a></li>
+                        <li><a href="merger.html" class="hover:text-brand transition">Merge PDF</a></li>
+                        <li><a href="reorder-pages.html" class="hover:text-brand transition">Reorder Pages</a></li>
+                        <li><a href="delete-pages.html" class="hover:text-brand transition">Delete Pages</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Feedback</h4>
+                    <p class="text-sm text-gray-400">Please leave your feedback and report any problem.</p>
+                    <div class="flex items-center gap-3 mt-3">
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-brand hover:border-brand transition" title="Meet Developer"><i class="fa-solid fa-user"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-brand hover:border-brand transition" title="Email"><i class="fa-solid fa-envelope"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-green-600 hover:border-green-600 transition" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
+                <p>© <span id="year"></span> The PDF Mechanic.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        let pdfDoc = null;
+        let pdfBytes = null;
+        let pageOrder = []; // Array to track page indices: [0, 1, 2, ...]
+
+        async function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file || file.type !== 'application/pdf') return;
+
+            document.getElementById('uploadArea').classList.add('hidden');
+            document.getElementById('loading').classList.remove('hidden');
+
+            try {
+                // Buffer ki do copies banayenge.
+                // 1. pdfBytes (Saving ke liye)
+                // 2. renderBytes (Display ke liye, jo pdf.js use karega)
+                const originalBuffer = await file.arrayBuffer();
+                
+                pdfBytes = originalBuffer.slice(0); 
+                const renderBytes = originalBuffer.slice(0); 
+
+                pdfDoc = await pdfjsLib.getDocument(renderBytes).promise;
+                
+                // Initialize Order
+                pageOrder = Array.from({length: pdfDoc.numPages}, (_, i) => i);
+                document.getElementById('pageCount').innerText = pdfDoc.numPages;
+
+                await renderGrid();
+                
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('editorArea').classList.remove('hidden');
+
+            } catch (err) {
+                console.error(err);
+                alert("Error loading PDF: " + err.message);
+                location.reload();
+            }
+        }
+
+        async function renderGrid() {
+            const grid = document.getElementById('pagesGrid');
+            grid.innerHTML = '';
+
+            for (let i = 0; i < pageOrder.length; i++) {
+                const originalPageIndex = pageOrder[i]; // The actual PDF page index (0-based)
+                const displayPageNum = originalPageIndex + 1;
+
+                const div = document.createElement('div');
+                div.className = 'relative border-2 border-gray-200 rounded-lg p-2 bg-white shadow-sm hover:shadow-md transition';
+                
+                // Canvas
+                const canvas = document.createElement('canvas');
+                canvas.className = 'w-full h-auto block mb-2 border border-gray-100';
+                const context = canvas.getContext('2d');
+                
+                // Get original page
+                const page = await pdfDoc.getPage(displayPageNum);
+                const viewport = page.getViewport({ scale: 0.25 });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                // Controls
+                const controls = document.createElement('div');
+                controls.className = 'flex justify-between items-center bg-gray-50 p-1 rounded';
+                
+                // Left Button
+                const btnLeft = document.createElement('button');
+                btnLeft.className = `p-1 text-gray-500 hover:text-brand transition ${i === 0 ? 'opacity-30 cursor-not-allowed' : ''}`;
+                btnLeft.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
+                btnLeft.onclick = () => movePage(i, -1);
+
+                // Label
+                const label = document.createElement('span');
+                label.className = 'text-xs font-bold text-gray-700';
+                label.innerText = `Page ${displayPageNum}`;
+
+                // Right Button
+                const btnRight = document.createElement('button');
+                btnRight.className = `p-1 text-gray-500 hover:text-brand transition ${i === pageOrder.length - 1 ? 'opacity-30 cursor-not-allowed' : ''}`;
+                btnRight.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
+                btnRight.onclick = () => movePage(i, 1);
+
+                controls.appendChild(btnLeft);
+                controls.appendChild(label);
+                controls.appendChild(btnRight);
+
+                div.appendChild(canvas);
+                div.appendChild(controls);
+                grid.appendChild(div);
+
+                page.render({ canvasContext: context, viewport: viewport });
+            }
+        }
+
+        function movePage(index, direction) {
+            // Swap in array
+            if (direction === -1 && index > 0) {
+                [pageOrder[index], pageOrder[index - 1]] = [pageOrder[index - 1], pageOrder[index]];
+            } else if (direction === 1 && index < pageOrder.length - 1) {
+                [pageOrder[index], pageOrder[index + 1]] = [pageOrder[index + 1], pageOrder[index]];
+            }
+            renderGrid(); // Re-render to show new order
+        }
+
+        async function savePDF() {
+            const btn = document.getElementById('saveBtn');
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Saving...';
+            btn.disabled = true;
+
+            try {
+                if (!pdfBytes) throw new Error("PDF Data not found. Please reload.");
+
+                const { PDFDocument } = PDFLib;
+                
+                const srcDoc = await PDFDocument.load(pdfBytes);
+                const newDoc = await PDFDocument.create();
+
+                // Copy pages in the new order
+                const copiedPages = await newDoc.copyPages(srcDoc, pageOrder);
+                copiedPages.forEach(page => newDoc.addPage(page));
+
+                const pdfData = await newDoc.save();
+                const blob = new Blob([pdfData], { type: 'application/pdf' });
+                
+                showResult(blob);
+
+            } catch (err) {
+                console.error(err);
+                // Detailed error alert added
+                alert("Error saving PDF: " + err.message); 
+                btn.innerHTML = 'Save & Download';
+                btn.disabled = false;
+            }
+        }
+
+        function showResult(blob) {
+            document.getElementById('editorArea').classList.add('hidden');
+            document.getElementById('resultArea').classList.remove('hidden');
+            
+            const url = URL.createObjectURL(blob);
+            const link = document.getElementById('downloadLink');
+            link.href = url;
+            link.download = 'reordered_document_PDF_Mechanic.pdf';
+        }
+    </script>
+</body>
+</html>

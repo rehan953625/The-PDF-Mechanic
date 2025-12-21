@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>Free PDF Editor | Edit PDF Documents Online - The PDF Mechanic</title>
+    <meta name="description" content="Edit PDF files online for free. Add text, images, shapes, and freehand drawings to your PDF documents securely in your browser." />
+    
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        tailwind.config = {
+            theme: {
+                extend: {
+                    // INDIGO THEME FOR EDITOR (#4f46e5)
+                    colors: { brand: '#4f46e5', brandDark: '#4338ca', bg: '#F3F4F6' },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .thumbnail.active { border: 2px solid #4f46e5; }
+    </style>
+</head>
+<body class="font-sans bg-bg text-gray-900 flex flex-col min-h-screen">
+
+    <div id="landingUI" class="flex flex-col min-h-screen">
+        <nav class="w-full bg-brand text-white shadow-lg">
+            <div class="max-w-7xl mx-auto px-4 py-4 flex items-center gap-3">
+                <a href="index.html" class="font-bold text-xl flex items-center gap-2 hover:opacity-90 transition">
+                    <i class="fa-solid fa-arrow-left text-sm opacity-80"></i> The PDF Mechanic
+                </a>
+            </div>
+        </nav>
+
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <nav class="flex text-sm text-gray-500">
+                <ol class="inline-flex items-center space-x-1">
+                    <li><a href="index.html" class="hover:text-brand">Home</a></li>
+                    <li><i class="fa-solid fa-chevron-right text-xs mx-2"></i></li>
+                    <li class="text-gray-800 font-medium">PDF Editor</li>
+                </ol>
+            </nav>
+        </div>
+
+        <main class="flex-grow max-w-6xl mx-auto px-4 py-8 w-full">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-900">Edit PDF Document</h1>
+                <p class="text-gray-600 mt-2">Add text, images, and shapes directly in your browser.</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl p-6 border-t-4 border-brand min-h-[400px]">
+                <div id="uploadArea" class="border-2 border-dashed border-gray-300 rounded-xl p-10 text-center hover:bg-gray-50 transition cursor-pointer group" onclick="document.getElementById('fileInput').click()">
+                    <input type="file" id="fileInput" accept="application/pdf" class="hidden" onchange="handleFileSelect(event)">
+                    <div class="text-brand text-5xl mb-4 group-hover:scale-110 transition duration-300"><i class="fa-solid fa-pen-to-square"></i></div>
+                    <h3 class="text-xl font-semibold text-gray-700">Select PDF to Edit</h3>
+                    <p class="text-sm text-gray-500 mt-2">Max 50MB recommended</p>
+                </div>
+                
+                <div id="loading" class="hidden text-center py-10">
+                    <i class="fa-solid fa-circle-notch fa-spin text-brand text-4xl"></i>
+                    <p class="text-gray-600 mt-4 font-medium">Loading Editor Environment...</p>
+                </div>
+            </div>
+
+            <section class="mt-16 pt-10 border-t">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Free Online PDF Editor</h2>
+                        <p class="text-gray-700 mb-4">
+                            Need to fill out a form or add notes to a PDF? Our <strong>PDF Editor</strong> allows you to modify documents directly in your browser without installing heavy software.
+                        </p>
+                        <ul class="list-disc pl-5 text-gray-700 space-y-2 mb-4">
+                            <li><strong>Add Text:</strong> Type anywhere on the page.</li>
+                            <li><strong>Insert Images:</strong> Add logos or photos.</li>
+                            <li><strong>Draw:</strong> Use the freehand tool to sign or highlight.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">FAQ</h3>
+                        <div class="space-y-4">
+                            <details class="group bg-white p-4 rounded-lg border shadow-sm cursor-pointer">
+                                <summary class="font-medium flex justify-between items-center">
+                                    Can I edit existing text? <i class="fa-solid fa-chevron-down text-brand"></i>
+                                </summary>
+                                <p class="text-gray-600 mt-2 text-sm">No, this tool adds <em>new</em> layers (text, images) on top of the PDF. To edit existing text, convert the PDF to Word first.</p>
+                            </details>
+                            <details class="group bg-white p-4 rounded-lg border shadow-sm cursor-pointer">
+                                <summary class="font-medium flex justify-between items-center">
+                                    Is it secure? <i class="fa-solid fa-chevron-down text-brand"></i>
+                                </summary>
+                                <p class="text-gray-600 mt-2 text-sm">Yes, all editing happens inside your browser. Your file is not uploaded.</p>
+                            </details>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="mt-auto bg-gray-900 text-white pt-10 pb-6">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">The PDF Mechanic</h3>
+                        <p class="text-gray-400 text-sm">Secure, client-side PDF tools.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4 text-gray-200">Tools</h4>
+                        <ul class="space-y-2 text-sm text-gray-400">
+                            <li><a href="compressor.html" class="hover:text-brand transition">Compress PDF</a></li>
+                            <li><a href="merger.html" class="hover:text-brand transition">Merge PDF</a></li>
+                            <li><a href="pdf-editor.html" class="hover:text-brand transition">Edit PDF</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4 text-gray-200">Feedback</h4>
+                        <p class="text-sm text-gray-400">Please leave your feedback and report any problem.</p>
+                        <div class="flex items-center gap-3 mt-3">
+                            <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-brand hover:border-brand transition" title="Meet Developer"><i class="fa-solid fa-user"></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-brand hover:border-brand transition" title="Email"><i class="fa-solid fa-envelope"></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-green-600 hover:border-green-600 transition" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
+                    <p>© <span id="year"></span> The PDF Mechanic.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div id="editorUI" class="hidden fixed inset-0 z-50 bg-gray-100 flex-col h-full w-full">
+        
+        <header class="bg-white border-b h-16 flex items-center justify-between px-4 shadow-sm z-20 shrink-0">
+            <div class="flex items-center gap-4">
+                <button onclick="exitEditor()" class="text-gray-500 hover:text-brand flex items-center gap-2 font-medium">
+                    <i class="fa-solid fa-arrow-left"></i> <span class="hidden sm:inline">Back</span>
+                </button>
+                <div class="h-6 w-px bg-gray-300"></div>
+                <span class="font-bold text-lg text-gray-800 flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square text-brand"></i> Editor
+                </span>
+            </div>
+
+            <div class="flex items-center gap-2 md:gap-4 overflow-x-auto">
+                
+                <div class="flex items-center gap-1 bg-gray-50 p-1 rounded-lg border">
+                    <button onclick="undo()" class="p-2 rounded hover:bg-white hover:shadow text-gray-600 tool-btn" title="Undo">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                    <button onclick="redo()" class="p-2 rounded hover:bg-white hover:shadow text-gray-600 tool-btn" title="Redo">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-1 bg-gray-50 p-1 rounded-lg border">
+                    <button onclick="setMode('select')" id="btn-select" class="p-2 rounded hover:bg-white hover:shadow text-brand tool-btn active-tool" title="Select / Move">
+                        <i class="fa-solid fa-arrow-pointer"></i>
+                    </button>
+                    
+                    <div class="w-px h-6 bg-gray-300 mx-1"></div>
+                    
+                    <button onclick="addText()" class="p-2 rounded hover:bg-white hover:shadow text-gray-700 tool-btn" title="Add Text">
+                        <i class="fa-solid fa-font"></i>
+                    </button>
+                    
+                    <button onclick="document.getElementById('imgInput').click()" class="p-2 rounded hover:bg-white hover:shadow text-gray-700 tool-btn" title="Add Image">
+                        <i class="fa-regular fa-image"></i>
+                        <input type="file" id="imgInput" accept="image/*" class="hidden" onchange="addImage(event)">
+                    </button>
+                    
+                    <div class="w-px h-6 bg-gray-300 mx-1"></div>
+
+                    <button onclick="setMode('draw')" id="btn-draw" class="p-2 rounded hover:bg-white hover:shadow text-gray-700 tool-btn relative group" title="Free Draw">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    
+                    <div id="penSettings" class="hidden flex items-center gap-2 px-2 border-l border-gray-300 ml-1 transition-all">
+                        <input type="color" id="penColor" value="#ef4444" onchange="updateBrush()" class="w-6 h-6 rounded cursor-pointer border-0 p-0">
+                        <input type="range" id="penSize" min="1" max="20" value="3" oninput="updateBrush()" class="w-16 h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button onclick="savePDF()" id="saveBtn" class="bg-brand hover:bg-brandDark text-white px-4 py-2 rounded-lg font-semibold text-sm shadow-sm flex items-center gap-2 transition">
+                    <span>Download</span> <i class="fa-solid fa-circle-arrow-right"></i>
+                </button>
+            </div>
+        </header>
+
+        <div class="flex flex-1 overflow-hidden">
+            
+            <aside class="w-20 md:w-64 bg-white border-r flex flex-col shrink-0 transition-all duration-300">
+                <div class="p-3 border-b text-xs font-bold text-gray-500 uppercase tracking-wide text-center md:text-left">Pages</div>
+                <div id="thumbnailContainer" class="flex-1 overflow-y-auto p-2 md:p-4 space-y-4 bg-gray-50 text-center"></div>
+            </aside>
+
+            <main class="flex-1 bg-gray-200 overflow-auto relative flex justify-center p-4 md:p-8" id="mainContainer">
+                <div class="relative shadow-2xl">
+                    <canvas id="fabricCanvas"></canvas>
+                </div>
+            </main>
+
+            <aside class="w-72 bg-white border-l flex flex-col shrink-0 hidden lg:flex">
+                <div class="p-4 border-b bg-gray-50">
+                    <h3 class="text-sm font-bold text-gray-800 mb-3">Properties</h3>
+                    
+                    <div id="textControls" class="hidden space-y-3">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="text-xs text-gray-500">Color</label>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <input type="color" id="colorPicker" onchange="updateProp('fill', this.value)" class="w-full h-8 rounded cursor-pointer border border-gray-200 p-0">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-500">Size</label>
+                                <input type="number" id="fontSize" onchange="updateProp('fontSize', this.value)" class="w-full mt-1 border rounded px-2 py-1 text-sm">
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="toggleBold()" class="flex-1 border rounded py-1 hover:bg-gray-100 text-gray-700"><i class="fa-solid fa-bold"></i></button>
+                            <button onclick="toggleItalic()" class="flex-1 border rounded py-1 hover:bg-gray-100 text-gray-700"><i class="fa-solid fa-italic"></i></button>
+                        </div>
+                    </div>
+                    <div id="noSelection" class="text-xs text-gray-500 text-center py-4 bg-gray-50 rounded border border-dashed">
+                        Select an item to see properties
+                    </div>
+                </div>
+
+                <div class="flex-1 flex flex-col overflow-hidden">
+                    <div class="p-3 border-b flex justify-between items-center bg-gray-50">
+                        <span class="text-xs font-bold text-gray-500 uppercase">Layers</span>
+                        <button onclick="clearPageObjects()" class="text-xs text-red-500 hover:text-red-700">Clear Page</button>
+                    </div>
+                    <div id="layersList" class="flex-1 overflow-y-auto p-2 space-y-1"></div>
+                </div>
+
+                <div class="p-4 border-t">
+                    <button onclick="deleteSelected()" id="deleteBtn" class="w-full bg-red-50 text-red-600 border border-red-200 py-2 rounded hover:bg-red-100 disabled:opacity-50 disabled:cursor-not-allowed transition" disabled>
+                        <i class="fa-solid fa-trash-can mr-2"></i> Delete Selected
+                    </button>
+                </div>
+            </aside>
+        </div>
+
+        <footer class="bg-white border-t h-12 flex items-center justify-center gap-6 text-sm text-gray-600 shrink-0">
+            <button onclick="changePage(-1)" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 hover:text-brand transition"><i class="fa-solid fa-chevron-left"></i></button>
+            <span class="font-medium bg-gray-100 px-3 py-1 rounded">Page <span id="pageIndicator" class="text-gray-900 font-bold">1</span> / <span id="totalPages">1</span></span>
+            <button onclick="changePage(1)" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 hover:text-brand transition"><i class="fa-solid fa-chevron-right"></i></button>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        let pdfDoc = null;
+        let pdfSaveBuffer = null; 
+        let canvas = null; 
+        let currentPage = 1;
+        let pageObjects = {}; 
+        
+        let canvasHistory = [];
+        let historyStep = -1;
+        let isHistoryLocked = false;
+
+        function initFabric() {
+            if(canvas) return; // Prevent re-init
+            canvas = new fabric.Canvas('fabricCanvas', { preserveObjectStacking: true });
+            
+            canvas.on('selection:created', updateSidebar);
+            canvas.on('selection:updated', updateSidebar);
+            canvas.on('selection:cleared', updateSidebar);
+            canvas.on('object:modified', () => { updateSidebar(); saveHistory(); });
+            canvas.on('object:added', (e) => { updateLayers(); if(!isHistoryLocked) saveHistory(); });
+            canvas.on('object:removed', () => { updateLayers(); saveHistory(); });
+            canvas.on('path:created', () => { updateLayers(); saveHistory(); });
+        }
+
+        async function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file || file.type !== 'application/pdf') return;
+
+            document.getElementById('uploadArea').classList.add('hidden');
+            document.getElementById('loading').classList.remove('hidden');
+
+            try {
+                // Initialize Editor Logic
+                const originalBuffer = await file.arrayBuffer();
+                pdfSaveBuffer = originalBuffer.slice(0); 
+                const viewBuffer = originalBuffer.slice(0); 
+
+                pdfDoc = await pdfjsLib.getDocument(viewBuffer).promise;
+                document.getElementById('totalPages').textContent = pdfDoc.numPages;
+
+                // Switch UI
+                document.getElementById('landingUI').classList.add('hidden');
+                document.getElementById('editorUI').classList.remove('hidden');
+                document.getElementById('editorUI').classList.add('flex');
+
+                initFabric();
+                await renderThumbnails();
+                await renderPage(1);
+
+            } catch (err) {
+                console.error(err);
+                alert("Error loading PDF: " + err.message);
+                location.reload();
+            }
+        }
+
+        function exitEditor() {
+            if(confirm("Are you sure? Unsaved changes will be lost.")) {
+                location.reload();
+            }
+        }
+
+        // --- Undo / Redo Logic ---
+        function saveHistory() {
+            if (isHistoryLocked) return;
+            if (historyStep < canvasHistory.length - 1) {
+                canvasHistory = canvasHistory.slice(0, historyStep + 1);
+            }
+            canvasHistory.push(JSON.stringify(canvas));
+            historyStep++;
+        }
+
+        function undo() {
+            if (historyStep > 0) {
+                isHistoryLocked = true;
+                historyStep--;
+                canvas.loadFromJSON(canvasHistory[historyStep], () => {
+                    canvas.renderAll();
+                    updateLayers();
+                    isHistoryLocked = false;
+                });
+            }
+        }
+
+        function redo() {
+            if (historyStep < canvasHistory.length - 1) {
+                isHistoryLocked = true;
+                historyStep++;
+                canvas.loadFromJSON(canvasHistory[historyStep], () => {
+                    canvas.renderAll();
+                    updateLayers();
+                    isHistoryLocked = false;
+                });
+            }
+        }
+
+        async function renderThumbnails() {
+            const container = document.getElementById('thumbnailContainer');
+            container.innerHTML = '';
+            for (let i = 1; i <= pdfDoc.numPages; i++) {
+                const page = await pdfDoc.getPage(i);
+                const viewport = page.getViewport({ scale: 0.2 });
+                const canvasEl = document.createElement('canvas');
+                canvasEl.height = viewport.height;
+                canvasEl.width = viewport.width;
+                canvasEl.className = 'w-full h-auto border border-gray-200 rounded shadow-sm bg-white mx-auto';
+                await page.render({ canvasContext: canvasEl.getContext('2d'), viewport }).promise;
+                
+                const wrapper = document.createElement('div');
+                wrapper.className = `thumbnail cursor-pointer opacity-75 hover:opacity-100 transition p-1 rounded ${i === 1 ? 'active opacity-100' : ''}`;
+                wrapper.id = `thumb-${i}`;
+                wrapper.onclick = () => renderPage(i);
+                
+                const label = document.createElement('div');
+                label.className = 'text-center text-xs text-gray-500 mt-1';
+                label.textContent = i;
+                wrapper.appendChild(canvasEl);
+                wrapper.appendChild(label);
+                container.appendChild(wrapper);
+            }
+        }
+
+        function saveCurrentState() {
+            if (canvas) {
+                pageObjects[currentPage] = JSON.stringify(canvas);
+            }
+        }
+
+        async function renderPage(num) {
+            if(currentPage !== num) saveCurrentState();
+            
+            canvasHistory = []; 
+            historyStep = -1;
+
+            currentPage = num;
+            document.getElementById('pageIndicator').textContent = num;
+            
+            document.querySelectorAll('.thumbnail').forEach(el => el.classList.remove('active', 'opacity-100'));
+            const activeThumb = document.getElementById(`thumb-${num}`);
+            if (activeThumb) activeThumb.classList.add('active', 'opacity-100');
+
+            const page = await pdfDoc.getPage(num);
+            const viewport = page.getViewport({ scale: 1.5 });
+            
+            canvas.setWidth(viewport.width);
+            canvas.setHeight(viewport.height);
+            
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = viewport.width;
+            tempCanvas.height = viewport.height;
+            const ctx = tempCanvas.getContext('2d');
+            await page.render({ canvasContext: ctx, viewport }).promise;
+            
+            fabric.Image.fromURL(tempCanvas.toDataURL(), (img) => {
+                canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), { scaleX: 1, scaleY: 1 });
+            });
+
+            isHistoryLocked = true;
+            canvas.clear();
+            if (pageObjects[num]) {
+                canvas.loadFromJSON(pageObjects[num], () => {
+                    isHistoryLocked = false;
+                    saveHistory(); 
+                });
+            } else {
+                isHistoryLocked = false;
+                saveHistory(); 
+            }
+            updateLayers();
+        }
+
+        // --- Tools ---
+        function addText() {
+            setMode('select');
+            const text = new fabric.IText('Type here', { left: 50, top: 50, fontFamily: 'Inter', fill: '#000000', fontSize: 24 });
+            canvas.add(text);
+            canvas.setActiveObject(text);
+        }
+
+        function addImage(e) {
+            setMode('select');
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (f) => {
+                fabric.Image.fromURL(f.target.result, (img) => {
+                    img.scaleToWidth(200);
+                    canvas.add(img);
+                    canvas.setActiveObject(img);
+                });
+            };
+            reader.readAsDataURL(file);
+            e.target.value = '';
+        }
+
+        function setMode(mode) {
+            canvas.isDrawingMode = (mode === 'draw');
+            const penSettings = document.getElementById('penSettings');
+            
+            document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('text-brand', 'bg-white', 'shadow'));
+            
+            if(mode === 'draw') {
+                document.getElementById('btn-draw').classList.add('text-brand', 'bg-white', 'shadow');
+                penSettings.classList.remove('hidden');
+                penSettings.classList.add('flex');
+                updateBrush();
+            } else {
+                document.getElementById('btn-select').classList.add('text-brand', 'bg-white', 'shadow');
+                penSettings.classList.add('hidden');
+                penSettings.classList.remove('flex');
+            }
+        }
+
+        function updateBrush() {
+            const color = document.getElementById('penColor').value;
+            const size = parseInt(document.getElementById('penSize').value, 10);
+            canvas.freeDrawingBrush.color = color;
+            canvas.freeDrawingBrush.width = size;
+        }
+
+        // --- Sidebar Logic ---
+        function updateSidebar() {
+            const activeObj = canvas.getActiveObject();
+            const textControls = document.getElementById('textControls');
+            const noSel = document.getElementById('noSelection');
+            const delBtn = document.getElementById('deleteBtn');
+
+            if (activeObj) {
+                delBtn.disabled = false;
+                noSel.classList.add('hidden');
+                if (activeObj.type === 'i-text') {
+                    textControls.classList.remove('hidden');
+                    document.getElementById('colorPicker').value = activeObj.fill;
+                    document.getElementById('fontSize').value = activeObj.fontSize;
+                } else {
+                    textControls.classList.add('hidden');
+                }
+            } else {
+                delBtn.disabled = true;
+                textControls.classList.add('hidden');
+                noSel.classList.remove('hidden');
+            }
+        }
+
+        function updateProp(prop, value) {
+            const activeObj = canvas.getActiveObject();
+            if (activeObj) {
+                if(prop === 'fontSize') value = parseInt(value);
+                activeObj.set(prop, value);
+                canvas.renderAll();
+                saveHistory();
+            }
+        }
+
+        function toggleBold() {
+            const obj = canvas.getActiveObject();
+            if (obj && obj.type === 'i-text') {
+                obj.set('fontWeight', obj.fontWeight === 'bold' ? 'normal' : 'bold');
+                canvas.renderAll();
+                saveHistory();
+            }
+        }
+
+        function toggleItalic() {
+            const obj = canvas.getActiveObject();
+            if (obj && obj.type === 'i-text') {
+                obj.set('fontStyle', obj.fontStyle === 'italic' ? 'normal' : 'italic');
+                canvas.renderAll();
+                saveHistory();
+            }
+        }
+
+        function deleteSelected() {
+            const activeObj = canvas.getActiveObject();
+            if (activeObj) {
+                canvas.remove(activeObj);
+                updateLayers();
+                saveHistory();
+            }
+        }
+
+        function clearPageObjects() {
+            if(confirm("Delete all added elements on this page?")) {
+                canvas.clear();
+                renderPage(currentPage);
+            }
+        }
+
+        function updateLayers() {
+            const list = document.getElementById('layersList');
+            list.innerHTML = '';
+            const objects = canvas.getObjects().slice().reverse();
+            if (objects.length === 0) {
+                list.innerHTML = '<p class="text-xs text-gray-400 text-center mt-4">No layers added</p>';
+                return;
+            }
+            objects.forEach((obj, index) => {
+                const div = document.createElement('div');
+                div.className = 'flex items-center justify-between p-2 bg-white border rounded hover:bg-gray-50 cursor-pointer text-xs group';
+                let icon = 'fa-square';
+                let name = 'Shape';
+                if (obj.type === 'i-text') { icon = 'fa-font'; name = obj.text.substring(0, 15) || 'Text'; }
+                else if (obj.type === 'image') { icon = 'fa-image'; name = 'Image'; }
+                else if (obj.type === 'path') { icon = 'fa-pen'; name = 'Drawing'; }
+
+                div.innerHTML = `
+                    <div class="flex items-center gap-2 overflow-hidden" onclick="selectLayer(${objects.length - 1 - index})">
+                        <i class="fa-solid ${icon} text-gray-400 w-4"></i>
+                        <span class="truncate text-gray-700">${name}</span>
+                    </div>
+                    <button onclick="deleteLayer(${objects.length - 1 - index})" class="text-gray-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition"><i class="fa-solid fa-trash"></i></button>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function selectLayer(index) {
+            const objects = canvas.getObjects();
+            if(objects[index]) {
+                canvas.setActiveObject(objects[index]);
+                canvas.renderAll();
+            }
+        }
+
+        function deleteLayer(index) {
+            const objects = canvas.getObjects();
+            if(objects[index]) {
+                canvas.remove(objects[index]);
+            }
+        }
+
+        function changePage(delta) {
+            const newPage = currentPage + delta;
+            if (newPage >= 1 && newPage <= pdfDoc.numPages) {
+                renderPage(newPage);
+            }
+        }
+
+        async function savePDF() {
+            saveCurrentState(); 
+            
+            const btn = document.getElementById('saveBtn');
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
+            btn.disabled = true;
+
+            try {
+                if(!pdfSaveBuffer) throw new Error("PDF Buffer lost. Please reload.");
+
+                const { PDFDocument } = PDFLib;
+                const pdfDocNew = await PDFDocument.load(pdfSaveBuffer);
+                
+                for (let i = 1; i <= pdfDoc.numPages; i++) {
+                    const json = pageObjects[i];
+                    if (!json) continue;
+
+                    const objects = JSON.parse(json).objects;
+                    if (!objects || objects.length === 0) continue;
+
+                    const page = pdfDocNew.getPage(i - 1);
+                    const { width, height } = page.getSize();
+                    
+                    const tempCanvas = document.createElement('canvas');
+                    tempCanvas.width = width * 1.5; 
+                    tempCanvas.height = height * 1.5;
+                    
+                    const tempFabric = new fabric.StaticCanvas(tempCanvas);
+                    await new Promise(resolve => {
+                        tempFabric.loadFromJSON(json, () => {
+                            tempFabric.backgroundImage = null; 
+                            tempFabric.renderAll();
+                            resolve();
+                        });
+                    });
+
+                    const pngData = tempCanvas.toDataURL('image/png');
+                    const pngImage = await pdfDocNew.embedPng(pngData);
+                    
+                    page.drawImage(pngImage, { x: 0, y: 0, width: width, height: height });
+                }
+
+                const pdfBytesSaved = await pdfDocNew.save();
+                const blob = new Blob([pdfBytesSaved], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'edited_document_PDF_Mechanic.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+
+                btn.innerHTML = originalHtml;
+                btn.disabled = false;
+
+            } catch (err) {
+                console.error(err);
+                alert("Error saving PDF: " + err.message);
+                btn.innerHTML = originalHtml;
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

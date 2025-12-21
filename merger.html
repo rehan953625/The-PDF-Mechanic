@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>Merge PDF Online | Combine PDF Files for Free - The PDF Mechanic</title>
+    <meta name="description" content="Combine multiple PDF files into one document instantly with visual preview. Secure, free, and works in your browser without uploading files." />
+    <meta name="keywords" content="merge pdf, combine pdf, join pdf files, pdf merger online, stitch pdf, free pdf joiner" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.pdfmechanic.com/merger.html" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.pdfmechanic.com/merger.html" />
+    <meta property="og:title" content="Merge PDF Online - Free & Secure" />
+    <meta property="og:description" content="Join multiple PDFs into one file directly in your browser. No upload required." />
+    <meta property="og:image" content="https://www.pdfmechanic.com/images/merge-preview.jpg" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Merge PDF Online - The PDF Mechanic" />
+    <meta name="twitter:description" content="Combine PDF files securely in your browser." />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+    </script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { brand: '#3b82f6', brandDark: '#2563eb', bg: '#F3F4F6' },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <script type="application/ld+json">
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "The PDF Mechanic Merger",
+        "operatingSystem": "Web Browser",
+        "applicationCategory": "ProductivityApplication",
+        "url": "https://www.pdfmechanic.com/merger.html",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "1250" },
+        "description": "Combine multiple PDF files into one document securely in your browser using The PDF Mechanic.",
+        "featureList": "Client-side processing, Drag and drop reordering, Visual thumbnails"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is there a limit on how many PDF files I can merge?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No, merge as many files as your device memory allows." }
+          },
+          {
+            "@type": "Question",
+            "name": "Are my files saved on your server?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. Files are processed locally in your browser." }
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.pdfmechanic.com/" },
+            { "@type": "ListItem", "position": 2, "name": "PDF Merger", "item": "https://www.pdfmechanic.com/merger.html" }
+        ]
+      }
+    ]
+    </script>
+</head>
+<body class="font-sans bg-bg text-gray-900 flex flex-col min-h-screen">
+
+    <nav class="w-full bg-brand text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center gap-3">
+                    <a href="index.html" class="font-bold text-xl flex items-center gap-2 hover:opacity-90 transition">
+                <i class="fa-solid fa-arrow-left opacity-70"></i> The PDF Mechanic
+            </a>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 py-3">
+        <nav class="flex text-sm text-gray-500">
+            <ol class="inline-flex items-center space-x-1">
+                <li><a href="index.html" class="hover:text-brand">Home</a></li>
+                <li><i class="fa-solid fa-chevron-right text-xs mx-2"></i></li>
+                <li class="text-gray-800 font-medium">Merge PDF</li>
+            </ol>
+        </nav>
+    </div>
+
+    <main class="flex-grow max-w-4xl mx-auto px-4 py-8 w-full">
+        
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">Merge PDF Files</h1>
+            <p class="text-gray-600 mt-2">Combine multiple PDFs into one document.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-6 border-t-4 border-brand min-h-[400px]">
+            
+            <div id="uploadArea" class="border-2 border-dashed border-gray-300 rounded-xl p-10 text-center hover:bg-gray-50 transition cursor-pointer group" onclick="document.getElementById('fileInput').click()">
+                <input type="file" id="fileInput" accept="application/pdf" multiple class="hidden" onchange="handleFileSelect(event)">
+                <div class="text-brand text-5xl mb-4 group-hover:scale-110 transition duration-300"><i class="fa-solid fa-object-group"></i></div>
+                <h3 class="text-xl font-semibold text-gray-700">Select PDF Files</h3>
+                <p class="text-sm text-gray-500 mt-2">Click or Drag files here</p>
+            </div>
+
+            <div id="loading" class="hidden text-center py-10">
+                <i class="fa-solid fa-circle-notch fa-spin text-brand text-4xl"></i>
+                <p class="text-gray-600 mt-4 font-medium">Processing Previews...</p>
+            </div>
+
+            <div id="editorArea" class="hidden">
+                <div class="flex justify-between items-end mb-4 border-b pb-2">
+                    <h3 class="text-sm font-bold text-gray-700 uppercase tracking-wide">Selected Files</h3>
+                    <button onclick="document.getElementById('fileInput').click()" class="text-sm text-brand font-semibold hover:underline">+ Add More</button>
+                </div>
+                
+                <div id="fileList" class="space-y-3 mb-6"></div>
+
+                <button onclick="mergePDFs()" id="mergeBtn" class="w-full bg-brand text-white py-4 rounded-lg font-bold text-lg hover:bg-brandDark transition shadow-lg flex items-center justify-center gap-2">
+                    Combine PDFs Now <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <div id="resultArea" class="hidden mt-8 text-center pt-8">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
+                    <i class="fa-solid fa-check text-green-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800">Merge Successful!</h3>
+                <p class="text-gray-600 mb-6">Your files are ready.</p>
+                
+                <a id="downloadLink" class="inline-block bg-green-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-green-700 shadow-lg cursor-pointer transition transform hover:-translate-y-1">
+                    <i class="fa-solid fa-download mr-2"></i> Download Merged PDF
+                </a>
+                
+                <button onclick="location.reload()" class="block w-full mt-6 text-brand text-sm hover:underline">Merge Different Files</button>
+            </div>
+        </div>
+
+        <section class="mt-16 pt-10 border-t">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Combine PDF Files for Free</h2>
+                    <p class="text-gray-700 mb-4 leading-relaxed">
+                        Need to put multiple documents into a single file? Our <strong>Online PDF Merger</strong> lets you join PDF files instantly. Whether you are organizing invoices, combining school assignments, or merging reports, The PDF Mechanic makes it easy and secure.
+                    </p>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Key Features</h3>
+                    <ul class="list-disc pl-5 text-gray-700 space-y-2 mb-4">
+                        <li><strong>Visual Preview:</strong> See thumbnails of your files to ensure correct order.</li>
+                        <li><strong>Private & Secure:</strong> No file uploads. Merging happens in your browser.</li>
+                        <li><strong>Fast Processing:</strong> Works instantly even with large files.</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 mb-8">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4">How to Merge PDFs?</h3>
+                        <ol class="list-decimal pl-5 text-gray-700 space-y-3">
+                            <li>Click <strong>"Select PDF Files"</strong> and choose files.</li>
+                            <li>Check the <strong>Thumbnails</strong> to confirm content.</li>
+                            <li>Use arrows to reorder files.</li>
+                            <li>Click <strong>"Combine PDFs Now"</strong>.</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">FAQ</h3>
+                        <div class="space-y-4">
+                            <details class="group p-4 bg-white rounded-lg shadow-sm border border-gray-100 cursor-pointer">
+                                <summary class="flex justify-between items-center font-medium">
+                                    <span>Is there a limit on files?</span>
+                                    <span class="transition group-open:rotate-180 text-brand"><i class="fa-solid fa-chevron-down"></i></span>
+                                </summary>
+                                <p class="text-gray-600 mt-2 text-sm">You can merge as many files as your computer's memory allows.</p>
+                            </details>
+                            <details class="group p-4 bg-white rounded-lg shadow-sm border border-gray-100 cursor-pointer">
+                                <summary class="flex justify-between items-center font-medium">
+                                    <span>Do you save my files?</span>
+                                    <span class="transition group-open:rotate-180 text-brand"><i class="fa-solid fa-chevron-down"></i></span>
+                                </summary>
+                                <p class="text-gray-600 mt-2 text-sm">No. We use client-side technology. Your files never leave your device.</p>
+                            </details>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-auto bg-gray-900 text-white pt-10 pb-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">The PDF Mechanic</h3>
+                    <p class="text-gray-400 text-sm">Secure, client-side PDF tools.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Tools</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="compressor.html" class="hover:text-brand transition">Compress PDF</a></li>
+                        <li><a href="merger.html" class="hover:text-brand transition">Merge PDF</a></li>
+                        <li><a href="splitter.html" class="hover:text-brand transition">Split PDF</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Feedback</h4>
+                    <p class="text-sm text-gray-400">Please leave your feedback and report any problem.</p>
+                    <div class="flex items-center gap-3 mt-3">
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-brand hover:border-brand transition" title="Meet Developer"><i class="fa-solid fa-user"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-brand hover:border-brand transition" title="Email"><i class="fa-solid fa-envelope"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-green-600 hover:border-green-600 transition" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
+                <p>© <span id="year"></span> The PDF Mechanic.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+        let fileQueue = []; 
+
+        async function handleFileSelect(event) {
+            const files = Array.from(event.target.files);
+            if(files.length === 0) return;
+
+            document.getElementById('uploadArea').classList.add('hidden');
+            document.getElementById('loading').classList.remove('hidden');
+
+            for (const file of files) {
+                if(file.type === "application/pdf") {
+                    const thumb = await createThumbnail(file);
+                    fileQueue.push({ file: file, thumbnail: thumb });
+                }
+            }
+
+            document.getElementById('loading').classList.add('hidden');
+            renderList();
+            event.target.value = ''; 
+        }
+
+        async function createThumbnail(file) {
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const loadingTask = pdfjsLib.getDocument(arrayBuffer);
+                const pdf = await loadingTask.promise;
+                const page = await pdf.getPage(1);
+                const viewport = page.getViewport({ scale: 0.2 });
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                await page.render({ canvasContext: context, viewport: viewport }).promise;
+                return canvas.toDataURL();
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function renderList() {
+            const container = document.getElementById('fileList');
+            const editor = document.getElementById('editorArea');
+            container.innerHTML = '';
+            
+            if(fileQueue.length > 0) {
+                editor.classList.remove('hidden');
+                fileQueue.forEach((item, index) => {
+                    let previewHTML = item.thumbnail 
+                        ? `<img src="${item.thumbnail}" class="w-10 h-14 object-cover border border-gray-300 rounded shadow-sm">`
+                        : `<div class="w-10 h-14 bg-gray-100 border border-gray-300 rounded flex items-center justify-center flex-col text-[10px] text-gray-500"><i class="fa-solid fa-file-pdf text-lg text-red-500"></i></div>`;
+
+                    const div = document.createElement('div');
+                    div.className = 'flex items-center justify-between bg-white p-3 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition group';
+                    div.innerHTML = `
+                        <div class="flex items-center gap-4 overflow-hidden">
+                            <span class="bg-gray-800 text-white w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold shrink-0">${index + 1}</span>
+                            <div class="shrink-0">${previewHTML}</div>
+                            <div class="min-w-0">
+                                <p class="text-sm font-bold text-gray-800 truncate">${item.file.name}</p>
+                                <p class="text-xs text-gray-500">${(item.file.size/1024/1024).toFixed(2)} MB</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="move(${index}, -1)" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-brand hover:text-white transition flex items-center justify-center"><i class="fa-solid fa-arrow-up"></i></button>
+                            <button onclick="move(${index}, 1)" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-brand hover:text-white transition flex items-center justify-center"><i class="fa-solid fa-arrow-down"></i></button>
+                            <button onclick="remove(${index})" class="w-8 h-8 rounded-full bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition flex items-center justify-center ml-2"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            } else {
+                editor.classList.add('hidden');
+                document.getElementById('uploadArea').classList.remove('hidden');
+            }
+        }
+
+        function move(index, dir) {
+            if(dir === -1 && index > 0) { [fileQueue[index], fileQueue[index-1]] = [fileQueue[index-1], fileQueue[index]]; }
+            else if(dir === 1 && index < fileQueue.length - 1) { [fileQueue[index], fileQueue[index+1]] = [fileQueue[index+1], fileQueue[index]]; }
+            renderList();
+        }
+
+        function remove(index) {
+            fileQueue.splice(index, 1);
+            renderList();
+        }
+
+        async function mergePDFs() {
+            if(fileQueue.length < 2) { alert("Please select at least 2 files."); return; }
+            const btn = document.getElementById('mergeBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Merging...';
+            btn.disabled = true;
+
+            try {
+                const { PDFDocument } = PDFLib;
+                const mergedPdf = await PDFDocument.create();
+
+                for (const item of fileQueue) {
+                    const arrayBuffer = await item.file.arrayBuffer();
+                    const pdf = await PDFDocument.load(arrayBuffer);
+                    const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                    copiedPages.forEach((page) => mergedPdf.addPage(page));
+                }
+
+                const pdfBytes = await mergedPdf.save();
+                const blob = new Blob([pdfBytes], { type: "application/pdf" });
+                
+                document.getElementById('editorArea').classList.add('hidden');
+                document.getElementById('resultArea').classList.remove('hidden');
+                
+                const url = URL.createObjectURL(blob);
+                const dl = document.getElementById('downloadLink');
+                dl.href = url;
+                let name = fileQueue[0].file.name.replace('.pdf','');
+                dl.download = `${name}_merged_PDF_Mechanic.pdf`;
+            } catch (e) {
+                console.error(e);
+                alert("Error merging files!");
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>Free Online PDF Tools | Compress, Merge & Split PDF Securely – The PDF Mechanic</title>
+    <meta name="description" content="Use The PDF Mechanic to compress, merge, split, and convert PDFs locally in your browser. 100% Free, Secure, and No File Uploads required." />
+    <meta name="keywords" content="PDF compressor, merge PDF, split PDF, free PDF tools, client-side PDF, secure PDF editor, PDF to image" />
+    <meta name="author" content="The PDF Mechanic" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.pdfmechanic.com/" />
+    
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.pdfmechanic.com/" />
+    <meta property="og:title" content="Free & Secure Online PDF Tools – The PDF Mechanic" />
+    <meta property="og:description" content="Compress, merge, and organize PDFs directly in your browser. No uploads, 100% free and secure." />
+    <meta property="og:image" content="https://www.pdfmechanic.com/path-to-your-logo-or-banner.jpg" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://www.pdfmechanic.com/" />
+    <meta name="twitter:title" content="Free & Secure Online PDF Tools – The PDF Mechanic" />
+    <meta name="twitter:description" content="Process PDFs locally. No server uploads. Secure and Fast." />
+    <meta name="twitter:image" content="https://www.pdfmechanic.com/path-to-your-logo-or-banner.jpg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { brand: '#8c00c4', bg: '#F3F4F6' },
+            fontFamily: { sans: ['Inter','ui-sans-serif','system-ui','sans-serif'] }
+          }
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "The PDF Mechanic",
+          "applicationCategory": "ProductivityApplication",
+          "operatingSystem": "Web Browser",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "description": "A free, secure, browser-based toolkit to compress, merge, split, and convert PDF files locally without uploading data."
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Is The PDF Mechanic completely free?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, all tools including PDF compression, merging, and splitting are 100% free with no hidden costs or subscription fees."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is it safe to upload my private documents?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Absolutely. With The PDF Mechanic, your files are never uploaded to any server. All processing happens locally in your browser."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I use these tools on mobile?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, The PDF Mechanic is fully responsive and works smoothly on Android, iPhone (iOS), tablets, and desktop computers."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        /* Footer Contact Card Styles */
+        .footer-contact-card {
+            background-color: #1A1A2E;
+            color: #ffffff;
+            padding: 25px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            max-width: 500px;
+            margin: 20px auto 40px auto; /* Thoda margin badhaya hai */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            font-family: sans-serif;
+        }
+
+        .profile-image-container {
+            flex-shrink: 0;
+            margin-right: 25px;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .profile-img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .profile-details-container {
+            flex-grow: 1;
+        }
+
+        .profile-name {
+            margin: 0 0 15px 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #f0f0f0;
+        }
+
+        .social-contact-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .social-contact-list li {
+            margin-bottom: 12px;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #b0b0b0;
+            transition: color 0.3s ease, transform 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .contact-link:hover {
+            color: #ffffff;
+            transform: translateX(5px);
+        }
+
+        .contact-link .icon {
+            margin-right: 12px;
+            width: 24px;
+            height: 24px;
+        }
+
+        @media (max-width: 480px) {
+            .footer-contact-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .profile-image-container {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .contact-link {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+  <body class="font-sans bg-bg text-gray-900 flex flex-col min-h-screen">
+    
+    <nav class="w-full" style="background-color:#8c00c4;">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span class="text-white text-xl font-bold">The PDF Mechanic</span>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <section class="relative">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14 text-center">
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900">Free & Secure Online PDF Tools</h1>
+        <p class="mt-3 text-lg text-gray-600">Process files directly in your browser. No upload, 100% Safe.</p>
+        </div>
+    </section>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 flex-grow">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Available Tools</h2>
+      <div id="toolsGrid" class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+    </main>
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16" id="seo">
+      
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">Why Choose The PDF Mechanic?</h2>
+      <p class="text-gray-700 mb-4">The PDF Mechanic is your all-in-one, browser-based toolkit for everyday document workflows. Whether you need to <strong>compress a large PDF file</strong>, merge multiple reports, split chapters, or organize page order, our tools run directly on your device using modern web technologies. There is no sign-up, no pricing wall, and absolutely no file uploads.</p>
+
+      <h3 class="text-xl font-semibold text-gray-900 mb-3">Secure Client-side PDF Processing</h3>
+      <p class="text-gray-700 mb-4">Client-side processing is the gold standard for privacy and compliance. Traditional cloud tools require sending files to remote servers, creating potential exposure risks. The PDF Mechanic leverages HTML5, Tailwind CSS, and Vanilla JavaScript to execute operations entirely in your browser.</p>
+
+      <h3 class="text-xl font-semibold text-gray-900 mb-3">How to Compress, Merge, and Split PDFs for Free</h3>
+      <ul class="list-disc pl-5 mb-4 text-gray-700 space-y-2">
+        <li><strong>Compress PDF:</strong> Open the compressor tool, adjust the quality slider, and download a smaller file that’s easy to share via email or WhatsApp.</li>
+        <li><strong>Merge Files:</strong> Load multiple documents and combine them into a single, clean output.</li>
+        <li><strong>Split PDF:</strong> Select ranges or individual pages to create focused extracts.</li>
+      </ul>
+      
+      <div class="border-t pt-8">
+        <h3 class="text-xl font-bold text-gray-900 mb-4">Frequently Asked Questions (FAQ)</h3>
+        
+        <div class="space-y-4">
+          <div>
+            <h4 class="font-semibold text-gray-800">Is The PDF Mechanic completely free?</h4>
+            <p class="text-gray-600">Yes, all tools including PDF compression, merging, and splitting are 100% free with no hidden costs.</p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-gray-800">Is it safe to upload my private documents?</h4>
+            <p class="text-gray-600">Absolutely. With The PDF Mechanic, your files are <strong>never uploaded</strong> to any server. All processing happens locally in your browser.</p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <footer class="mt-auto bg-gray-900 text-white pt-10 pb-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-4">The PDF Mechanic</h3>
+                    <p class="text-gray-400 text-sm">
+                        Secure, client-side PDF tools designed for privacy and speed. Process documents without uploading data.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Popular Tools</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="compressor.html" class="hover:text-brand transition">Compress PDF</a></li>
+                        <li><a href="merger.html" class="hover:text-brand transition">Merge PDF</a></li>
+                        <li><a href="splitter.html" class="hover:text-brand transition">Split PDF</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Feedback</h4>
+                    <p class="text-sm text-gray-400">Please leave your feedback and report any problem.</p>
+                    <div class="flex items-center gap-3 mt-3">
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-brand hover:border-brand transition" title="Meet Developer"><i class="fa-solid fa-user"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-brand hover:border-brand transition" title="Email"><i class="fa-solid fa-envelope"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-green-600 hover:border-green-600 transition" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-contact-card">
+                <div class="profile-image-container">
+                    <img src="Gemini_Generated_Image_hpvm8ehpvm8ehpvm.png" alt="Rehan Rashid Saifi" class="profile-img">
+                </div>
+                <div class="profile-details-container">
+                    <h3 class="profile-name">Rehan Rashid Saifi</h3>
+                    
+                    <ul class="social-contact-list">
+                        <li>
+                            <a href="https://wa.me/919536256640" target="_blank" class="contact-link whatsapp">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                                <span class="link-text">+91-9536256640</span>
+                            </a>
+                        </li>
+                        
+                        <li>
+                            <a href="https://www.instagram.com/dreamerboyrehu" target="_blank" class="contact-link instagram">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.85-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.85.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                                <span class="link-text">@dreamerboyrehu</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
+                <p>© <span id="year"></span> The PDF Mechanic. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Tool Configuration Updated strictly based on user list order
+      const tools = [
+        // 1. Compress PDF (Existing)
+        { title: 'Compress PDF', desc: 'Reduce PDF size client-side.', icon: 'fa-compress', color: '#ef4444', active: true, link: 'compressor.html', action: 'Compress PDF' },
+        
+        // 2. PDF to Word (New)
+        { title: 'PDF to Word', desc: 'Convert PDF to editable Word.', icon: 'fa-file-word', color: '#2b5797', active: true, link: 'pdf-to-word.html', action: 'Convert PDF' },
+        
+        // 3. JPG to PDF (Existing, renamed from Images to PDF)
+        { title: 'JPG to PDF', desc: 'Convert images (JPG/PNG) to PDF.', icon: 'fa-images', color: '#f97316', active: true, link: 'images-to-pdf.html', action: 'Convert Images' },
+        
+        // 4. Merge PDF (Existing)
+        { title: 'Merge PDF', desc: 'Combine multiple PDFs into one.', icon: 'fa-object-group', color: '#3b82f6', active: true, link: 'merger.html', action: 'Merge Files' },
+        
+        // 5. PDF to JPG (Existing, renamed from PDF to Images)
+        { title: 'PDF to JPG', desc: 'Export PDF pages as images.', icon: 'fa-file-image', color: '#14b8a6', active: true, link: 'pdf-to-images.html', action: 'Export Images' },
+        
+        // 6. PDF Editor (New)
+        { title: 'PDF Editor', desc: 'Add text, shapes and edit PDF.', icon: 'fa-pen-to-square', color: '#4f46e5', active: true, link: 'pdf-editor.html', action: 'Edit PDF' },
+        
+        // 7. eSign PDF (New)
+        { title: 'eSign PDF', desc: 'Sign documents digitally.', icon: 'fa-signature', color: '#db2777', active: false },
+        
+        // 8. PDF to Excel (New)
+        { title: 'PDF to Excel', desc: 'Convert PDF to spreadsheets.', icon: 'fa-file-excel', color: '#217346', active: false },
+        
+        // 9. Split PDF (Existing)
+        { title: 'Split PDF', desc: 'Split PDFs by pages or ranges.', icon: 'fa-scissors', color: '#22c55e', active: true, link: 'splitter.html', action: 'Split PDF' },
+        
+        // 10. OCR PDF (New)
+        { title: 'OCR PDF', desc: 'Make scanned PDFs searchable.', icon: 'fa-eye', color: '#0ea5e9', active: false },
+        
+        // 11. Unlock PDF (Existing but inactive logic)
+        { title: 'Unlock PDF', desc: 'Remove PDF passwords.', icon: 'fa-unlock', color: '#84cc16', active: false },
+        
+        // 12. Word to PDF (New)
+        { title: 'Word to PDF', desc: 'Convert Word docs to PDF.', icon: 'fa-file-word', color: '#1d4ed8', active: false },
+        
+        // 13. Rotate PDF (Existing but inactive logic)
+        { title: 'Rotate PDF', desc: 'Rotate pages left/right.', icon: 'fa-rotate-right', color: '#8b5cf6', active: false },
+        
+        // 14. Protect PDF (New)
+        { title: 'Protect PDF', desc: 'Encrypt PDF with password.', icon: 'fa-shield-halved', color: '#b91c1c', active: false },
+        
+        // 15. Delete PDF Pages (Existing)
+        { title: 'Delete PDF Pages', desc: 'Remove unwanted pages.', icon: 'fa-trash-can', color: '#ec4899', active: true, link: 'delete-pages.html', action: 'Delete Pages' },
+        
+        // 16. Add Page Numbers (Existing but inactive logic)
+        { title: 'Add Page Numbers', desc: 'Insert page numbering.', icon: 'fa-list-ol', color: '#06b6d4', active: false },
+        
+        // 17. Watermark PDF (Existing but inactive logic)
+        { title: 'Watermark PDF', desc: 'Overlay text or image.', icon: 'fa-font', color: '#f59e0b', active: false },
+        
+        // 18. Excel to PDF (New)
+        { title: 'Excel to PDF', desc: 'Convert spreadsheets to PDF.', icon: 'fa-file-excel', color: '#10b981', active: false },
+        
+        // 19. HTML to PDF (New)
+        { title: 'HTML to PDF', desc: 'Convert webpages to PDF.', icon: 'fa-code', color: '#6366f1', active: false },
+        
+        // 20. Repair PDF (New)
+        { title: 'Repair PDF', desc: 'Recover damaged PDFs.', icon: 'fa-screwdriver-wrench', color: '#64748b', active: false },
+
+        // Extra: Keeping "Reorder Pages" as it was fully working, placed at end so it's not deleted.
+        { title: 'Reorder Pages', desc: 'Rearrange page order.', icon: 'fa-up-down-left-right', color: '#6366f1', active: true, link: 'reorder-pages.html', action: 'Reorder Pages' }
+      ];
+
+      const grid = document.getElementById('toolsGrid');
+
+      tools.forEach((t) => {
+        const isActive = !!t.active;
+        const wrapper = document.createElement('div');
+        wrapper.className = 'relative border-2 rounded-xl bg-white p-4 flex flex-col gap-4 transition';
+        if (isActive) {
+          wrapper.classList.add('hover:scale-105','hover:shadow-xl');
+        } else {
+          wrapper.classList.add('opacity-70');
+        }
+        wrapper.style.borderColor = t.color;
+
+        const iconRow = document.createElement('div');
+        iconRow.className = 'flex items-center gap-3';
+        const icon = document.createElement('i');
+        icon.className = `fa-solid ${t.icon} text-2xl`;
+        icon.style.color = t.color;
+        const title = document.createElement('h3');
+        title.className = 'text-lg font-semibold';
+        title.textContent = t.title;
+        iconRow.append(icon, title);
+
+        const desc = document.createElement('p');
+        desc.className = 'text-gray-600 text-sm';
+        desc.textContent = t.desc;
+
+        const btn = isActive ? document.createElement('a') : document.createElement('button');
+        if (isActive) {
+          btn.href = t.link || '#';
+          btn.textContent = t.action || 'Open';
+          btn.className = 'w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md text-white font-semibold transition';
+          btn.style.backgroundColor = '#8c00c4';
+        } else {
+          btn.textContent = 'Coming Soon';
+          btn.disabled = true;
+          btn.setAttribute('aria-disabled','true');
+          btn.className = 'w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md text-white font-semibold bg-gray-400 cursor-not-allowed';
+        }
+
+        wrapper.append(iconRow, desc, btn);
+        grid.appendChild(wrapper);
+      });
+    </script>
+  </body>
+</html>

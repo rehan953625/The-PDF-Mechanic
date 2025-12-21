@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>Split PDF Online | Extract Pages for Free - The PDF Mechanic</title>
+    <meta name="description" content="Split PDF files instantly. Select and extract specific pages from your PDF document online. Free, secure, and private client-side tool." />
+    <meta name="keywords" content="split pdf, extract pdf pages, separate pdf, cut pdf, pdf splitter online, free pdf tool" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.pdfmechanic.com/splitter.html" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.pdfmechanic.com/splitter.html" />
+    <meta property="og:title" content="Split PDF - Extract Pages Free" />
+    <meta property="og:description" content="Select pages to keep and extract them instantly into a new PDF." />
+    <meta property="og:image" content="https://www.pdfmechanic.com/images/split-preview.jpg" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Split PDF - The PDF Mechanic" />
+    <meta name="twitter:description" content="Visual PDF Splitter. Select and extract pages securely." />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+    </script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { brand: '#059669', brandDark: '#047857', bg: '#F3F4F6' }, // Green Theme
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <script type="application/ld+json">
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "The PDF Mechanic Splitter",
+        "operatingSystem": "Web Browser",
+        "applicationCategory": "ProductivityApplication",
+        "url": "https://www.pdfmechanic.com/splitter.html",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "850" },
+        "description": "Free online tool to split PDF documents and extract specific pages securely.",
+        "featureList": "Visual page selection, Instant extraction, No file upload"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Does this tool delete the original file?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No, your original file remains unchanged on your computer. We simply create a new PDF copy with only the pages you selected." }
+          },
+          {
+            "@type": "Question",
+            "name": "Is it secure to split confidential PDFs?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. Splitting happens entirely inside your browser using JavaScript. We never upload your documents to any server." }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I select multiple page ranges?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes, you can click on any number of individual pages to include them in your new document." }
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.pdfmechanic.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Split PDF", "item": "https://www.pdfmechanic.com/splitter.html" }
+        ]
+      }
+    ]
+    </script>
+</head>
+<body class="font-sans bg-bg text-gray-900 flex flex-col min-h-screen">
+
+    <nav class="w-full bg-brand text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center gap-3">
+            <a href="index.html" class="font-bold text-xl flex items-center gap-2 hover:opacity-90 transition">
+                <i class="fa-solid fa-arrow-left opacity-70"></i> The PDF Mechanic
+            </a>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 py-3">
+        <nav class="flex text-sm text-gray-500">
+            <ol class="inline-flex items-center space-x-1">
+                <li><a href="index.html" class="hover:text-brand">Home</a></li>
+                <li><i class="fa-solid fa-chevron-right text-xs mx-2"></i></li>
+                <li class="text-gray-800 font-medium">Split PDF</li>
+            </ol>
+        </nav>
+    </div>
+
+    <main class="flex-grow max-w-6xl mx-auto px-4 py-8 w-full">
+        
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">Split PDF & Extract Pages</h1>
+            <p class="text-gray-600 mt-2">Click on the pages you want to <span class="text-brand font-bold">KEEP / EXTRACT</span>.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-6 border-t-4 border-brand min-h-[400px]">
+            
+            <div id="uploadArea" class="border-2 border-dashed border-gray-300 rounded-xl p-10 text-center hover:bg-gray-50 transition cursor-pointer group" onclick="document.getElementById('fileInput').click()">
+                <input type="file" id="fileInput" accept="application/pdf" class="hidden" onchange="handleFile(event)">
+                <div class="text-brand text-5xl mb-4 group-hover:scale-110 transition"><i class="fa-solid fa-scissors"></i></div>
+                <h3 class="text-xl font-semibold text-gray-700">Select PDF to Split</h3>
+                <p class="text-sm text-gray-500 mt-2">Max 50MB recommended</p>
+            </div>
+
+            <div id="loading" class="hidden text-center py-10">
+                <i class="fa-solid fa-circle-notch fa-spin text-brand text-4xl"></i>
+                <p class="text-gray-600 mt-4">Rendering pages...</p>
+            </div>
+
+            <div id="editorArea" class="hidden">
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6 sticky top-0 bg-white z-10 py-2 border-b shadow-sm">
+                    <div class="flex gap-2">
+                        <button onclick="selectAll()" class="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded text-gray-700 font-medium">Select All</button>
+                        <button onclick="deselectAll()" class="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded text-gray-700 font-medium">Clear</button>
+                    </div>
+                    <div class="text-sm font-semibold text-gray-700">
+                        Selected: <span id="selectedCount" class="text-brand font-bold text-lg">0</span> pages
+                    </div>
+                    <button onclick="extractPages()" id="extractBtn" class="bg-brand text-white px-6 py-2 rounded-lg font-bold hover:bg-brandDark transition shadow-md disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        Extract Selected Pages
+                    </button>
+                </div>
+
+                <div id="pagesGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    </div>
+            </div>
+
+            <div id="resultArea" class="hidden mt-8 text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
+                    <i class="fa-solid fa-check text-green-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800">Done!</h3>
+                <p class="text-gray-600">Your extracted PDF is ready.</p>
+                <a id="downloadLink" class="inline-block mt-4 bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 shadow-lg cursor-pointer transform hover:-translate-y-1 transition">
+                    Download Extracted PDF
+                </a>
+                <button onclick="location.reload()" class="block w-full mt-4 text-brand text-sm hover:underline">Split Another File</button>
+            </div>
+        </div>
+
+        <section class="mt-16 pt-10 border-t">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">How to Extract Pages from PDF?</h2>
+            <div class="grid md:grid-cols-3 gap-6 text-sm">
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                    <span class="text-brand font-bold text-xl block mb-2">01</span>
+                    <h3 class="font-bold text-gray-800">Upload File</h3>
+                    <p class="text-gray-600">Select your PDF document. The tool will display all pages in a grid.</p>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                    <span class="text-brand font-bold text-xl block mb-2">02</span>
+                    <h3 class="font-bold text-gray-800">Select to Keep</h3>
+                    <p class="text-gray-600">Click on the pages you want to save. Selected pages get a <strong class="text-green-600">Green Check</strong>.</p>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                    <span class="text-brand font-bold text-xl block mb-2">03</span>
+                    <h3 class="font-bold text-gray-800">Download</h3>
+                    <p class="text-gray-600">Click "Extract" to create a new PDF with only the pages you selected.</p>
+                </div>
+            </div>
+
+             <div class="mt-10">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h3>
+                <div class="space-y-3">
+                    <details class="group bg-white p-4 rounded-lg border shadow-sm cursor-pointer">
+                        <summary class="font-medium flex justify-between items-center">
+                            Does this delete the original file? <i class="fa-solid fa-chevron-down text-brand transition group-open:rotate-180"></i>
+                        </summary>
+                        <p class="text-gray-600 mt-2 text-sm group-open:animate-fadeIn">No, your original file remains unchanged on your computer. We create a new copy.</p>
+                    </details>
+                    <details class="group bg-white p-4 rounded-lg border shadow-sm cursor-pointer">
+                        <summary class="font-medium flex justify-between items-center">
+                            Is it secure? <i class="fa-solid fa-chevron-down text-brand transition group-open:rotate-180"></i>
+                        </summary>
+                        <p class="text-gray-600 mt-2 text-sm group-open:animate-fadeIn">Yes. Splitting happens inside your browser. We never see or upload your documents.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-auto bg-gray-900 text-white pt-10 pb-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">The PDF Mechanic</h3>
+                    <p class="text-gray-400 text-sm">Secure, client-side PDF tools designed for privacy.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Popular Tools</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="compressor.html" class="hover:text-brand transition">Compress PDF</a></li>
+                        <li><a href="merger.html" class="hover:text-brand transition">Merge PDF</a></li>
+                        <li><a href="splitter.html" class="hover:text-brand transition">Split PDF</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Feedback</h4>
+                    <p class="text-sm text-gray-400">Please leave your feedback and report any problem.</p>
+                    <div class="flex items-center gap-3 mt-3">
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-brand hover:border-brand transition" title="Meet Developer"><i class="fa-solid fa-user"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-brand hover:border-brand transition" title="Email"><i class="fa-solid fa-envelope"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-green-600 hover:border-green-600 transition" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
+                <p>© <span id="year"></span> The PDF Mechanic.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        let pdfDoc = null;
+        let pdfBytes = null;
+        let selectedPages = new Set(); 
+
+        async function handleFile(event) {
+            const file = event.target.files[0];
+            if (!file || file.type !== 'application/pdf') return;
+
+            document.getElementById('uploadArea').classList.add('hidden');
+            document.getElementById('loading').classList.remove('hidden');
+
+            try {
+                pdfBytes = await file.arrayBuffer();
+                pdfDoc = await pdfjsLib.getDocument(pdfBytes).promise;
+                await renderGrid();
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('editorArea').classList.remove('hidden');
+            } catch (err) {
+                console.error(err);
+                alert("Error loading PDF");
+                location.reload();
+            }
+        }
+
+        async function renderGrid() {
+            const grid = document.getElementById('pagesGrid');
+            grid.innerHTML = '';
+            selectedPages.clear();
+            updateCount();
+
+            for (let i = 1; i <= pdfDoc.numPages; i++) {
+                const div = document.createElement('div');
+                div.className = 'relative group cursor-pointer border-2 border-transparent rounded-lg hover:shadow-lg transition overflow-hidden bg-gray-50';
+                div.onclick = () => togglePage(i, div);
+                div.id = `page-${i}`;
+
+                const canvas = document.createElement('canvas');
+                canvas.className = 'w-full h-auto block opacity-100 transition duration-200';
+                const context = canvas.getContext('2d');
+                
+                const page = await pdfDoc.getPage(i);
+                const viewport = page.getViewport({ scale: 0.3 });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                const label = document.createElement('span');
+                label.className = 'absolute bottom-2 right-2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-70 z-10';
+                label.innerText = `Page ${i}`;
+
+                // GREEN CHECK OVERLAY (Keep Logic)
+                const checkOverlay = document.createElement('div');
+                checkOverlay.className = 'absolute inset-0 bg-brand bg-opacity-20 hidden items-center justify-center selection-overlay z-20 backdrop-blur-[1px]';
+                checkOverlay.innerHTML = '<div class="bg-white p-2 rounded-full shadow-lg"><i class="fa-solid fa-check text-brand text-3xl"></i></div>';
+
+                div.appendChild(canvas);
+                div.appendChild(label);
+                div.appendChild(checkOverlay);
+                grid.appendChild(div);
+
+                page.render({ canvasContext: context, viewport: viewport });
+            }
+        }
+
+        function togglePage(pageNum, divElement) {
+            const index = pageNum - 1; 
+            const overlay = divElement.querySelector('.selection-overlay');
+            
+            if (selectedPages.has(index)) {
+                selectedPages.delete(index);
+                divElement.classList.remove('border-brand', 'ring-2', 'ring-brand');
+                overlay.classList.remove('flex');
+                overlay.classList.add('hidden');
+            } else {
+                selectedPages.add(index);
+                divElement.classList.add('border-brand', 'ring-2', 'ring-brand');
+                overlay.classList.remove('hidden');
+                overlay.classList.add('flex');
+            }
+            updateCount();
+        }
+
+        function updateCount() {
+            const count = selectedPages.size;
+            document.getElementById('selectedCount').innerText = count;
+            document.getElementById('extractBtn').disabled = count === 0;
+        }
+
+        function selectAll() {
+            for (let i = 1; i <= pdfDoc.numPages; i++) {
+                const index = i - 1;
+                if (!selectedPages.has(index)) {
+                    togglePage(i, document.getElementById(`page-${i}`));
+                }
+            }
+        }
+
+        function deselectAll() {
+            selectedPages.forEach(index => {
+                togglePage(index + 1, document.getElementById(`page-${index + 1}`));
+            });
+        }
+
+        async function extractPages() {
+            if (selectedPages.size === 0) return;
+
+            const btn = document.getElementById('extractBtn');
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
+            btn.disabled = true;
+
+            try {
+                const { PDFDocument } = PDFLib;
+                const srcDoc = await PDFDocument.load(pdfBytes);
+                const newDoc = await PDFDocument.create();
+
+                // Sort indices
+                const indices = Array.from(selectedPages).sort((a, b) => a - b);
+                const copiedPages = await newDoc.copyPages(srcDoc, indices);
+
+                copiedPages.forEach(page => newDoc.addPage(page));
+
+                const pdfData = await newDoc.save();
+                const blob = new Blob([pdfData], { type: 'application/pdf' });
+                
+                showResult(blob);
+
+            } catch (err) {
+                console.error(err);
+                alert("Error extracting pages.");
+                btn.innerHTML = 'Extract Selected Pages';
+                btn.disabled = false;
+            }
+        }
+
+        function showResult(blob) {
+            document.getElementById('editorArea').classList.add('hidden');
+            document.getElementById('resultArea').classList.remove('hidden');
+            
+            const url = URL.createObjectURL(blob);
+            const link = document.getElementById('downloadLink');
+            link.href = url;
+            link.download = 'extracted_pages_PDF_Mechanic.pdf';
+        }
+    </script>
+</body>
+</html>

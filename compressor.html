@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>Compress PDF Online | Reduce PDF Size for Free - The PDF Mechanic</title>
+    <meta name="description" content="Compress PDF files instantly in your browser. Reduce PDF size without uploading files to a server. 100% Free, Secure, and Private PDF Compressor." />
+    <meta name="keywords" content="compress pdf, reduce pdf size, pdf compressor online, shrink pdf, client-side pdf compressor, free pdf tools" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.pdfmechanic.com/compressor.html" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.pdfmechanic.com/compressor.html" />
+    <meta property="og:title" content="Compress PDF Online - Secure & Free" />
+    <meta property="og:description" content="Reduce PDF file size locally without uploading. Secure client-side compression tool." />
+    <meta property="og:image" content="https://www.pdfmechanic.com/images/compress-preview.jpg" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Compress PDF Online - The PDF Mechanic" />
+    <meta name="twitter:description" content="Shrink PDF files securely in your browser. No server uploads." />
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    // COLOR CHANGED TO RED (#ef4444)
+                    colors: { brand: '#ef4444', bg: '#F3F4F6' },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Style for Range Slider Bubble */
+        .range-wrap {
+            position: relative;
+            margin: 0 auto 3rem;
+        }
+        .range {
+            width: 100%;
+        }
+        .bubble {
+            background: #ef4444; /* RED */
+            color: white;
+            padding: 4px 12px;
+            position: absolute;
+            border-radius: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 140%;
+            font-size: 0.85rem;
+            font-weight: bold;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 10;
+        }
+        .bubble::after {
+            content: "";
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #ef4444; /* RED */
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+        }
+        .range-wrap:hover .bubble,
+        .range-wrap:active .bubble {
+            opacity: 1;
+        }
+        
+        /* Smooth FAQ Animation */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary ~ * { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { 0% { opacity: 0; transform: translateY(-5px); } 100% { opacity: 1; transform: translateY(0); } }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+
+    <script type="application/ld+json">
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "The PDF Mechanic Compressor",
+        "operatingSystem": "Web Browser",
+        "applicationCategory": "ProductivityApplication",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "description": "A free online tool to compress PDF files securely in the browser using JavaScript.",
+        "featureList": "Client-side compression, No file upload, Adjustable quality"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.pdfmechanic.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Compress PDF", "item": "https://www.pdfmechanic.com/compressor.html" }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is The PDF Mechanic completely free?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes, all tools including PDF compression are 100% free." }
+          },
+          {
+            "@type": "Question",
+            "name": "Is it safe to upload my private documents?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Absolutely. Your files are processed locally in your browser and never uploaded to any server." }
+          }
+        ]
+      }
+    ]
+    </script>
+</head>
+<body class="font-sans bg-bg text-gray-900 flex flex-col min-h-screen">
+
+    <nav class="w-full" style="background-color:#ef4444;">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <a href="index.html" class="text-white text-xl font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-left text-sm opacity-80"></i> The PDF Mechanic
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-4xl mx-auto px-4 py-12 w-full">
+        
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">Compress PDF File</h1>
+            <p class="text-gray-600 mt-2">Reduce file size locally without uploading.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-6 md:p-10 border-t-4 border-brand">
+            
+            <div id="uploadArea" class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:bg-gray-50 transition cursor-pointer relative" onclick="document.getElementById('fileInput').click()">
+                <input type="file" id="fileInput" accept="application/pdf" class="hidden" onchange="handleFileSelect(event)">
+                <div class="text-brand text-5xl mb-4"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                <h3 class="text-xl font-semibold text-gray-700">Click or Drag PDF here</h3>
+                <p class="text-sm text-gray-500 mt-2">Maximum file size: 50MB</p>
+            </div>
+
+            <div id="settingsArea" class="hidden mt-6">
+                <div class="flex items-center justify-between bg-gray-100 p-4 rounded-lg mb-6">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-file-pdf text-red-500 text-2xl"></i>
+                        <div>
+                            <p id="fileName" class="font-semibold text-gray-800 text-sm truncate max-w-[200px]"></p>
+                            <p id="fileSize" class="text-xs text-gray-500"></p>
+                        </div>
+                    </div>
+                    <button onclick="resetTool()" class="text-gray-400 hover:text-red-500"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+
+                <div class="mb-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-6">Compression Level (Estimated Size)</label>
+                    
+                    <div class="range-wrap" id="rangeWrap">
+                        <div class="bubble" id="bubble"></div>
+                        <input type="range" id="qualityRange" min="0.1" max="1.0" step="0.01" value="0.5" class="range w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand" oninput="updateBubble(this)">
+                    </div>
+
+                    <div class="flex justify-between text-xs text-gray-500 mt-1">
+                        <span>Max Compression (Smallest)</span>
+                        <span>Min Compression (Best Quality)</span>
+                    </div>
+                </div>
+
+                <button id="compressBtn" onclick="startCompression()" class="w-full bg-brand text-white py-3 rounded-lg font-semibold hover:opacity-90 transition shadow-lg mt-6">
+                    Compress PDF Now
+                </button>
+
+                <div id="progressContainer" class="hidden mt-4">
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div id="progressBar" class="bg-brand h-2.5 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p id="progressText" class="text-center text-xs text-gray-500 mt-2">Processing page 0 of 0...</p>
+                </div>
+            </div>
+
+            <div id="resultArea" class="hidden mt-6 text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-solid fa-check text-green-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800">Compression Complete!</h3>
+                <p class="text-gray-600 mt-2">Your file is ready.</p>
+                
+                <div class="flex justify-center gap-4 mt-2 text-sm">
+                    <span class="text-red-500 line-through" id="oldSizeDisplay"></span>
+                    <span class="text-green-600 font-bold" id="newSizeDisplay"></span>
+                </div>
+
+                <a id="downloadLink" class="inline-block mt-6 bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition shadow-lg cursor-pointer">
+                    <i class="fa-solid fa-download mr-2"></i> Download Compressed PDF
+                </a>
+                
+                <button onclick="resetTool()" class="block w-full mt-4 text-brand text-sm hover:underline">Compress Another File</button>
+            </div>
+
+        </div>
+
+        <div class="mt-12 text-gray-600 text-sm">
+            <h3 class="font-bold text-gray-900 mb-2">How it works?</h3>
+            <p>This tool renders your PDF pages into images and recompresses them to reduce file size. All processing happens inside your browser. Your files are never sent to any server.</p>
+        </div>
+        
+        <section class="mt-16 border-t pt-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Best Free Online PDF Compressor Tool</h2>
+                    <p class="text-gray-700 mb-4 leading-relaxed">
+                        Looking for a way to <strong>reduce PDF file size</strong> without compromising quality? The PDF Mechanic offers a fast, free, and secure solution. Whether you need to shrink a large document for email attachments or optimize files for web uploads, our <strong>client-side PDF compressor</strong> gets the job done instantly.
+                    </p>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Why Use The PDF Mechanic?</h3>
+                    <ul class="list-disc pl-5 text-gray-700 space-y-2 mb-4">
+                        <li><strong>100% Secure:</strong> Unlike other websites, we do not upload your files to any server. Compression happens right inside your browser.</li>
+                        <li><strong>Unlimited Free Usage:</strong> No hidden costs, no sign-ups, and no watermarks.</li>
+                        <li><strong>High Quality:</strong> Smart optimization algorithms ensure your text remains readable while reducing image size.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 mb-8">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4">How to Compress PDF?</h3>
+                        <ol class="list-decimal pl-5 text-gray-700 space-y-3">
+                            <li>Click on <strong>"Click or Drag PDF here"</strong> to select your file.</li>
+                            <li>Wait for the file to load.</li>
+                            <li>Slide to adjust the <strong>Estimated Size</strong> perfectly.</li>
+                            <li>Click <strong>"Compress PDF Now"</strong>.</li>
+                            <li>Download your smaller PDF instantly.</li>
+                        </ol>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h3>
+                        <div class="space-y-4">
+                            <details class="group p-4 bg-white rounded-lg shadow-sm border border-gray-100 cursor-pointer">
+                                <summary class="flex justify-between items-center font-medium">
+                                    <span>Is my data safe?</span>
+                                    <span class="transition group-open:rotate-180 text-brand"><i class="fa-solid fa-chevron-down"></i></span>
+                                </summary>
+                                <p class="text-gray-600 mt-2 text-sm">Yes, completely. Since we use client-side technology, your PDF never leaves your computer.</p>
+                            </details>
+
+                            <details class="group p-4 bg-white rounded-lg shadow-sm border border-gray-100 cursor-pointer">
+                                <summary class="flex justify-between items-center font-medium">
+                                    <span>Does it affect file quality?</span>
+                                    <span class="transition group-open:rotate-180 text-brand"><i class="fa-solid fa-chevron-down"></i></span>
+                                </summary>
+                                <p class="text-gray-600 mt-2 text-sm">Compression reduces image resolution to save space. Use the slider to balance size and quality.</p>
+                            </details>
+
+                            <details class="group p-4 bg-white rounded-lg shadow-sm border border-gray-100 cursor-pointer">
+                                <summary class="flex justify-between items-center font-medium">
+                                    <span>Is there a file size limit?</span>
+                                    <span class="transition group-open:rotate-180 text-brand"><i class="fa-solid fa-chevron-down"></i></span>
+                                </summary>
+                                <p class="text-gray-600 mt-2 text-sm">We recommend files under 50MB for optimal browser performance, as processing happens on your device.</p>
+                            </details>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="mt-auto bg-gray-900 text-white pt-10 pb-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">The PDF Mechanic</h3>
+                    <p class="text-gray-400 text-sm">Secure, client-side PDF tools designed for privacy and speed.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Popular Tools</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="compressor.html" class="hover:text-brand transition">Compress PDF</a></li>
+                        <li><a href="merger.html" class="hover:text-brand transition">Merge PDF</a></li>
+                        <li><a href="splitter.html" class="hover:text-brand transition">Split PDF</a></li>
+                        <li><a href="delete-pages.html" class="hover:text-brand transition">Delete Pages</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Feedback</h4>
+                    <p class="text-sm text-gray-400">Please leave your feedback and report any problem.</p>
+                    <div class="flex items-center gap-3 mt-3">
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-brand hover:border-brand transition" title="Meet Developer"><i class="fa-solid fa-user"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-brand hover:border-brand transition" title="Email"><i class="fa-solid fa-envelope"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-green-600 hover:border-green-600 transition" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
+                <p>© <span id="year"></span> The PDF Mechanic. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        let selectedFile = null;
+        let pdfDoc = null;
+        let originalSizeBytes = 0;
+        let estimateTimeout = null;
+
+        async function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file && file.type === "application/pdf") {
+                selectedFile = file;
+                originalSizeBytes = file.size;
+
+                document.getElementById('uploadArea').classList.add('hidden');
+                document.getElementById('settingsArea').classList.remove('hidden');
+                
+                document.getElementById('fileName').textContent = file.name;
+                document.getElementById('fileSize').textContent = formatBytes(originalSizeBytes);
+
+                const slider = document.getElementById('qualityRange');
+                updateBubble(slider);
+                try {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const loadingTask = pdfjsLib.getDocument(arrayBuffer);
+                    pdfDoc = await loadingTask.promise;
+                    updateBubble(slider);
+                } catch (e) {}
+            } else {
+                alert("Please select a valid PDF file.");
+            }
+        }
+
+        function updateBubble(slider) {
+            const bubble = document.getElementById('bubble');
+            const val = parseFloat(slider.value);
+            const min = parseFloat(slider.min);
+            const max = parseFloat(slider.max);
+            const newVal = Number(((val - min) * 100) / (max - min));
+            
+            bubble.style.left = `calc(${newVal}% + (${8 - newVal * 0.15}px))`;
+            bubble.style.opacity = '1';
+
+            if (originalSizeBytes > 0 && pdfDoc) {
+                bubble.innerHTML = 'Estimating…';
+                if (estimateTimeout) clearTimeout(estimateTimeout);
+                estimateTimeout = setTimeout(async () => {
+                    const q = 0.4 + 0.6 * val;
+                    const s = 0.9 + 0.9 * val;
+                    const est = await estimateSizeFirstPage(q, s);
+                    if (est) bubble.innerHTML = `Est: ${formatBytes(est)}`;
+                }, 200);
+            } else if (originalSizeBytes > 0) {
+                const estimatedRatio = val * 0.95;
+                const estimatedSize = originalSizeBytes * estimatedRatio;
+                bubble.innerHTML = `Est: ${formatBytes(estimatedSize)}`;
+            }
+        }
+
+        async function estimateSizeFirstPage(quality, scale) {
+            try {
+                const page = await pdfDoc.getPage(1);
+                const viewport = page.getViewport({ scale });
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                await page.render({ canvasContext: context, viewport }).promise;
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', quality));
+                if (!blob) return null;
+                const total = blob.size * pdfDoc.numPages;
+                return total;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
+        async function startCompression() {
+            if (!selectedFile) return;
+
+            const val = parseFloat(document.getElementById('qualityRange').value);
+            const jpegQuality = 0.4 + 0.6 * val;
+            const renderScale = 0.9 + 0.9 * val;
+            const compressBtn = document.getElementById('compressBtn');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+
+            compressBtn.classList.add('hidden');
+            progressContainer.classList.remove('hidden');
+
+            try {
+                const arrayBuffer = await selectedFile.arrayBuffer();
+                const loadingTask = pdfjsLib.getDocument(arrayBuffer);
+                pdfDoc = await loadingTask.promise;
+                
+                const totalPages = pdfDoc.numPages;
+                const { jsPDF } = window.jspdf; 
+                let newPdf = null;
+                
+                for (let i = 1; i <= totalPages; i++) {
+                    const percent = Math.round((i / totalPages) * 100);
+                    progressBar.style.width = percent + "%";
+                    progressText.textContent = `Processing page ${i} of ${totalPages}...`;
+
+                    const page = await pdfDoc.getPage(i);
+                    const viewport = page.getViewport({ scale: renderScale });
+                    
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+
+                    await page.render({ canvasContext: context, viewport: viewport }).promise;
+
+                    const imgData = canvas.toDataURL('image/jpeg', jpegQuality);
+
+                    if (!newPdf) {
+                        newPdf = new jsPDF({ unit: 'px', format: [viewport.width, viewport.height] });
+                    } else {
+                        newPdf.addPage([viewport.width, viewport.height]);
+                    }
+
+                    newPdf.addImage(imgData, 'JPEG', 0, 0, viewport.width, viewport.height);
+                }
+
+                const pdfBlob = newPdf.output('blob');
+                showResult(pdfBlob);
+
+            } catch (error) {
+                console.error(error);
+                alert("An error occurred during compression.");
+                resetTool();
+            }
+        }
+
+        function showResult(blob) {
+            document.getElementById('settingsArea').classList.add('hidden');
+            document.getElementById('resultArea').classList.remove('hidden');
+
+            const newSize = blob.size;
+            document.getElementById('oldSizeDisplay').textContent = formatBytes(originalSizeBytes);
+            document.getElementById('newSizeDisplay').textContent = formatBytes(newSize);
+
+            const url = URL.createObjectURL(blob);
+            const downloadLink = document.getElementById('downloadLink');
+            downloadLink.href = url;
+            
+            // FILENAME FIX
+            let name = selectedFile.name.replace(/\.[^/.]+$/, "");
+            downloadLink.download = `${name}_compressed_PDF_Mechanic.pdf`;
+        }
+
+        function resetTool() {
+            selectedFile = null;
+            pdfDoc = null;
+            originalSizeBytes = 0;
+            document.getElementById('fileInput').value = '';
+            document.getElementById('uploadArea').classList.remove('hidden');
+            document.getElementById('settingsArea').classList.add('hidden');
+            document.getElementById('resultArea').classList.add('hidden');
+            document.getElementById('compressBtn').classList.remove('hidden');
+            document.getElementById('progressContainer').classList.add('hidden');
+            document.getElementById('progressBar').style.width = "0%";
+            document.getElementById('bubble').style.opacity = '0';
+        }
+    </script>
+</body>
+</html>

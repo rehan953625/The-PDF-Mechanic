@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>PDF to JPG | Convert PDF to Images Online Free - The PDF Mechanic</title>
+    <meta name="description" content="Convert PDF pages to high-quality JPG or PNG images instantly. Download all pages as a ZIP file securely in your browser." />
+    <meta name="keywords" content="pdf to jpg, pdf to png, convert pdf to image, pdf to image converter, free pdf tool" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.pdfmechanic.com/pdf-to-images.html" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.pdfmechanic.com/pdf-to-images.html" />
+    <meta property="og:title" content="PDF to JPG Converter - Free & Secure" />
+    <meta property="og:description" content="Turn PDF pages into images instantly. Download as ZIP." />
+    <meta property="og:image" content="https://www.pdfmechanic.com/images/pdf-to-img-preview.jpg" />
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+        
+        tailwind.config = {
+            theme: {
+                extend: {
+                    // TEAL THEME (#14b8a6)
+                    colors: { brand: '#14b8a6', brandDark: '#0d9488', bg: '#F3F4F6' },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <script type="application/ld+json">
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "The PDF Mechanic PDF to Image",
+        "operatingSystem": "Web Browser",
+        "applicationCategory": "ProductivityApplication",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "description": "A free online tool to convert PDF pages into high-resolution images (JPG).",
+        "featureList": "High quality rendering, ZIP download, Client-side privacy"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.pdfmechanic.com/" },
+            { "@type": "ListItem", "position": 2, "name": "PDF to Images", "item": "https://www.pdfmechanic.com/pdf-to-images.html" }
+        ]
+      }
+    ]
+    </script>
+</head>
+<body class="font-sans bg-bg text-gray-900 flex flex-col min-h-screen">
+
+    <nav class="w-full bg-brand text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center gap-3">
+            <a href="index.html" class="font-bold text-xl flex items-center gap-2 hover:opacity-90 transition">
+                <i class="fa-solid fa-arrow-left text-sm opacity-80"></i> The PDF Mechanic
+            </a>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 py-3">
+        <nav class="flex text-sm text-gray-500">
+            <ol class="inline-flex items-center space-x-1">
+                <li><a href="index.html" class="hover:text-brand">Home</a></li>
+                <li><i class="fa-solid fa-chevron-right text-xs mx-2"></i></li>
+                <li class="text-gray-800 font-medium">PDF to JPG</li>
+            </ol>
+        </nav>
+    </div>
+
+    <main class="flex-grow max-w-6xl mx-auto px-4 py-8 w-full">
+        
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">Convert PDF to Images</h1>
+            <p class="text-gray-600 mt-2">Turn PDF pages into high-quality JPG images.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-6 border-t-4 border-brand min-h-[400px]">
+            
+            <div id="uploadArea" class="border-2 border-dashed border-gray-300 rounded-xl p-10 text-center hover:bg-gray-50 transition cursor-pointer group" onclick="document.getElementById('fileInput').click()">
+                <input type="file" id="fileInput" accept="application/pdf" class="hidden" onchange="handleFile(event)">
+                <div class="text-brand text-5xl mb-4 group-hover:scale-110 transition duration-300"><i class="fa-solid fa-file-image"></i></div>
+                <h3 class="text-xl font-semibold text-gray-700">Select PDF File</h3>
+                <p class="text-sm text-gray-500 mt-2">Max 50MB recommended</p>
+            </div>
+
+            <div id="loading" class="hidden text-center py-10">
+                <i class="fa-solid fa-circle-notch fa-spin text-brand text-4xl"></i>
+                <p class="text-gray-600 mt-4 font-medium">Rendering pages (This may take a moment)...</p>
+            </div>
+
+            <div id="editorArea" class="hidden">
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6 sticky top-0 bg-white z-10 py-2 border-b">
+                    <div class="flex gap-2">
+                        <button onclick="selectAll()" class="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded text-gray-700">Select All</button>
+                        <button onclick="deselectAll()" class="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded text-gray-700">Clear</button>
+                    </div>
+                    <div class="text-sm font-semibold text-gray-700">
+                        Selected: <span id="selectedCount" class="text-brand font-bold text-lg">0</span>
+                    </div>
+                    <button onclick="downloadImages()" id="downloadBtn" class="bg-brand text-white px-6 py-2 rounded-lg font-bold hover:bg-brandDark transition shadow-md disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        Download Images (ZIP)
+                    </button>
+                </div>
+
+                <div id="pagesGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    </div>
+            </div>
+
+            <div id="resultArea" class="hidden mt-8 text-center pt-8">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
+                    <i class="fa-solid fa-check text-green-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800">Conversion Complete!</h3>
+                <p class="text-gray-600 mb-6">Your ZIP file has been downloaded.</p>
+                <button onclick="location.reload()" class="block w-full mt-6 text-brand text-sm hover:underline">Convert Another File</button>
+            </div>
+        </div>
+
+        <section class="mt-16 pt-10 border-t">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">PDF to JPG Converter</h2>
+                    <p class="text-gray-700 mb-4">
+                        Extract every page of your PDF into separate high-quality images. Whether you need to share a specific page on social media or use it in a presentation, The PDF Mechanic makes it easy.
+                    </p>
+                    <ul class="list-disc pl-5 text-gray-700 space-y-2 mb-4">
+                        <li><strong>High Resolution:</strong> We render pages at high quality.</li>
+                        <li><strong>Batch Download:</strong> Get all images in one ZIP file.</li>
+                        <li><strong>Secure:</strong> Processing happens on your device.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">FAQ</h3>
+                    <div class="space-y-4">
+                        <details class="group bg-white p-4 rounded-lg border shadow-sm cursor-pointer">
+                            <summary class="font-medium flex justify-between items-center">
+                                What format are the images? <i class="fa-solid fa-chevron-down text-brand"></i>
+                            </summary>
+                            <p class="text-gray-600 mt-2 text-sm">We convert pages to standard JPG format, which is compatible with all devices.</p>
+                        </details>
+                        <details class="group bg-white p-4 rounded-lg border shadow-sm cursor-pointer">
+                            <summary class="font-medium flex justify-between items-center">
+                                Can I select specific pages? <i class="fa-solid fa-chevron-down text-brand"></i>
+                            </summary>
+                            <p class="text-gray-600 mt-2 text-sm">Yes, simply click on the pages you want to download, or use "Select All" to grab everything.</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-auto bg-gray-900 text-white pt-10 pb-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">The PDF Mechanic</h3>
+                    <p class="text-gray-400 text-sm">Secure, client-side PDF tools.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Tools</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="compressor.html" class="hover:text-brand transition">Compress PDF</a></li>
+                        <li><a href="merger.html" class="hover:text-brand transition">Merge PDF</a></li>
+                        <li><a href="images-to-pdf.html" class="hover:text-brand transition">Images to PDF</a></li>
+                        <li><a href="pdf-to-images.html" class="hover:text-brand transition">PDF to Images</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Feedback</h4>
+                    <p class="text-sm text-gray-400">Please leave your feedback and report any problem.</p>
+                    <div class="flex items-center gap-3 mt-3">
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-brand hover:border-brand transition" title="Meet Developer"><i class="fa-solid fa-user"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-brand hover:border-brand transition" title="Email"><i class="fa-solid fa-envelope"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-green-600 hover:border-green-600 transition" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
+                <p>© <span id="year"></span> The PDF Mechanic.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        let pdfDoc = null;
+        let selectedPages = new Set(); 
+        let renderedCanvases = {}; // Cache canvases to avoid re-rendering for download
+
+        async function handleFile(event) {
+            const file = event.target.files[0];
+            if (!file || file.type !== 'application/pdf') return;
+
+            document.getElementById('uploadArea').classList.add('hidden');
+            document.getElementById('loading').classList.remove('hidden');
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                pdfDoc = await pdfjsLib.getDocument(arrayBuffer).promise;
+                
+                await renderGrid();
+                
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('editorArea').classList.remove('hidden');
+                
+                // Auto select all initially? Let's keep it empty or select all. 
+                // Let's select ALL by default for convenience.
+                selectAll(); 
+
+            } catch (err) {
+                console.error(err);
+                alert("Error loading PDF");
+                location.reload();
+            }
+        }
+
+        async function renderGrid() {
+            const grid = document.getElementById('pagesGrid');
+            grid.innerHTML = '';
+            selectedPages.clear();
+            renderedCanvases = {};
+
+            for (let i = 1; i <= pdfDoc.numPages; i++) {
+                const div = document.createElement('div');
+                div.className = 'relative group cursor-pointer border-2 border-transparent rounded-lg hover:shadow-lg transition overflow-hidden bg-gray-50';
+                div.onclick = () => togglePage(i, div);
+                div.id = `page-${i}`;
+
+                const canvas = document.createElement('canvas');
+                canvas.className = 'w-full h-auto block';
+                const context = canvas.getContext('2d');
+                
+                // Render at 1.0 scale for display (good quality)
+                const page = await pdfDoc.getPage(i);
+                const viewport = page.getViewport({ scale: 0.5 }); // Thumbnail scale
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                const label = document.createElement('span');
+                label.className = 'absolute bottom-2 right-2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-70 z-10';
+                label.innerText = `Page ${i}`;
+
+                // CHECK OVERLAY
+                const check = document.createElement('div');
+                check.className = 'absolute inset-0 bg-brand bg-opacity-20 hidden items-center justify-center selection-overlay z-20';
+                check.innerHTML = '<div class="bg-white p-2 rounded-full shadow-lg"><i class="fa-solid fa-check text-brand text-3xl"></i></div>';
+
+                div.appendChild(canvas);
+                div.appendChild(label);
+                div.appendChild(check);
+                grid.appendChild(div);
+
+                await page.render({ canvasContext: context, viewport: viewport }).promise;
+                
+                // Store page reference for high-res export later
+                // We don't store the canvas blob yet to save memory, we render high-res on download
+            }
+        }
+
+        function togglePage(pageNum, divElement) {
+            const checkOverlay = divElement.querySelector('.selection-overlay');
+            
+            if (selectedPages.has(pageNum)) {
+                selectedPages.delete(pageNum);
+                divElement.classList.remove('border-brand', 'ring-2', 'ring-brand');
+                checkOverlay.classList.remove('flex');
+                checkOverlay.classList.add('hidden');
+            } else {
+                selectedPages.add(pageNum);
+                divElement.classList.add('border-brand', 'ring-2', 'ring-brand');
+                checkOverlay.classList.remove('hidden');
+                checkOverlay.classList.add('flex');
+            }
+            updateCount();
+        }
+
+        function updateCount() {
+            const count = selectedPages.size;
+            document.getElementById('selectedCount').innerText = count;
+            document.getElementById('downloadBtn').disabled = count === 0;
+        }
+
+        function selectAll() {
+            for (let i = 1; i <= pdfDoc.numPages; i++) {
+                if (!selectedPages.has(i)) {
+                    togglePage(i, document.getElementById(`page-${i}`));
+                }
+            }
+        }
+
+        function deselectAll() {
+            selectedPages.forEach(i => {
+                togglePage(i, document.getElementById(`page-${i}`));
+            });
+        }
+
+        async function downloadImages() {
+            if (selectedPages.size === 0) return;
+
+            const btn = document.getElementById('downloadBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Zipping...';
+            btn.disabled = true;
+
+            try {
+                const zip = new JSZip();
+                const folder = zip.folder("images");
+
+                // Sort pages
+                const pagesToExport = Array.from(selectedPages).sort((a, b) => a - b);
+
+                for (const pageNum of pagesToExport) {
+                    const page = await pdfDoc.getPage(pageNum);
+                    // High Res Scale for Export
+                    const viewport = page.getViewport({ scale: 2.0 }); 
+                    const canvas = document.createElement('canvas');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    const ctx = canvas.getContext('2d');
+
+                    await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+
+                    // Convert to Blob
+                    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.9));
+                    folder.file(`page_${pageNum}.jpg`, blob);
+                }
+
+                const content = await zip.generateAsync({ type: "blob" });
+                saveAs(content, "PDF_Mechanic_Images.zip");
+                
+                document.getElementById('editorArea').classList.add('hidden');
+                document.getElementById('resultArea').classList.remove('hidden');
+
+            } catch (err) {
+                console.error(err);
+                alert("Error generating images.");
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
