@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>eSign PDF Online | Sign Documents for Free - The PDF Mechanic</title>
+    <meta name="description" content="Sign PDF documents securely in your browser. Draw your signature or upload an image. No signup, no file upload - 100% Client-side." />
+    
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        tailwind.config = {
+            theme: {
+                extend: {
+                    // eSign Theme Color: Pink (#db2777) based on your index.html
+                    colors: { brand: '#db2777', brandDark: '#be185d', bg: '#F3F4F6' },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Signature Dragging Styling */
+        #pdf-wrapper {
+            position: relative;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            border: 1px solid #e5e7eb;
+        }
+        .signature-overlay {
+            position: absolute;
+            cursor: grab;
+            border: 2px dashed #db2777;
+            background-color: rgba(219, 39, 119, 0.1);
+            z-index: 10;
+        }
+        .signature-overlay:active {
+            cursor: grabbing;
+        }
+    </style>
+</head>
+<body class="font-sans bg-bg text-gray-900 flex flex-col min-h-screen">
+
+    <nav class="w-full bg-brand text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center gap-3">
+            <a href="index.html" class="font-bold text-xl flex items-center gap-2 hover:opacity-90 transition">
+                <i class="fa-solid fa-arrow-left text-sm opacity-80"></i> The PDF Mechanic
+            </a>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 py-3">
+        <nav class="flex text-sm text-gray-500">
+            <ol class="inline-flex items-center space-x-1">
+                <li><a href="index.html" class="hover:text-brand">Home</a></li>
+                <li><i class="fa-solid fa-chevron-right text-xs mx-2"></i></li>
+                <li class="text-gray-800 font-medium">eSign PDF</li>
+            </ol>
+        </nav>
+    </div>
+
+    <main class="flex-grow max-w-6xl mx-auto px-4 py-8 w-full">
+        
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">eSign PDF Document</h1>
+            <p class="text-gray-600 mt-2">Sign your documents digitally. 100% Client-side privacy.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-6 border-t-4 border-brand min-h-[400px]">
+            
+            <div id="uploadArea" class="border-2 border-dashed border-gray-300 rounded-xl p-10 text-center hover:bg-gray-50 transition cursor-pointer group" onclick="document.getElementById('pdf-upload').click()">
+                <input type="file" id="pdf-upload" accept="application/pdf" class="hidden">
+                <div class="text-brand text-5xl mb-4 group-hover:scale-110 transition duration-300"><i class="fa-solid fa-file-signature"></i></div>
+                <h3 class="text-xl font-semibold text-gray-700">Select PDF to Sign</h3>
+                <p class="text-sm text-gray-500 mt-2">Click or Drag file here</p>
+            </div>
+
+            <div id="loading" class="hidden text-center py-10">
+                <i class="fa-solid fa-circle-notch fa-spin text-brand text-4xl"></i>
+                <p class="text-gray-600 mt-4 font-medium">Loading PDF...</p>
+            </div>
+
+            <div id="editorArea" class="hidden">
+                <div class="flex flex-wrap gap-4 justify-between items-center mb-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <div class="flex gap-2">
+                        <button onclick="openSignatureModal()" class="bg-brand text-white px-4 py-2 rounded-lg hover:bg-brandDark transition text-sm flex items-center gap-2 font-semibold shadow-sm">
+                            <i class="fa-solid fa-pen-nib"></i> Create Signature
+                        </button>
+                        <label class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-100 text-sm cursor-pointer flex items-center gap-2 font-medium shadow-sm transition">
+                            <i class="fa-solid fa-image"></i> Upload Image
+                            <input type="file" id="image-upload" accept="image/png, image/jpeg" class="hidden">
+                        </label>
+                    </div>
+
+                    <div class="flex items-center gap-3 bg-white px-3 py-1 rounded border border-gray-200">
+                        <span class="text-xs font-bold text-gray-500 uppercase">Sign Size</span>
+                        <input type="range" id="size-slider" min="50" max="300" value="150" class="w-32 accent-pink-600 cursor-pointer">
+                    </div>
+                    
+                    <button id="download-btn" class="bg-green-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-green-700 shadow-md flex items-center gap-2 transition">
+                        <i class="fa-solid fa-download"></i> Download PDF
+                    </button>
+                </div>
+
+                <div class="overflow-auto bg-gray-200 p-4 rounded-lg flex justify-center border border-gray-300">
+                    <div id="pdf-wrapper" class="relative bg-white shadow-lg">
+                        <canvas id="pdf-render"></canvas>
+                        <img id="draggable-signature" src="" class="signature-overlay hidden" style="width: 150px;">
+                    </div>
+                </div>
+                <p class="text-center text-xs text-gray-500 mt-3"><i class="fa-solid fa-circle-info"></i> Drag the signature to place it correctly.</p>
+            </div>
+        </div>
+
+        <section class="mt-16 pt-10 border-t">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">How to Sign PDF Online?</h2>
+                    <p class="text-gray-700 mb-4 leading-relaxed">
+                        The PDF Mechanic allows you to electronically sign documents without printing or scanning. Our <strong>eSign PDF tool</strong> is fast, free, and secure.
+                    </p>
+                    <ul class="list-disc pl-5 text-gray-700 space-y-2 mb-4">
+                        <li><strong>Draw Signature:</strong> Use your mouse or finger to draw a signature.</li>
+                        <li><strong>Upload Image:</strong> Use a scanned image of your signature.</li>
+                        <li><strong>Secure:</strong> Files are processed locally on your device.</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 mb-8">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4">Steps to Sign</h3>
+                        <ol class="list-decimal pl-5 text-gray-700 space-y-3">
+                            <li>Upload your PDF file.</li>
+                            <li>Click <strong>Create Signature</strong> to draw.</li>
+                            <li>Drag the signature to the correct position.</li>
+                            <li>Click <strong>Download PDF</strong>.</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">FAQ</h3>
+                        <div class="space-y-4">
+                            <details class="group bg-white p-4 rounded-lg shadow-sm border border-gray-100 cursor-pointer">
+                                <summary class="flex justify-between items-center font-medium">
+                                    <span>Is it free?</span>
+                                    <span class="transition group-open:rotate-180 text-brand"><i class="fa-solid fa-chevron-down"></i></span>
+                                </summary>
+                                <p class="text-gray-600 mt-2 text-sm">Yes, completely free with no limits.</p>
+                            </details>
+                            <details class="group bg-white p-4 rounded-lg shadow-sm border border-gray-100 cursor-pointer">
+                                <summary class="flex justify-between items-center font-medium">
+                                    <span>Is my signature saved?</span>
+                                    <span class="transition group-open:rotate-180 text-brand"><i class="fa-solid fa-chevron-down"></i></span>
+                                </summary>
+                                <p class="text-gray-600 mt-2 text-sm">No. For security, we do not store your signature or documents on our servers.</p>
+                            </details>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-auto bg-gray-900 text-white pt-10 pb-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">The PDF Mechanic</h3>
+                    <p class="text-gray-400 text-sm">Secure, client-side PDF tools designed for privacy.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Tools</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="compressor.html" class="hover:text-brand transition">Compress PDF</a></li>
+                        <li><a href="merger.html" class="hover:text-brand transition">Merge PDF</a></li>
+                        <li><a href="pdf-editor.html" class="hover:text-brand transition">Edit PDF</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Feedback</h4>
+                    <p class="text-sm text-gray-400">Please leave your feedback and report any problem.</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
+                <p>© <span id="year"></span> The PDF Mechanic.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="signature-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50 backdrop-blur-sm">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full shadow-2xl transform transition-all scale-100">
+            <h3 class="text-xl font-bold mb-4 text-gray-800">Draw Signature</h3>
+            <div class="border-2 border-gray-200 rounded-lg mb-4 bg-gray-50">
+                <canvas id="signature-pad" class="w-full h-48 cursor-crosshair touch-none"></canvas>
+            </div>
+            <div class="flex justify-between items-center">
+                <button onclick="clearSignature()" class="text-red-500 text-sm font-semibold hover:text-red-700 transition"><i class="fa-solid fa-eraser"></i> Clear</button>
+                <div class="flex gap-3">
+                    <button onclick="closeModal()" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg font-medium transition">Cancel</button>
+                    <button onclick="saveSignature()" class="px-5 py-2 bg-brand text-white rounded-lg hover:bg-brandDark font-bold shadow-md transition">Use Signature</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Variables
+        let pdfDoc = null;
+        // pdfBytes variable removed as we read file directly
+        const uploadArea = document.getElementById('uploadArea');
+        const editorArea = document.getElementById('editorArea');
+        const loading = document.getElementById('loading');
+        const pdfUpload = document.getElementById('pdf-upload');
+        const pdfCanvas = document.getElementById('pdf-render');
+        const signaturePadCanvas = document.getElementById('signature-pad');
+        const dragItem = document.getElementById('draggable-signature');
+        const modal = document.getElementById('signature-modal');
+        const sizeSlider = document.getElementById('size-slider');
+        
+        let signaturePad;
+
+        window.onload = () => {
+             signaturePad = new SignaturePad(signaturePadCanvas);
+             if (typeof PDFLib === 'undefined') {
+                 alert("Error: PDF Libraries failed to load. Please check internet connection.");
+             }
+        };
+
+        // 1. Handle PDF Upload (View Only)
+        pdfUpload.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            uploadArea.classList.add('hidden');
+            loading.classList.remove('hidden');
+
+            const reader = new FileReader();
+            reader.onload = async function() {
+                try {
+                    const viewBytes = new Uint8Array(this.result); 
+                    const loadingTask = pdfjsLib.getDocument({ data: viewBytes });
+                    pdfDoc = await loadingTask.promise;
+                    
+                    loading.classList.add('hidden');
+                    editorArea.classList.remove('hidden');
+
+                    renderPage(1); 
+                } catch (err) {
+                    alert("PDF Load Error: " + err.message);
+                    location.reload();
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        });
+
+        // 2. Render PDF Page
+        let scale = 1.5; 
+        let viewport = null;
+
+        async function renderPage(num) {
+            const page = await pdfDoc.getPage(num);
+            viewport = page.getViewport({ scale: scale });
+            const context = pdfCanvas.getContext('2d');
+            pdfCanvas.height = viewport.height;
+            pdfCanvas.width = viewport.width;
+
+            const renderContext = { canvasContext: context, viewport: viewport };
+            await page.render(renderContext).promise;
+            
+            const wrapper = document.getElementById('pdf-wrapper');
+            wrapper.style.width = `${viewport.width}px`;
+            wrapper.style.height = `${viewport.height}px`;
+        }
+
+        // 3. Signature Modal Logic
+        function openSignatureModal() {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            signaturePad.clear();
+            
+            // Fix canvas resolution
+            const ratio = Math.max(window.devicePixelRatio || 1, 1);
+            signaturePadCanvas.width = signaturePadCanvas.offsetWidth * ratio;
+            signaturePadCanvas.height = signaturePadCanvas.offsetHeight * ratio;
+            signaturePadCanvas.getContext("2d").scale(ratio, ratio);
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function clearSignature() {
+            signaturePad.clear();
+        }
+
+        function saveSignature() {
+            if (signaturePad.isEmpty()) {
+                alert("Please draw a signature first.");
+                return;
+            }
+            const dataURL = signaturePad.toDataURL(); 
+            placeSignatureOnCanvas(dataURL);
+            closeModal();
+        }
+
+        // 4. Image Upload Logic
+        document.getElementById('image-upload').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                placeSignatureOnCanvas(event.target.result);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        function placeSignatureOnCanvas(imgSrc) {
+            dragItem.src = imgSrc;
+            dragItem.classList.remove('hidden');
+            dragItem.style.top = '50px';
+            dragItem.style.left = '50px';
+        }
+
+        // 5. Drag and Drop Logic
+        let isDragging = false;
+        let startX, startY, initialLeft, initialTop;
+
+        dragItem.addEventListener('mousedown', startDrag);
+        dragItem.addEventListener('touchstart', startDrag, {passive: false});
+
+        function startDrag(e) {
+            e.preventDefault(); 
+            isDragging = true;
+            const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+            const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+            startX = clientX;
+            startY = clientY;
+            initialLeft = dragItem.offsetLeft;
+            initialTop = dragItem.offsetTop;
+
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('touchmove', drag, {passive: false});
+            document.addEventListener('mouseup', stopDrag);
+            document.addEventListener('touchend', stopDrag);
+        }
+
+        function drag(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+            const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+            const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+            const dx = clientX - startX;
+            const dy = clientY - startY;
+
+            let newLeft = initialLeft + dx;
+            let newTop = initialTop + dy;
+            
+            const wrapper = document.getElementById('pdf-wrapper');
+            const maxW = wrapper.offsetWidth - dragItem.offsetWidth;
+            const maxH = wrapper.offsetHeight - dragItem.offsetHeight;
+
+            if(newLeft < 0) newLeft = 0; if(newTop < 0) newTop = 0;
+            if(newLeft > maxW) newLeft = maxW; if(newTop > maxH) newTop = maxH;
+
+            dragItem.style.left = `${newLeft}px`;
+            dragItem.style.top = `${newTop}px`;
+        }
+
+        function stopDrag() {
+            isDragging = false;
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('touchmove', drag);
+            document.removeEventListener('mouseup', stopDrag);
+            document.removeEventListener('touchend', stopDrag);
+        }
+
+        sizeSlider.addEventListener('input', (e) => {
+            dragItem.style.width = `${e.target.value}px`;
+        });
+
+        // 7. DOWNLOAD LOGIC (Robust Method)
+        document.getElementById('download-btn').addEventListener('click', async () => {
+            
+            if (dragItem.classList.contains('hidden') || !dragItem.src) {
+                alert("Please add a signature first.");
+                return;
+            }
+
+            // FRESH READ of File
+            const fileInput = document.getElementById('pdf-upload');
+            if (!fileInput.files || !fileInput.files[0]) {
+                alert("Source file not found. Please refresh.");
+                return;
+            }
+
+            const btn = document.getElementById('download-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
+            btn.disabled = true;
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = async function() {
+                try {
+                    const freshBytes = new Uint8Array(this.result);
+                    
+                    const { PDFDocument } = PDFLib;
+                    const pdfDocNew = await PDFDocument.load(freshBytes);
+                    const pages = pdfDocNew.getPages();
+                    const firstPage = pages[0]; 
+
+                    // Image Embedding
+                    const imageSrc = dragItem.src;
+                    let signatureImage;
+                    const imageBytes = await fetch(imageSrc).then(res => res.arrayBuffer());
+
+                    if (imageSrc.startsWith('data:image/jpeg') || imageSrc.startsWith('data:image/jpg')) {
+                        signatureImage = await pdfDocNew.embedJpg(imageBytes);
+                    } else {
+                        signatureImage = await pdfDocNew.embedPng(imageBytes);
+                    }
+
+                    // Calculations
+                    const pdfWidth = firstPage.getWidth();
+                    const pdfHeight = firstPage.getHeight();
+                    const wrapper = document.getElementById('pdf-wrapper');
+                    
+                    const visualWidth = wrapper.offsetWidth;
+                    const visualHeight = wrapper.offsetHeight;
+                    
+                    const sigX = dragItem.offsetLeft;
+                    const sigY = dragItem.offsetTop;
+                    const sigW = dragItem.offsetWidth;
+                    const sigH = dragItem.offsetHeight;
+
+                    const scaleX = pdfWidth / visualWidth;
+                    const scaleY = pdfHeight / visualHeight;
+
+                    const finalX = sigX * scaleX;
+                    const finalY = pdfHeight - ((sigY + sigH) * scaleY); 
+                    const finalW = sigW * scaleX;
+                    const finalH = sigH * scaleY;
+
+                    firstPage.drawImage(signatureImage, {
+                        x: finalX,
+                        y: finalY,
+                        width: finalW,
+                        height: finalH,
+                    });
+
+                    const pdfBytesSaved = await pdfDocNew.save();
+                    const blob = new Blob([pdfBytesSaved], { type: 'application/pdf' });
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = 'signed_document_PDF_Mechanic.pdf';
+                    link.click();
+                    
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+
+                } catch (error) {
+                    console.error(error);
+                    alert("Error saving PDF: " + error.message);
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
+            };
+            
+            reader.readAsArrayBuffer(file);
+        });
+    </script>
+</body>
+</html>
