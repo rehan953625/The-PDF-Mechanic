@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>Rotate PDF Pages Free | Save Permanently - The PDF Mechanic</title>
+    <meta name="description" content="Rotate PDF pages 90, 180, or 270 degrees securely in your browser. No upload required. Free online PDF rotator tool for permanent changes." />
+    <meta name="keywords" content="rotate pdf, pdf rotator, rotate pdf pages, turn pdf, pdf page orientation, free pdf tools" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://yourwebsite.com/rotate-pdf.html" /> <meta property="og:type" content="website" />
+    <meta property="og:title" content="Rotate PDF Pages Free - The PDF Mechanic" />
+    <meta property="og:description" content="Rotate PDF files securely on your device. No file uploads. Fast and free." />
+    <meta property="og:image" content="https://yourwebsite.com/images/og-rotate.png" />
+    <meta property="og:url" content="https://yourwebsite.com/rotate-pdf.html" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Rotate PDF Pages Free" />
+    <meta name="twitter:description" content="Rotate individual or all PDF pages securely without uploading." />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Rotate PDF Tool",
+      "operatingSystem": "Any",
+      "applicationCategory": "Productivity",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A free online tool to rotate PDF pages securely in the browser."
+    }
+    </script>
+    
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        
+        // PURPLE THEME (#8b5cf6) for Rotate Tool
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { brand: '#8b5cf6', brandDark: '#7c3aed', bg: '#F3F4F6' },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-bg text-gray-900 flex flex-col min-h-screen">
+
+    <nav class="w-full bg-brand text-white shadow-lg relative z-20">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="index.html" class="font-bold text-xl flex items-center gap-2 hover:opacity-90 transition">
+                <i class="fa-solid fa-screwdriver-wrench"></i> The PDF Mechanic
+            </a>
+            <div class="hidden md:flex gap-6 text-sm font-medium">
+                <a href="merger.html" class="hover:text-gray-200 transition">Merge</a>
+                <a href="compressor.html" class="hover:text-gray-200 transition">Compress</a>
+                <a href="index.html" class="bg-white/20 px-3 py-1 rounded hover:bg-white/30 transition">All Tools</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 py-3">
+        <nav class="flex text-sm text-gray-500" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1">
+                <li><a href="index.html" class="hover:text-brand">Home</a></li>
+                <li><i class="fa-solid fa-chevron-right text-xs mx-2"></i></li>
+                <li class="text-gray-800 font-medium" aria-current="page">Rotate PDF</li>
+            </ol>
+        </nav>
+    </div>
+
+    <main class="flex-grow max-w-6xl mx-auto px-4 py-8 w-full">
+        
+        <div class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Rotate PDF Pages</h1>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">Permanently rotate your PDF pages. Select individual pages or rotate the entire document instantly.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-6 border-t-4 border-brand min-h-[400px]">
+            
+            <div id="uploadArea" class="border-2 border-dashed border-gray-300 rounded-xl p-10 text-center hover:bg-gray-50 transition cursor-pointer group" onclick="document.getElementById('fileInput').click()">
+                <input type="file" id="fileInput" accept="application/pdf" class="hidden" onchange="handleFileSelect(event)">
+                <div class="text-brand text-6xl mb-6 group-hover:scale-110 transition duration-300 transform"><i class="fa-solid fa-rotate-right"></i></div>
+                <h3 class="text-2xl font-bold text-gray-700 mb-2">Select PDF file</h3>
+                <p class="text-gray-500">or drop PDF here</p>
+            </div>
+
+            <div id="loading" class="hidden text-center py-16">
+                <i class="fa-solid fa-circle-notch fa-spin text-brand text-5xl"></i>
+                <p class="text-gray-600 mt-6 text-lg font-medium">Processing pages...</p>
+            </div>
+
+            <div id="editorArea" class="hidden">
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6 sticky top-0 bg-white z-10 py-4 border-b shadow-sm">
+                    <div class="flex gap-3">
+                        <button onclick="rotateAll(90)" class="px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-700 font-bold flex items-center gap-2 transition">
+                            <i class="fa-solid fa-rotate-right"></i> Rotate All Right
+                        </button>
+                        <button onclick="rotateAll(-90)" class="px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-700 font-bold flex items-center gap-2 transition">
+                            <i class="fa-solid fa-rotate-left"></i> Rotate All Left
+                        </button>
+                    </div>
+                    <button onclick="savePDF()" id="saveBtn" class="bg-brand text-white px-8 py-2.5 rounded-lg font-bold hover:bg-brandDark transition shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                        <i class="fa-solid fa-download"></i> Apply & Download
+                    </button>
+                </div>
+
+                <div id="pagesGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 p-4 bg-gray-50 rounded-xl border border-gray-100"></div>
+            </div>
+
+            <div id="resultArea" class="hidden mt-8 text-center pt-10 pb-6">
+                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
+                    <i class="fa-solid fa-check text-green-600 text-4xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-2">Success!</h3>
+                <p class="text-gray-600 mb-8">Your PDF has been rotated and saved.</p>
+                
+                <div class="flex flex-col md:flex-row justify-center gap-4">
+                    <a id="downloadLink" class="inline-flex justify-center items-center gap-2 bg-green-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-green-700 shadow-lg cursor-pointer transition transform hover:-translate-y-1">
+                        <i class="fa-solid fa-download"></i> Download
+                    </a>
+                    <button onclick="location.reload()" class="inline-flex justify-center items-center gap-2 bg-gray-800 text-white px-8 py-3 rounded-lg font-bold hover:bg-gray-900 shadow-lg transition">
+                        <i class="fa-solid fa-arrow-rotate-right"></i> Rotate Another
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <section class="mt-20 pt-10 border-t border-gray-200">
+            <div class="grid md:grid-cols-2 gap-12">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Why use this PDF Rotator?</h2>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-shield-halved text-brand mt-1"></i> <span><strong>100% Secure:</strong> Files are processed in your browser. No data leaves your device.</span></li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-bolt text-brand mt-1"></i> <span><strong>Fast & Free:</strong> No waiting for uploads. Rotate large files instantly.</span></li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check-double text-brand mt-1"></i> <span><strong>Flexible:</strong> Rotate single pages or the whole document.</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">How it works</h2>
+                    <p class="text-gray-600 mb-4">Sometimes scanned documents are upside down or in landscape mode when they should be portrait. Our tool fixes this in seconds.</p>
+                    <p class="text-gray-600">Simply upload, click the rotate buttons on the pages that need fixing, and download your corrected PDF.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-900 text-white pt-12 pb-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 border-b border-gray-800 pb-8">
+                
+                <div class="md:col-span-1">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-screwdriver-wrench text-brand"></i> PDF Mechanic
+                    </h3>
+                    <p class="text-gray-400 text-sm mb-4">A complete suite of PDF tools that works entirely in your browser. Secure, private, and free forever.</p>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Core Tools</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="merger.html" class="hover:text-brand transition flex items-center gap-2"><i class="fa-solid fa-layer-group text-xs"></i> Merge PDF</a></li>
+                        <li><a href="compressor.html" class="hover:text-brand transition flex items-center gap-2"><i class="fa-solid fa-compress text-xs"></i> Compress PDF</a></li>
+                        <li><a href="splitter.html" class="hover:text-brand transition flex items-center gap-2"><i class="fa-solid fa-scissors text-xs"></i> Split PDF</a></li>
+                        <li><a href="delete-pages.html" class="hover:text-brand transition flex items-center gap-2"><i class="fa-solid fa-trash text-xs"></i> Delete Pages</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Convert</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="images-to-pdf.html" class="hover:text-brand transition flex items-center gap-2"><i class="fa-solid fa-image text-xs"></i> JPG to PDF</a></li>
+                        <li><a href="pdf-to-images.html" class="hover:text-brand transition flex items-center gap-2"><i class="fa-solid fa-file-image text-xs"></i> PDF to JPG</a></li>
+                        <li><a href="pdf-to-word.html" class="hover:text-brand transition flex items-center gap-2"><i class="fa-solid fa-file-word text-xs"></i> PDF to Word</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Support</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-brand transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-brand transition">Terms of Use</a></li>
+                        <li><a href="#" class="hover:text-brand transition">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-between items-center pt-4 text-sm text-gray-500">
+                <p>© <span id="year"></span> The PDF Mechanic. All rights reserved.</p>
+                <div class="flex gap-4 mt-2 md:mt-0">
+                    <a href="#" class="hover:text-white transition"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="hover:text-white transition"><i class="fa-brands fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        let pdfDoc = null;
+        let pdfBytes = null;
+        let pageRotations = [];
+
+        async function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file || file.type !== 'application/pdf') return;
+
+            document.getElementById('uploadArea').classList.add('hidden');
+            document.getElementById('loading').classList.remove('hidden');
+
+            try {
+                pdfBytes = await file.arrayBuffer();
+                const loadingTask = pdfjsLib.getDocument(pdfBytes.slice(0));
+                pdfDoc = await loadingTask.promise;
+                
+                pageRotations = new Array(pdfDoc.numPages).fill(0);
+
+                await renderGrid();
+                
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('editorArea').classList.remove('hidden');
+
+            } catch (err) {
+                console.error(err);
+                alert("Error loading PDF. Please try a standard PDF file.");
+                location.reload();
+            }
+        }
+
+        async function renderGrid() {
+            const grid = document.getElementById('pagesGrid');
+            grid.innerHTML = '';
+
+            for (let i = 1; i <= pdfDoc.numPages; i++) {
+                const div = document.createElement('div');
+                div.className = 'relative flex flex-col items-center bg-white p-3 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition';
+                div.id = `page-container-${i}`;
+
+                const imgWrapper = document.createElement('div');
+                imgWrapper.className = 'transition-transform duration-300 ease-in-out border border-gray-200 mb-3 overflow-hidden rounded bg-gray-50';
+                imgWrapper.style.width = '100%';
+                imgWrapper.id = `img-wrapper-${i}`;
+
+                const canvas = document.createElement('canvas');
+                canvas.className = 'w-full h-auto block';
+                const context = canvas.getContext('2d');
+                
+                const page = await pdfDoc.getPage(i);
+                const viewport = page.getViewport({ scale: 0.25 }); // Slightly smaller for better grid
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                imgWrapper.appendChild(canvas);
+                
+                const controls = document.createElement('div');
+                controls.className = 'flex gap-3 mt-auto items-center justify-center w-full';
+                controls.innerHTML = `
+                    <button onclick="rotatePage(${i}, -90)" class="w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-brand hover:text-white rounded-full transition text-gray-600" title="Rotate Left"><i class="fa-solid fa-rotate-left text-xs"></i></button>
+                    <span class="text-xs font-bold text-gray-400 select-none">${i}</span>
+                    <button onclick="rotatePage(${i}, 90)" class="w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-brand hover:text-white rounded-full transition text-gray-600" title="Rotate Right"><i class="fa-solid fa-rotate-right text-xs"></i></button>
+                `;
+
+                div.appendChild(imgWrapper);
+                div.appendChild(controls);
+                grid.appendChild(div);
+
+                page.render({ canvasContext: context, viewport: viewport });
+            }
+        }
+
+        function rotatePage(pageNum, degrees) {
+            const index = pageNum - 1;
+            pageRotations[index] = (pageRotations[index] + degrees) % 360;
+            const wrapper = document.getElementById(`img-wrapper-${pageNum}`);
+            wrapper.style.transform = `rotate(${pageRotations[index]}deg)`;
+        }
+
+        function rotateAll(degrees) {
+            for (let i = 0; i < pageRotations.length; i++) {
+                pageRotations[i] = (pageRotations[i] + degrees) % 360;
+                const wrapper = document.getElementById(`img-wrapper-${i+1}`);
+                if(wrapper) wrapper.style.transform = `rotate(${pageRotations[i]}deg)`;
+            }
+        }
+
+        async function savePDF() {
+            const btn = document.getElementById('saveBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
+            btn.disabled = true;
+
+            try {
+                const { PDFDocument, degrees } = PDFLib;
+                const pdfDocNew = await PDFDocument.load(pdfBytes);
+                const pages = pdfDocNew.getPages();
+
+                for (let i = 0; i < pages.length; i++) {
+                    const page = pages[i];
+                    const rotation = pageRotations[i];
+                    const currentRotation = page.getRotation().angle;
+                    page.setRotation(degrees(currentRotation + rotation));
+                }
+
+                const pdfData = await pdfDocNew.save();
+                const blob = new Blob([pdfData], { type: 'application/pdf' });
+                showResult(blob);
+
+            } catch (err) {
+                console.error(err);
+                alert("Error saving PDF.");
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        function showResult(blob) {
+            document.getElementById('editorArea').classList.add('hidden');
+            document.getElementById('resultArea').classList.remove('hidden');
+            const url = URL.createObjectURL(blob);
+            const link = document.getElementById('downloadLink');
+            link.href = url;
+            link.download = 'rotated_document_mechanic.pdf';
+        }
+    </script>
+</body>
+</html>
