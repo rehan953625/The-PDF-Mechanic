@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>Encrypt PDF Online | Password Protect PDF Files Securely - The PDF Mechanic</title>
+    <meta name="description" content="Secure your PDF with a password instantly. The PDF Mechanic provides free, client-side encryption. Your files never leave your device." />
+    <meta name="keywords" content="protect pdf, encrypt pdf, password protect pdf, secure pdf, lock pdf, add password to pdf, free pdf security" />
+    <meta name="author" content="The PDF Mechanic" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.pdfmechanic.com/protect-pdf.html" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Encrypt PDF Online - Free & Secure Tool" />
+    <meta property="og:description" content="Add a strong password to your PDF files directly in your browser. No upload required." />
+    <meta property="og:image" content="https://www.pdfmechanic.com/images/og-protect.png" />
+    <meta property="og:url" content="https://www.pdfmechanic.com/protect-pdf.html" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Encrypt PDF Online" />
+    <meta name="twitter:description" content="Secure PDF files locally. 100% Private." />
+
+    <script type="application/ld+json">
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Protect PDF Tool",
+        "operatingSystem": "Web Browser",
+        "applicationCategory": "SecurityApplication",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "description": "Free tool to password-protect PDF files client-side."
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{
+          "@type": "Question",
+          "name": "Is it safe to protect PDF online?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, with The PDF Mechanic, encryption happens locally in your browser. Your file is never uploaded to any server."
+          }
+        }, {
+          "@type": "Question",
+          "name": "Can I remove the password later?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, if you know the password, you can use our Unlock PDF tool to remove it."
+          }
+        }]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": "How to Password Protect a PDF",
+        "step": [
+          { "@type": "HowToStep", "name": "Upload PDF", "text": "Select the PDF file you want to secure." },
+          { "@type": "HowToStep", "name": "Set Password", "text": "Enter and confirm your desired password." },
+          { "@type": "HowToStep", "name": "Download", "text": "Click Protect and download your encrypted file." }
+        ]
+      }
+    ]
+    </script>
+    
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { brand: '#b91c1c', brandDark: '#991b1b', bg: '#F3F4F6' },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-bg text-gray-900 flex flex-col min-h-screen">
+
+    <nav class="w-full bg-brand text-white shadow-lg relative z-20">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="index.html" class="font-bold text-xl flex items-center gap-2 hover:opacity-90 transition">
+                <i class="fa-solid fa-shield-halved"></i> The PDF Mechanic
+            </a>
+            <div class="hidden md:flex gap-6 text-sm font-medium">
+                <a href="merger.html" class="hover:text-gray-200 transition">Merge</a>
+                <a href="compressor.html" class="hover:text-gray-200 transition">Compress</a>
+                <a href="index.html" class="bg-white/20 px-3 py-1 rounded hover:bg-white/30 transition">All Tools</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 py-3">
+        <nav class="flex text-sm text-gray-500" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1">
+                <li><a href="index.html" class="hover:text-brand">Home</a></li>
+                <li><i class="fa-solid fa-chevron-right text-xs mx-2"></i></li>
+                <li class="text-gray-800 font-medium" aria-current="page">Protect PDF</li>
+            </ol>
+        </nav>
+    </div>
+
+    <main class="flex-grow max-w-5xl mx-auto px-4 py-8 w-full">
+        
+        <div class="text-center mb-10">
+            <h1 class="text-3xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">Protect PDF with Password</h1>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">Secure your confidential documents with bank-level encryption. <br><span class="text-brand font-semibold">100% Free & Private</span> – No file uploads.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-6 md:p-10 border-t-4 border-brand min-h-[400px] transition-all duration-300">
+            
+            <div id="uploadArea" class="border-2 border-dashed border-gray-300 rounded-xl p-12 text-center hover:bg-red-50 hover:border-brand transition cursor-pointer group" onclick="document.getElementById('fileInput').click()">
+                <input type="file" id="fileInput" accept=".pdf" class="hidden">
+                <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition duration-300">
+                    <i class="fa-solid fa-lock text-brand text-3xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-2">Choose PDF File</h3>
+                <p class="text-gray-500">or drop file here</p>
+                <button class="mt-6 bg-brand text-white px-6 py-2 rounded-lg font-medium shadow hover:bg-brandDark transition">Select File</button>
+            </div>
+
+            <div id="passwordArea" class="hidden animate-fade-in max-w-lg mx-auto">
+                
+                <div class="flex items-center justify-between bg-gray-50 p-4 rounded-lg border border-gray-200 mb-8">
+                    <div class="flex items-center gap-4">
+                        <i class="fa-solid fa-file-pdf text-brand text-2xl"></i>
+                        <div class="text-left">
+                            <p id="fileName" class="font-semibold text-gray-800 truncate w-40 md:w-60">filename.pdf</p>
+                            <p id="fileSize" class="text-xs text-gray-500">0 KB</p>
+                        </div>
+                    </div>
+                    <button onclick="location.reload()" class="text-gray-400 hover:text-red-600 transition p-2" title="Change File">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-5">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2 ml-1" for="password">Enter Password</label>
+                        <div class="relative">
+                            <input type="password" id="password" placeholder="Create a strong password" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-brand focus:ring-4 focus:ring-red-100 outline-none transition font-medium">
+                            <button onclick="togglePass('password')" class="absolute right-4 top-3.5 text-gray-400 hover:text-brand"><i class="fa-solid fa-eye"></i></button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2 ml-1" for="confirmPassword">Confirm Password</label>
+                        <div class="relative">
+                            <input type="password" id="confirmPassword" placeholder="Repeat your password" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-brand focus:ring-4 focus:ring-red-100 outline-none transition font-medium">
+                        </div>
+                        <p id="errorMsg" class="hidden text-red-600 text-xs mt-2 font-medium"><i class="fa-solid fa-circle-exclamation"></i> Passwords do not match.</p>
+                    </div>
+
+                    <button onclick="protectPDF()" id="protectBtn" class="w-full bg-brand text-white text-lg font-bold py-4 rounded-xl hover:bg-brandDark shadow-lg hover:shadow-xl transition transform active:scale-95 flex items-center justify-center gap-2 mt-4">
+                        Encrypt PDF <i class="fa-solid fa-shield-halved"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="resultArea" class="hidden text-center py-10">
+                <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+                    <i class="fa-solid fa-check text-green-600 text-5xl"></i>
+                </div>
+                <h3 class="text-3xl font-bold text-gray-900 mb-2">Secured Successfully!</h3>
+                <p class="text-gray-600 mb-8">Your document is now password protected.</p>
+                
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a id="downloadLink" class="inline-flex justify-center items-center gap-2 bg-green-600 text-white px-8 py-3.5 rounded-lg font-bold hover:bg-green-700 shadow-lg cursor-pointer transition transform hover:-translate-y-1 w-full sm:w-auto">
+                        <i class="fa-solid fa-download"></i> Download PDF
+                    </a>
+                    <button onclick="location.reload()" class="inline-flex justify-center items-center gap-2 bg-gray-800 text-white px-8 py-3.5 rounded-lg font-bold hover:bg-gray-900 shadow-lg transition w-full sm:w-auto">
+                        <i class="fa-solid fa-arrow-rotate-right"></i> Protect Another
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <section class="mt-20 space-y-12">
+            
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">How to Password Protect a PDF File?</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="flex flex-col gap-3">
+                        <span class="w-10 h-10 rounded-full bg-red-100 text-brand font-bold flex items-center justify-center text-lg">1</span>
+                        <h3 class="font-bold text-gray-800 text-lg">Upload File</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">Click 'Choose PDF File' to select the document you want to encrypt from your device.</p>
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <span class="w-10 h-10 rounded-full bg-red-100 text-brand font-bold flex items-center justify-center text-lg">2</span>
+                        <h3 class="font-bold text-gray-800 text-lg">Set Password</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">Enter a strong password. We recommend mixing letters, numbers, and symbols for maximum security.</p>
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <span class="w-10 h-10 rounded-full bg-red-100 text-brand font-bold flex items-center justify-center text-lg">3</span>
+                        <h3 class="font-bold text-gray-800 text-lg">Download</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">Click 'Encrypt PDF'. Your file will be processed instantly and ready for download.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-10">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-5">Why use The PDF Mechanic?</h2>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <div class="mt-1 bg-green-100 p-1 rounded"><i class="fa-solid fa-shield-halved text-green-600 text-sm"></i></div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">100% Client-Side Security</h4>
+                                <p class="text-gray-600 text-sm">Your files are encrypted directly in your browser using WebAssembly. We never see your data.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="mt-1 bg-blue-100 p-1 rounded"><i class="fa-solid fa-bolt text-blue-600 text-sm"></i></div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">Instant Encryption</h4>
+                                <p class="text-gray-600 text-sm">No waiting for uploads or downloads. Large files are processed in seconds.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="mt-1 bg-purple-100 p-1 rounded"><i class="fa-solid fa-laptop text-purple-600 text-sm"></i></div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">Cross-Platform</h4>
+                                <p class="text-gray-600 text-sm">Works on Windows, Mac, Linux, Android, and iOS devices seamlessly.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-5">Frequently Asked Questions</h2>
+                    <div class="space-y-4">
+                        <details class="group bg-gray-50 p-4 rounded-lg cursor-pointer">
+                            <summary class="font-semibold text-gray-800 flex justify-between items-center list-none">
+                                Is it safe to upload sensitive docs?
+                                <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-xs"></i></span>
+                            </summary>
+                            <p class="text-gray-600 text-sm mt-3 leading-relaxed">Yes. Unlike other tools, we do not upload your file to a server. The password is applied locally on your computer, making it impossible for anyone (including us) to intercept your file.</p>
+                        </details>
+                        <details class="group bg-gray-50 p-4 rounded-lg cursor-pointer">
+                            <summary class="font-semibold text-gray-800 flex justify-between items-center list-none">
+                                Which encryption method is used?
+                                <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-xs"></i></span>
+                            </summary>
+                            <p class="text-gray-600 text-sm mt-3 leading-relaxed">We use standard 128-bit AES encryption, which is compatible with all major PDF viewers including Adobe Acrobat, Chrome, and Edge.</p>
+                        </details>
+                        <details class="group bg-gray-50 p-4 rounded-lg cursor-pointer">
+                            <summary class="font-semibold text-gray-800 flex justify-between items-center list-none">
+                                Can I recover a lost password?
+                                <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-xs"></i></span>
+                            </summary>
+                            <p class="text-gray-600 text-sm mt-3 leading-relaxed">No. Because we don't store your password or file, if you lose the password, the file cannot be recovered by us. Please remember your password!</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-900 text-white pt-12 pb-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 border-b border-gray-800 pb-8">
+                <div class="md:col-span-1">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-screwdriver-wrench text-brand"></i> PDF Mechanic</h3>
+                    <p class="text-gray-400 text-sm">Secure, client-side PDF tools designed for privacy and speed. Process documents without uploading data.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Core Tools</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="merger.html" class="hover:text-brand transition">Merge PDF</a></li>
+                        <li><a href="compressor.html" class="hover:text-brand transition">Compress PDF</a></li>
+                        <li><a href="splitter.html" class="hover:text-brand transition">Split PDF</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Convert</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="images-to-pdf.html" class="hover:text-brand transition">JPG to PDF</a></li>
+                        <li><a href="pdf-to-word.html" class="hover:text-brand transition">PDF to Word</a></li>
+                        <li><a href="rotate-pdf.html" class="hover:text-brand transition">Rotate PDF</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Support</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-brand transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-brand transition">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center text-sm text-gray-500">
+                <p>© <span id="year"></span> The PDF Mechanic. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+   <script>
+    // Global variable to store the selected file
+    let selectedFile = null;
+
+   // 1. File Selection Handle karne ke liye function
+   function handleFileSelect(event) {
+       const fileInput = event.target;
+       
+       if (fileInput.files.length > 0) {
+            setSelectedFile(fileInput.files[0]);
+        }
+    }
+    function setSelectedFile(file) {
+        selectedFile = file;
+        document.getElementById('uploadArea').classList.add('hidden');
+        document.getElementById('passwordArea').classList.remove('hidden');
+        document.getElementById('fileName').textContent = selectedFile.name;
+        let size = selectedFile.size / 1024;
+        let sizeText = size > 1024 ? (size / 1024).toFixed(2) + ' MB' : size.toFixed(0) + ' KB';
+        document.getElementById('fileSize').textContent = sizeText;
+    }
+
+    // Password visibility toggle karne ke liye helper
+    function togglePass(id) {
+        const input = document.getElementById(id);
+        if (input.type === "password") {
+            input.type = "text";
+        } else {
+            input.type = "password";
+        }
+    }
+    document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+    const uploadArea = document.getElementById('uploadArea');
+    uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); });
+    uploadArea.addEventListener('drop', (e) => { 
+        e.preventDefault(); 
+        const files = e.dataTransfer.files; 
+        if (files && files.length > 0) { 
+            const file = files[0]; 
+            if (/\\.pdf$/i.test(file.name)) { 
+                setSelectedFile(file); 
+            } else { 
+                alert('Please select a PDF file.'); 
+            } 
+        } 
+    });
+
+    // 2. Main Protect Function
+    async function protectPDF() {
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+        const errorMsg = document.getElementById("errorMsg");
+        const protectBtn = document.getElementById("protectBtn");
+
+        // Basic Validation
+        if (!selectedFile) {
+            alert("Please select a file first.");
+            return;
+        }
+
+        if (password.length < 6) {
+            alert("Password must be at least 6 characters long.");
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            errorMsg.classList.remove("hidden");
+            return;
+        } else {
+            errorMsg.classList.add("hidden");
+        }
+
+        // Button Loading State
+        const originalBtnText = protectBtn.innerHTML;
+        protectBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+        protectBtn.disabled = true;
+
+        try {
+            const arrayBuffer = await selectedFile.arrayBuffer();
+            const createModule = (await import('https://unpkg.com/@neslinesli93/qpdf-wasm@latest/dist/index.js')).default;
+            const qpdf = await createModule({ locateFile: () => 'https://unpkg.com/@neslinesli93/qpdf-wasm@latest/dist/qpdf.wasm', noInitialRun: true });
+            const inPath = '/in.pdf';
+            const outPath = '/out.pdf';
+            qpdf.FS.writeFile(inPath, new Uint8Array(arrayBuffer));
+            const args = ['--encrypt', password, password, '256', '--use-aes=y', '--modify=none', '--extract=n', '--print=none', '--', inPath, outPath];
+            qpdf.callMain(args);
+            const output = qpdf.FS.readFile(outPath);
+            const blob = new Blob([output], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+
+            // 3. Result Area Show karna
+            document.getElementById('passwordArea').classList.add('hidden');
+            document.getElementById('resultArea').classList.remove('hidden');
+
+            // Download Link set karna
+            const downloadLink = document.getElementById("downloadLink");
+            downloadLink.href = url;
+            downloadLink.download = selectedFile.name.replace(/\.pdf$/i, "") + "_protected.pdf";
+
+        } catch (err) {
+            console.error(err);
+            alert("Error: " + err.message);
+            // Reset button
+            protectBtn.innerHTML = originalBtnText;
+            protectBtn.disabled = false;
+        }
+    }
+</script>
+
+</body>
+</html>
