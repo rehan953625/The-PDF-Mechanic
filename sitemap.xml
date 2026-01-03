@@ -1,62 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-   <url>
-      <loc>https://www.thepdfmechanic.com/</loc>
-      <lastmod>2025-12-21</lastmod>
-      <priority>1.00</priority>
-   </url>
-   
-   <url>
-      <loc>https://www.thepdfmechanic.com/compressor.html</loc>
-      <lastmod>2025-12-21</lastmod>
-      <priority>0.90</priority>
-   </url>
-   
-   <url>
-      <loc>https://www.thepdfmechanic.com/merger.html</loc>
-      <lastmod>2025-12-21</lastmod>
-      <priority>0.80</priority>
-   </url>
-   
-   <url>
-      <loc>https://www.thepdfmechanic.com/splitter.html</loc>
-      <lastmod>2025-12-21</lastmod>
-      <priority>0.80</priority>
-   </url>
 
-   <url>
-      <loc>https://www.thepdfmechanic.com/delete-pages.html</loc>
-      <lastmod>2025-12-21</lastmod>
-      <priority>0.80</priority>
-   </url>
+  <url>
+    <loc>https://www.thepdfmechanic.com/</loc>
+    <priority>1.00</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://www.thepdfmechanic.com/index.html</loc>
+    <priority>0.80</priority>
+    <changefreq>daily</changefreq>
+  </url>
 
-   <url>
-      <loc>https://www.thepdfmechanic.com/pdf-editor.html</loc>
-      <lastmod>2025-12-21</lastmod>
-      <priority>0.85</priority>
-   </url>
+  <url>
+    <loc>https://www.thepdfmechanic.com/compressor.html</loc>
+    <priority>0.80</priority>
+    <changefreq>monthly</changefreq>
+  </url>
 
-   <url>
-      <loc>https://www.thepdfmechanic.com/pdf-to-word.html</loc>
-      <lastmod>2025-12-21</lastmod>
-      <priority>0.85</priority>
-   </url>
+  <url>
+    <loc>https://www.thepdfmechanic.com/pdf-to-word.html</loc>
+    <priority>0.80</priority>
+    <changefreq>monthly</changefreq>
+  </url>
 
-   <url>
-      <loc>https://www.thepdfmechanic.com/images-to-pdf.html</loc>
-      <lastmod>2025-12-21</lastmod>
-      <priority>0.85</priority>
-   </url>
+  <url>
+    <loc>https://www.thepdfmechanic.com/images-to-pdf.html</loc>
+    <priority>0.80</priority>
+    <changefreq>monthly</changefreq>
+  </url>
 
-   <url>
-      <loc>https://www.thepdfmechanic.com/pdf-to-images.html</loc>
-      <lastmod>2025-12-21</lastmod>
-      <priority>0.85</priority>
-   </url>
+  <url>
+    <loc>https://www.thepdfmechanic.com/merger.html</loc>
+    <priority>0.80</priority>
+    <changefreq>monthly</changefreq>
+  </url>
 
-   <url>
-      <loc>https://www.thepdfmechanic.com/reorder-pages.html</loc>
-      <lastmod>2025-12-21</lastmod>
-      <priority>0.70</priority>
-   </url>
+  <url>
+    <loc>https://www.thepdfmechanic.com/pdf-to-images.html</loc>
+    <priority>0.80</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.thepdfmechanic.com/pdf-editor.html</loc>
+    <priority>0.80</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.thepdfmechanic.com/esign-pdf.html</loc>
+    <priority>0.80</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.thepdfmechanic.com/pdf-to-excel.html</loc>
+    <priority>0.80</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.thepdfmechanic.com/splitter.html</loc>
+    <priority>0.80</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.thepdfmechanic.com/ocr.html</loc>
+    <priority>0.80</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.thepdfmechanic.com/word-to-pdf.html</loc>
+    <priority>0.80</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.thepdfmechanic.com/rotate-pdf.html</loc>
+    <priority>0.80</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.thepdfmechanic.com/delete-pages.html</loc>
+    <priority>0.80</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.thepdfmechanic.com/add-page-numbers.html</loc>
+    <priority>0.80</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.thepdfmechanic.com/watermark.html</loc>
+    <priority>0.80</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.thepdfmechanic.com/excel-to-pdf.html</loc>
+    <priority>0.80</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.thepdfmechanic.com/html-to-pdf.html</loc>
+    <priority>0.80</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.thepdfmechanic.com/reorder-pages.html</loc>
+    <priority>0.80</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
 </urlset>
