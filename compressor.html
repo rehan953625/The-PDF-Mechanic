@@ -239,7 +239,7 @@
                     <ul class="list-disc pl-5 text-gray-700 space-y-2 mb-4">
                         <li><strong>100% Secure:</strong> Unlike other websites, we do not upload your files to any server. Compression happens right inside your browser.</li>
                         <li><strong>Unlimited Free Usage:</strong> No hidden costs, no sign-ups, and no watermarks.</li>
-                        <li><strong>High Quality:</strong> Smart optimization algorithms ensure your text remains readable while reducing image size.</li>
+                        <li><strong>High Quality:</strong> This tool is optimized for scanned and image-based PDFs. Text-based PDFs may be converted into images to reduce file size securely inside your browser.</li>
                     </ul>
                 </div>
 
@@ -484,7 +484,26 @@
             document.getElementById('settingsArea').classList.add('hidden');
             document.getElementById('resultArea').classList.remove('hidden');
 
-            const newSize = blob.size;
+           const newSize = blob.size;
+
+// If compressed PDF is larger, return original file
+if (newSize >= originalSizeBytes) {
+  alert(
+    "Compression would increase file size.\n" +
+    "Your original PDF is already optimized."
+  );
+
+  const originalUrl = URL.createObjectURL(selectedFile);
+  const downloadLink = document.getElementById('downloadLink');
+  downloadLink.href = originalUrl;
+  downloadLink.download = selectedFile.name;
+
+  document.getElementById('newSizeDisplay').textContent =
+    formatBytes(originalSizeBytes);
+
+  return;
+}
+
             document.getElementById('oldSizeDisplay').textContent = formatBytes(originalSizeBytes);
             document.getElementById('newSizeDisplay').textContent = formatBytes(newSize);
 
@@ -513,5 +532,6 @@
     </script>
 </body>
 </html>
+
 
 
