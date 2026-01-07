@@ -1,39 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" class="scroll-smooth">
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     
-    <title>HTML to PDF Converter | URL & Code to PDF Free - The PDF Mechanic</title>
-    <meta name="description" content="Convert HTML files, code snippets, or website URLs to PDF instantly. High-fidelity rendering with live preview. 100% Free & Secure client-side tool." />
-    <meta name="keywords" content="html to pdf, website to pdf, url to pdf, convert html to pdf, save webpage as pdf, html code to pdf, free pdf tools" />
+    <title>HTML to PDF Converter | Save Webpage & Code as PDF - The PDF Mechanic</title>
+    <meta name="description" content="Convert HTML code, files, or website URLs to PDF instantly in your browser. Secure, client-side tool with live preview. No file uploads required.">
+    <meta name="keywords" content="html to pdf, webpage to pdf, save website as pdf, html code converter, client-side pdf tool, offline html to pdf, developer tools">
     <meta name="author" content="The PDF Mechanic" />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://www.pdfmechanic.com/html-to-pdf.html" />
+    <link rel="canonical" href="https://www.thepdfmechanic.com/html-to-pdf.html" />
 
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.pdfmechanic.com/html-to-pdf.html" />
-    <meta property="og:title" content="HTML to PDF - Free & Secure" />
-    <meta property="og:description" content="Convert HTML code or URLs to PDF with a single click." />
-    <meta property="og:image" content="https://www.pdfmechanic.com/og-html.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { brand: '#6366f1', brandDark: '#4f46e5', bg: '#F3F4F6' }, // Indigo Theme
-                    fontFamily: { sans: ['Inter', 'sans-serif'] }
-                }
-            }
+      tailwind.config = {
+        darkMode: 'class', 
+        theme: {
+          extend: {
+            colors: { 
+                brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a' },
+                dark: { bg: '#0f172a', card: '#1e293b', text: '#f8fafc', border: '#334155' } 
+            },
+            fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Outfit', 'sans-serif'] },
+            animation: { 'fade-in': 'fadeIn 0.5s ease-out' },
+            keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
+          }
         }
+      }
     </script>
 
     <script type="application/ld+json">
@@ -43,166 +41,138 @@
       "name": "HTML to PDF Converter",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "Web",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "description": "A free online tool to convert HTML files, code, and URLs to PDF format."
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [{
-        "@type": "Question",
-        "name": "How do I convert a website URL to PDF?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Go to the 'From URL' tab, paste the link, and click Fetch. Note that some websites may block access due to security policies."
-        }
-      },{
-        "@type": "Question",
-        "name": "Is the conversion accurate?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes, we use your browser's native rendering engine, so the PDF looks exactly like the webpage."
-        }
-      },{
-        "@type": "Question",
-        "name": "Can I edit the HTML before saving?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes! The tool includes a live code editor. You can modify text, styles, or layout before generating the PDF."
-        }
-      }]
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "description": "A free online tool to convert HTML files, code, and URLs to PDF format securely in the browser."
     }
     </script>
 
     <style>
-        /* Print Styles */
+        /* Shared Styles */
+        .glass-nav { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        .dark .glass-nav { background: rgba(15, 23, 42, 0.9); }
+
+        /* Editor Specific */
+        .code-editor {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b; /* Slate-800 */
+            color: #a5b4fc; /* Indigo-300 */
+            line-height: 1.5;
+        }
+
+        /* Print Logic - Crucial for Tool Functionality */
         @media print {
             body * { visibility: hidden; }
             #previewFrame, #previewFrame * { visibility: visible; }
             #previewFrame {
-                position: fixed;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                margin: 0;
-                padding: 0;
-                background: white;
-                box-shadow: none;
-                border: none;
-                z-index: 9999;
+                position: fixed; left: 0; top: 0; width: 100%; height: 100%;
+                margin: 0; padding: 0; background: white; z-index: 9999;
             }
-        }
-
-        /* Editor Style */
-        .code-editor {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #1e293b;
-            color: #a5b4fc;
-            line-height: 1.5;
-        }
-        
-        /* Iframe */
-        #previewFrame {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background-color: white;
-            display: block;
         }
     </style>
 </head>
-<body class="font-sans bg-bg text-gray-900 flex flex-col min-h-screen">
+<body class="font-sans bg-slate-50 text-slate-900 dark:bg-dark-bg dark:text-dark-text flex flex-col min-h-screen selection:bg-brand-500 selection:text-white transition-colors duration-300">
 
-    <nav class="w-full bg-brand text-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-            <a href="index.html" class="font-bold text-xl flex items-center gap-2 hover:opacity-90 transition">
-                <i class="fa-solid fa-code"></i> The PDF Mechanic
-            </a>
-            <a href="index.html" class="text-sm bg-white/10 px-3 py-1 rounded hover:bg-white/20 transition">Back to Tools</a>
+    <nav class="sticky top-0 z-50 glass-nav border-b border-slate-200 dark:border-dark-border transition-colors">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+          <a href="index.html" class="flex items-center gap-2 group">
+            <div class="w-9 h-9 bg-brand-600 rounded-lg flex items-center justify-center text-white text-lg shadow-lg group-hover:bg-brand-700 transition">
+                <i class="fa-solid fa-wrench"></i>
+            </div>
+            <span class="font-display font-bold text-xl tracking-tight">The PDF Mechanic</span>
+          </a>
+          
+          <div class="flex items-center gap-5">
+             <div class="hidden md:flex gap-6 text-sm font-medium">
+                <a href="index.html#tools-section" class="hover:text-brand-600 dark:hover:text-brand-400 transition">Tools</a>
+                <a href="index.html#guides" class="hover:text-brand-600 dark:hover:text-brand-400 transition">Guides</a>
+            </div>
+            <button id="themeToggle" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-yellow-400 flex items-center justify-center transition hover:ring-2 ring-brand-500" aria-label="Toggle Theme">
+                <i class="fa-solid fa-moon dark:hidden"></i>
+                <i class="fa-solid fa-sun hidden dark:block"></i>
+            </button>
+          </div>
         </div>
+      </div>
     </nav>
 
-    <div class="bg-white border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 py-3">
-            <nav class="flex text-sm text-gray-500">
-                <ol class="inline-flex items-center space-x-1">
-                    <li><a href="index.html" class="hover:text-brand">Home</a></li>
-                    <li><i class="fa-solid fa-chevron-right text-xs mx-2"></i></li>
-                    <li class="text-gray-800 font-medium">HTML to PDF</li>
-                </ol>
-            </nav>
+    <header class="pt-12 pb-8 text-center px-4">
+        <div class="max-w-3xl mx-auto">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300 text-xs font-semibold mb-4 border border-brand-100 dark:border-brand-800">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Developer Friendly
+            </div>
+            <h1 class="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 text-slate-900 dark:text-white">
+                Convert <span class="text-brand-600">HTML to PDF</span> Instantly
+            </h1>
+            <p class="text-slate-600 dark:text-slate-400 text-lg max-w-xl mx-auto">
+                Turn raw HTML code, local files, or live URLs into high-fidelity PDF documents. 100% Client-side rendering.
+            </p>
         </div>
-    </div>
+    </header>
 
-    <main class="flex-grow max-w-7xl mx-auto px-4 py-12 w-full">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         
-        <div class="text-center mb-10">
-            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Convert HTML to PDF</h1>
-            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Turn Webpages, HTML files, or raw code into PDF documents instantly. Built for developers and professionals.</p>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow-xl border-t-8 border-brand overflow-hidden mb-16">
+        <div class="bg-white dark:bg-dark-card rounded-2xl shadow-xl border border-slate-200 dark:border-dark-border overflow-hidden">
             
-            <div class="p-4 md:p-8">
+            <div class="p-4 md:p-6 border-b border-slate-200 dark:border-slate-700 flex flex-col md:flex-row justify-between items-center gap-4">
                 
-                <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-                    
-                    <div class="flex bg-gray-100 p-1 rounded-lg">
-                        <button onclick="switchTab('file')" id="tab-file" class="px-4 py-2 rounded-md font-bold text-sm shadow-sm bg-white text-brand transition">File Upload</button>
-                        <button onclick="switchTab('url')" id="tab-url" class="px-4 py-2 rounded-md font-bold text-sm text-gray-500 hover:text-gray-700 transition">From URL</button>
-                        <button onclick="switchTab('code')" id="tab-code" class="px-4 py-2 rounded-md font-bold text-sm text-gray-500 hover:text-gray-700 transition">Raw Code</button>
-                    </div>
-
-                    <div class="flex gap-3">
-                        <button onclick="printIframe()" class="bg-brand text-white px-6 py-2 rounded-lg font-bold shadow hover:bg-brandDark transition flex items-center gap-2 transform hover:-translate-y-1">
-                            <i class="fa-solid fa-print"></i> Save as PDF
-                        </button>
-                    </div>
+                <div class="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-lg">
+                    <button onclick="switchTab('file')" id="tab-file" class="px-4 py-2 rounded-md font-bold text-sm bg-white dark:bg-slate-700 shadow-sm text-brand-600 dark:text-brand-400 transition">Upload File</button>
+                    <button onclick="switchTab('url')" id="tab-url" class="px-4 py-2 rounded-md font-bold text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition">From URL</button>
+                    <button onclick="switchTab('code')" id="tab-code" class="px-4 py-2 rounded-md font-bold text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition">Raw Code</button>
                 </div>
 
+                <button onclick="printIframe()" class="w-full md:w-auto bg-brand-600 hover:bg-brand-700 text-white px-6 py-2.5 rounded-xl font-bold shadow-lg shadow-brand-500/20 transition flex items-center justify-center gap-2 transform active:scale-95">
+                    <i class="fa-solid fa-print"></i> Save as PDF
+                </button>
+            </div>
+
+            <div class="p-4 md:p-6">
                 <div id="input-section" class="mb-6">
                     
-                    <div id="view-file" class="block">
-                        <div class="border-3 border-dashed border-gray-300 rounded-xl p-8 text-center hover:bg-indigo-50 hover:border-brand transition cursor-pointer" onclick="document.getElementById('fileInput').click()">
+                    <div id="view-file" class="block animate-fade-in">
+                        <div class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl p-10 text-center hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:border-brand-500 transition cursor-pointer group" onclick="document.getElementById('fileInput').click()">
                             <input type="file" id="fileInput" accept=".html, .htm" class="hidden">
-                            <i class="fa-solid fa-cloud-arrow-up text-4xl text-brand mb-2"></i>
-                            <p class="font-bold text-gray-700">Click to Upload HTML File</p>
-                            <p class="text-xs text-gray-500">Supports .html, .htm</p>
+                            <div class="w-16 h-16 bg-brand-100 dark:bg-brand-900/30 text-brand-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition">
+                                <i class="fa-solid fa-cloud-arrow-up text-2xl"></i>
+                            </div>
+                            <p class="font-bold text-slate-700 dark:text-slate-200">Click to Upload HTML File</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Supports .html, .htm</p>
                         </div>
                     </div>
 
-                    <div id="view-url" class="hidden">
-                        <div class="flex gap-2">
-                            <input type="text" id="urlInput" placeholder="https://example.com" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-brand outline-none">
-                            <button onclick="fetchUrl()" class="bg-gray-800 text-white px-6 py-2 rounded-lg font-bold hover:bg-gray-700">Fetch</button>
+                    <div id="view-url" class="hidden animate-fade-in">
+                        <div class="flex gap-3">
+                            <input type="text" id="urlInput" placeholder="https://example.com" class="flex-grow bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white rounded-xl p-3 focus:ring-2 focus:ring-brand-500 outline-none transition">
+                            <button onclick="fetchUrl()" class="bg-slate-800 dark:bg-slate-700 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-700 dark:hover:bg-slate-600 transition">
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
                         </div>
-                        <p class="text-xs text-orange-500 mt-2"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Note: Many websites block access. If it fails, copy the page source and use "Raw Code".</p>
+                        <p class="text-xs text-orange-500 mt-3 flex items-center gap-1">
+                            <i class="fa-solid fa-triangle-exclamation"></i> 
+                            Note: Some sites block access (CORS). If it fails, copy the source code and use "Raw Code".
+                        </p>
                     </div>
 
-                    <div id="view-code" class="hidden">
-                        <p class="text-sm text-gray-500 mb-2">Paste your code below. It will update the preview automatically.</p>
+                    <div id="view-code" class="hidden animate-fade-in">
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-keyboard"></i> Paste your HTML below. The preview updates automatically.
+                        </p>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[70vh]">
                     
-                    <div class="flex flex-col h-full bg-gray-900 rounded-xl overflow-hidden shadow-lg border border-gray-700">
-                        <div class="bg-gray-800 px-4 py-2 flex justify-between items-center border-b border-gray-700">
-                            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider"><i class="fa-solid fa-code mr-2"></i>Editor</span>
-                            <button onclick="editor.value=''; updatePreview()" class="text-xs text-red-400 hover:text-red-300 uppercase font-bold">Clear</button>
+                    <div class="flex flex-col h-full bg-slate-900 rounded-xl overflow-hidden shadow-inner border border-slate-700">
+                        <div class="bg-slate-800 px-4 py-2 flex justify-between items-center border-b border-slate-700">
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider"><i class="fa-solid fa-code mr-2"></i>HTML Source</span>
+                            <button onclick="editor.value=''; updatePreview()" class="text-xs text-rose-400 hover:text-rose-300 uppercase font-bold transition">Clear</button>
                         </div>
                         <textarea id="htmlCode" class="code-editor w-full h-full p-4 focus:outline-none resize-none text-sm" spellcheck="false" placeholder="<html>
 <head>
   <style>
     body { font-family: sans-serif; padding: 20px; }
-    h1 { color: #6366f1; }
+    h1 { color: #2563eb; }
   </style>
 </head>
 <body>
@@ -212,141 +182,146 @@
 </html>"></textarea>
                     </div>
 
-                    <div class="flex flex-col h-full bg-white rounded-xl overflow-hidden shadow-lg border border-gray-200">
-                        <div class="bg-gray-100 px-4 py-2 flex justify-between items-center border-b border-gray-200">
-                            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider"><i class="fa-solid fa-eye mr-2"></i>PDF Preview</span>
+                    <div class="flex flex-col h-full bg-white rounded-xl overflow-hidden shadow-lg border border-slate-200 dark:border-slate-700">
+                        <div class="bg-slate-100 dark:bg-slate-800 px-4 py-2 flex justify-between items-center border-b border-slate-200 dark:border-slate-700">
+                            <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider"><i class="fa-solid fa-eye mr-2"></i>Live Preview</span>
                         </div>
-                        <div class="flex-grow relative bg-gray-300 p-4 overflow-hidden">
+                        <div class="flex-grow relative bg-slate-200/50 dark:bg-slate-900/50 p-4 overflow-hidden">
                             <iframe id="previewFrame" class="shadow-xl rounded bg-white w-full h-full"></iframe>
                         </div>
                     </div>
 
                 </div>
-
             </div>
-
-            <div class="bg-gray-50 p-4 border-t border-gray-200 flex justify-center items-center gap-6 text-sm text-gray-500 flex-wrap">
-                <span class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-brand"></i> Secure Client-Side</span>
-                <span class="flex items-center gap-2"><i class="fa-solid fa-bolt text-brand"></i> Iframe Rendering</span>
-                <span class="flex items-center gap-2"><i class="fa-solid fa-ban text-brand"></i> No Server Uploads</span>
+            
+            <div class="bg-slate-50 dark:bg-slate-800/50 p-3 border-t border-slate-200 dark:border-slate-700 text-center">
+                <p class="text-xs text-slate-500 dark:text-slate-400">
+                    <i class="fa-solid fa-shield-halved text-brand-500 mr-1"></i> 
+                    Files are processed in your browser. No data is uploaded to our servers.
+                </p>
             </div>
         </div>
-
-        <section class="mb-16">
-            <h2 class="text-3xl font-bold text-gray-900 text-center mb-10">How to Convert HTML to PDF?</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md transition">
-                    <div class="w-14 h-14 bg-indigo-100 text-brand rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">1</div>
-                    <h3 class="font-bold text-xl mb-3">Input HTML</h3>
-                    <p class="text-gray-600">Upload a file, paste a URL, or type raw HTML code directly into the editor.</p>
-                </div>
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md transition">
-                    <div class="w-14 h-14 bg-indigo-100 text-brand rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">2</div>
-                    <h3 class="font-bold text-xl mb-3">Edit & Preview</h3>
-                    <p class="text-gray-600">See changes in real-time. Fix layout issues before saving.</p>
-                </div>
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md transition">
-                    <div class="w-14 h-14 bg-indigo-100 text-brand rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">3</div>
-                    <h3 class="font-bold text-xl mb-3">Save as PDF</h3>
-                    <p class="text-gray-600">Click the print button to generate a clean, high-quality PDF document.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="max-w-4xl mx-auto mb-16">
-            <h2 class="text-3xl font-bold text-center text-gray-900 mb-10">Frequently Asked Questions</h2>
-            <div class="space-y-4">
-                
-                <details class="group bg-white p-6 rounded-xl border border-gray-200 cursor-pointer transition hover:shadow-md">
-                    <summary class="flex justify-between items-center font-bold text-gray-800 list-none">
-                        <span>Why did the URL fetch fail?</span>
-                        <span class="text-brand transition group-open:rotate-180"><i class="fa-solid fa-chevron-down"></i></span>
-                    </summary>
-                    <p class="text-gray-600 mt-3 text-sm leading-relaxed">
-                        Browsers have a security feature called <strong>CORS</strong> that prevents us from fetching other websites (like Google, Facebook) directly. If a URL fails, please open that page, press <code>Ctrl+U</code> to view source, copy the code, and paste it into the "Raw Code" tab.
-                    </p>
-                </details>
-
-                <details class="group bg-white p-6 rounded-xl border border-gray-200 cursor-pointer transition hover:shadow-md">
-                    <summary class="flex justify-between items-center font-bold text-gray-800 list-none">
-                        <span>Does CSS and JavaScript work?</span>
-                        <span class="text-brand transition group-open:rotate-180"><i class="fa-solid fa-chevron-down"></i></span>
-                    </summary>
-                    <p class="text-gray-600 mt-3 text-sm leading-relaxed">
-                        Yes! Inline CSS (`&lt;style&gt;`) works perfectly. JavaScript also runs, but keep in mind that PDF is a static format, so animations won't play in the final file.
-                    </p>
-                </details>
-
-                <details class="group bg-white p-6 rounded-xl border border-gray-200 cursor-pointer transition hover:shadow-md">
-                    <summary class="flex justify-between items-center font-bold text-gray-800 list-none">
-                        <span>Is it safe?</span>
-                        <span class="text-brand transition group-open:rotate-180"><i class="fa-solid fa-chevron-down"></i></span>
-                    </summary>
-                    <p class="text-gray-600 mt-3 text-sm leading-relaxed">
-                        Yes. Everything happens inside your browser's "Sandbox". No data is sent to our servers.
-                    </p>
-                </details>
-
-            </div>
-        </section>
 
     </main>
 
-    <footer class="bg-gray-900 text-white pt-16 pb-8 mt-auto">
+    <section class="py-16 bg-white dark:bg-dark-card border-t border-slate-200 dark:border-dark-border">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-                
-                <div class="col-span-1 md:col-span-1">
-                    <h3 class="text-2xl font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-wrench text-brand"></i> The PDF Mechanic</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Secure, privacy-focused online PDF tools. Process your documents locally without uploading them to servers.
-                    </p>
-                </div>
-
-                <div>
-                    <h4 class="text-lg font-semibold mb-4 text-gray-200 border-b border-gray-700 pb-2">Convert</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="pdf-to-word.html" class="hover:text-brand transition">PDF to Word</a></li>
-                        <li><a href="word-to-pdf.html" class="hover:text-brand transition">Word to PDF</a></li>
-                        <li><a href="excel-to-pdf.html" class="hover:text-brand transition">Excel to PDF</a></li>
-                        <li><a href="html-to-pdf.html" class="text-white font-bold">HTML to PDF</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-lg font-semibold mb-4 text-gray-200 border-b border-gray-700 pb-2">Organize</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="merger.html" class="hover:text-brand transition">Merge PDF</a></li>
-                        <li><a href="splitter.html" class="hover:text-brand transition">Split PDF</a></li>
-                        <li><a href="add-page-numbers.html" class="hover:text-brand transition">Add Page Numbers</a></li>
-                        <li><a href="watermark.html" class="hover:text-brand transition">Watermark PDF</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-lg font-semibold mb-4 text-gray-200 border-b border-gray-700 pb-2">Security</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="protect-pdf.html" class="hover:text-brand transition">Protect PDF</a></li>
-                        <li><a href="unlock.html" class="hover:text-brand transition">Unlock PDF</a></li>
-                        <li><a href="esign.html" class="hover:text-brand transition">eSign PDF</a></li>
-                    </ul>
-                </div>
-            </div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-center mb-12 text-slate-900 dark:text-white font-display">How to Convert HTML to PDF?</h2>
             
-            <div class="border-t border-gray-800 pt-8 text-center text-sm text-gray-500 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p>© <span id="year"></span> The PDF Mechanic. All rights reserved.</p>
-                <div class="flex gap-4">
-                    <a href="#" class="hover:text-white transition">Privacy Policy</a>
-                    <a href="#" class="hover:text-white transition">Terms of Use</a>
-                    <a href="#" class="hover:text-white transition">Contact</a>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="relative p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 text-center group hover:-translate-y-1 transition duration-300">
+                    <div class="w-12 h-12 bg-brand-100 dark:bg-brand-900 text-brand-600 rounded-xl flex items-center justify-center mx-auto mb-4 text-xl font-bold shadow-sm">1</div>
+                    <h3 class="font-bold text-lg text-slate-900 dark:text-white mb-2">Input HTML</h3>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm">Upload a .html file, paste a live URL, or write raw code directly in the dark editor.</p>
+                </div>
+
+                <div class="relative p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 text-center group hover:-translate-y-1 transition duration-300">
+                    <div class="w-12 h-12 bg-brand-100 dark:bg-brand-900 text-brand-600 rounded-xl flex items-center justify-center mx-auto mb-4 text-xl font-bold shadow-sm">2</div>
+                    <h3 class="font-bold text-lg text-slate-900 dark:text-white mb-2">Check Preview</h3>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm">Review the layout in the real-time preview window. Adjust CSS or text instantly if needed.</p>
+                </div>
+
+                <div class="relative p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 text-center group hover:-translate-y-1 transition duration-300">
+                    <div class="w-12 h-12 bg-brand-100 dark:bg-brand-900 text-brand-600 rounded-xl flex items-center justify-center mx-auto mb-4 text-xl font-bold shadow-sm">3</div>
+                    <h3 class="font-bold text-lg text-slate-900 dark:text-white mb-2">Print to PDF</h3>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm">Click "Save as PDF". The tool uses your browser's high-quality print engine to generate the file.</p>
                 </div>
             </div>
         </div>
-    </footer>
+    </section>
+
+    <section class="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <article class="prose prose-slate dark:prose-invert lg:prose-lg mx-auto">
+            <h2 class="text-3xl font-display font-bold text-slate-900 dark:text-white mb-6">Why Use a Client-Side HTML to PDF Converter?</h2>
+            
+            <p class="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
+                In the world of web development and digital documentation, the need to <strong>save webpage as PDF</strong> is frequent. Whether you are generating invoices, archiving reports, or sharing design prototypes, accuracy and privacy are paramount. Traditional converters often require you to upload your potentially sensitive code to a remote server. This is where <em>The PDF Mechanic's</em> <strong>HTML code to PDF converter</strong> stands out.
+            </p>
+
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">100% Secure & Private Conversion</h3>
+            <p class="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
+                Security is our top priority. Unlike other tools that process data on the cloud, this tool works entirely within your browser (Client-Side). When you paste your code or upload a file, the data never leaves your device. This makes it the perfect solution for developers working with <strong>local HTML files</strong> or sensitive financial data (like bank statements or proprietary reports) that simply cannot be uploaded to a third-party server.
+            </p>
+
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">High-Fidelity Rendering with CSS Support</h3>
+            <p class="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
+                One of the biggest challenges when you <strong>download website as PDF offline</strong> is losing the styling. Our tool leverages the browser's native rendering engine. This means if it looks right in Chrome or Edge, it will look right in the PDF. It supports:
+            </p>
+            <ul class="list-disc pl-5 text-slate-600 dark:text-slate-400 mb-6 space-y-2">
+                <li><strong>Inline CSS:</strong> Perfect for styled invoices and reports.</li>
+                <li><strong>Flexbox & Grid:</strong> Modern layouts are preserved.</li>
+                <li><strong>Custom Fonts:</strong> If the font is loaded in the browser, it appears in the PDF.</li>
+            </ul>
+
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Troubleshooting URL Fetching</h3>
+            <p class="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
+                If you are trying to convert a live URL (e.g., Google or Facebook) and nothing happens, it is likely due to <strong>CORS (Cross-Origin Resource Sharing)</strong> policies implemented by those websites to prevent external access. This is standard web security. The workaround is simple: Go to the website, view the page source (Ctrl+U), copy the code, and paste it into our "Raw Code" tab. This gives you full control to edit the content before you <strong>save HTML as PDF</strong>.
+            </p>
+        </article>
+    </section>
+
+    <footer class="bg-slate-950 text-slate-400 pt-16 pb-8 border-t border-slate-800 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-10">
+        <div class="col-span-1 sm:col-span-2 md:col-span-1">
+            <div class="flex items-center gap-2 mb-4 text-white">
+                <i class="fa-solid fa-wrench text-brand-600 text-xl"></i>
+                <span class="font-bold text-xl font-display">The PDF Mechanic</span>
+            </div>
+            <p class="text-sm leading-relaxed text-slate-500 mb-4">
+                Built for speed and privacy. The only PDF toolkit that works 100% offline in your browser.
+            </p>
+            </div>
+        
+        <div>
+            <h4 class="text-white font-bold text-sm mb-4">Organize & Edit</h4>
+            <ul class="space-y-2 text-sm">
+                <li><a href="merger.html" class="hover:text-brand-500 transition">Merge PDF</a></li>
+                <li><a href="compressor.html" class="hover:text-brand-500 transition">Compress PDF</a></li>
+                <li><a href="splitter.html" class="hover:text-brand-500 transition">Split PDF</a></li>
+                <li><a href="rotate-pdf.html" class="hover:text-brand-500 transition">Rotate PDF</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h4 class="text-white font-bold text-sm mb-4">Convert</h4>
+            <ul class="space-y-2 text-sm">
+                <li><a href="pdf-to-word.html" class="hover:text-brand-500 transition">PDF to Word</a></li>
+                <li><a href="images-to-pdf.html" class="hover:text-brand-500 transition">JPG to PDF</a></li>
+                <li><a href="excel-to-pdf.html" class="hover:text-brand-500 transition">Excel to PDF</a></li>
+                <li><a href="html-to-pdf.html" class="hover:text-brand-500 transition">HTML to PDF</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h4 class="text-white font-bold text-sm mb-4">Legal & More</h4>
+            <ul class="space-y-2 text-sm">
+                <li><a href="privacy.html" class="hover:text-brand-500 transition">Privacy Policy</a></li>
+                <li><a href="terms.html" class="hover:text-brand-500 transition">Terms of Use</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="border-t border-slate-900 pt-8 text-center text-xs text-slate-600 px-4">
+        &copy; <span id="year"></span> The PDF Mechanic. All rights reserved.
+    </div>
+</footer>
 
     <script>
+        // 1. Theme Logic (Copied from Index for consistency)
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+        } else { html.classList.remove('dark'); }
+        
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+        });
+
         document.getElementById('year').textContent = new Date().getFullYear();
 
+        // 2. Tool Logic (Preserved Original Functionality)
         const fileInput = document.getElementById('fileInput');
         const urlInput = document.getElementById('urlInput');
         const editor = document.getElementById('htmlCode');
@@ -355,7 +330,6 @@
         // Initial render
         updatePreview();
 
-        // 1. Update Iframe Content
         function updatePreview() {
             const code = editor.value;
             const doc = iframe.contentWindow.document;
@@ -364,24 +338,29 @@
             doc.close();
         }
 
-        // 2. Tab Switcher
+        // Updated Tab Switcher with Tailwind Classes
         function switchTab(mode) {
-            // Reset styles
-            ['file', 'url', 'code'].forEach(m => {
+            const tabs = ['file', 'url', 'code'];
+            
+            tabs.forEach(m => {
                 const btn = document.getElementById('tab-' + m);
                 const view = document.getElementById('view-' + m);
                 
                 if (m === mode) {
-                    btn.className = "px-4 py-2 rounded-md font-bold text-sm shadow-sm bg-white text-brand transition";
+                    // Active State
+                    btn.classList.remove('text-slate-500', 'dark:text-slate-400', 'hover:text-slate-700');
+                    btn.classList.add('bg-white', 'dark:bg-slate-700', 'shadow-sm', 'text-brand-600', 'dark:text-brand-400');
                     view.classList.remove('hidden');
                 } else {
-                    btn.className = "px-4 py-2 rounded-md font-bold text-sm text-gray-500 hover:text-gray-700 transition";
+                    // Inactive State
+                    btn.classList.add('text-slate-500', 'dark:text-slate-400', 'hover:text-slate-700');
+                    btn.classList.remove('bg-white', 'dark:bg-slate-700', 'shadow-sm', 'text-brand-600', 'dark:text-brand-400');
                     view.classList.add('hidden');
                 }
             });
         }
 
-        // 3. Handle File Upload
+        // Handle File Upload
         fileInput.addEventListener('change', (e) => {
             if (e.target.files && e.target.files[0]) {
                 const file = e.target.files[0];
@@ -389,22 +368,21 @@
                 reader.onload = function(evt) {
                     editor.value = evt.target.result;
                     updatePreview();
-                    // Switch to code tab to show it loaded
                     switchTab('code');
                 };
                 reader.readAsText(file);
             }
         });
 
-        // 4. Handle URL Fetch
+        // Handle URL Fetch
         async function fetchUrl() {
             const url = urlInput.value.trim();
             if(!url) return alert("Please enter a valid URL");
 
             try {
                 const res = await fetch(url);
-                const html = await res.text();
-                editor.value = html;
+                const htmlText = await res.text();
+                editor.value = htmlText;
                 updatePreview();
                 switchTab('code');
             } catch (err) {
@@ -413,10 +391,10 @@
             }
         }
 
-        // 5. Real-time Typing
+        // Real-time Typing
         editor.addEventListener('input', updatePreview);
 
-        // 6. Print ONLY the Iframe
+        // Print Iframe
         function printIframe() {
             iframe.contentWindow.focus();
             iframe.contentWindow.print();

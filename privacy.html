@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Privacy Policy | The PDF Mechanic</title>
+    <meta name="description" content="Privacy Policy for The PDF Mechanic. We prioritize client-side security.">
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class', 
+        theme: {
+          extend: {
+            colors: { 
+                brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a' },
+                dark: { bg: '#0f172a', card: '#1e293b', text: '#f8fafc', border: '#334155' } 
+            },
+            fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Outfit', 'sans-serif'] }
+          }
+        }
+      }
+    </script>
+    <style>
+        .glass-nav { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); }
+        .dark .glass-nav { background: rgba(15, 23, 42, 0.9); }
+    </style>
+</head>
+<body class="font-sans bg-slate-50 text-slate-900 dark:bg-dark-bg dark:text-dark-text flex flex-col min-h-screen transition-colors duration-300">
+
+    <nav class="sticky top-0 z-50 glass-nav border-b border-slate-200 dark:border-dark-border transition-colors">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+          <a href="index.html" class="flex items-center gap-2 group">
+            <div class="w-9 h-9 bg-brand-600 rounded-lg flex items-center justify-center text-white text-lg shadow-lg group-hover:bg-brand-700 transition">
+                <i class="fa-solid fa-wrench"></i>
+            </div>
+            <span class="font-display font-bold text-xl tracking-tight">The PDF Mechanic</span>
+          </a>
+          <button id="themeToggle" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-yellow-400 flex items-center justify-center transition hover:ring-2 ring-brand-500">
+                <i class="fa-solid fa-moon dark:hidden"></i>
+                <i class="fa-solid fa-sun hidden dark:block"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-4 py-16 flex-grow">
+        <h1 class="font-display text-3xl md:text-4xl font-bold mb-8 text-brand-600">Privacy Policy</h1>
+        
+        <div class="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 space-y-6">
+            <p>Last updated: January 2026</p>
+            
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white">1. No File Uploads</h3>
+            <p>Unlike other online PDF tools, <strong>The PDF Mechanic</strong> operates entirely in your browser ("client-side"). Your files are <strong>never</strong> uploaded to our servers. All processing (compression, merging, conversion) happens locally on your device.</p>
+
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white">2. Data Collection</h3>
+            <p>Since we do not store your files, we do not have access to your documents, bank statements, or personal data inside your PDFs. We use basic analytics (like Google Analytics) to understand website traffic, but this does not track individual file contents.</p>
+
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white">3. Cookies</h3>
+            <p>We use local storage only to remember your theme preference (Dark/Light mode). No tracking cookies are used for advertising purposes.</p>
+        </div>
+    </main>
+
+    <footer class="bg-slate-950 text-slate-400 py-8 border-t border-slate-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="text-xs text-slate-600">
+                &copy; <span id="year"></span> The PDF Mechanic. All rights reserved.
+                <div class="mt-2 space-x-4">
+                    <a href="index.html" class="hover:text-white">Home</a>
+                    <a href="privacy.html" class="text-white font-bold">Privacy Policy</a>
+                    <a href="terms.html" class="hover:text-white">Terms of Use</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+      // Theme Logic
+      const themeToggle = document.getElementById('themeToggle');
+      const html = document.documentElement;
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        html.classList.add('dark');
+      } else { html.classList.remove('dark'); }
+      themeToggle.addEventListener('click', () => {
+        html.classList.toggle('dark');
+        localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+      });
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</body>
+</html>

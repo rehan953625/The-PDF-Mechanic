@@ -1,343 +1,313 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     
-    <title>Compress PDF Online | Reduce PDF Size for Free - The PDF Mechanic</title>
-    <meta name="description" content="Reduce PDF Size (Best for Scanned PDFs)s instantly in your browser. Reduce PDF size without uploading files to a server. 100% Free, Secure, and Private PDF Compressor." />
-    <meta name="keywords" content="compress pdf, reduce pdf size, pdf compressor online, shrink pdf, client-side pdf compressor, free pdf tools" />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://www.thepdfmechanic.com/compressor.html" />
-
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.thepdfmechanic.com/compressor.html" />
-    <meta property="og:title" content="Compress PDF Online - Secure & Free" />
-    <meta property="og:description" content="Reduce PDF file size locally without uploading. Secure client-side compression tool." />
-    <meta property="og:image" content="https://www.thepdfmechanic.com/images/compress-preview.jpg" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Compress PDF Online - The PDF Mechanic" />
-    <meta name="twitter:description" content="Shrink PDF files securely in your browser. No server uploads." />
-
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Compress PDF Online | Reduce Size Securely - The PDF Mechanic</title>
+    <meta name="description" content="Reduce PDF file size to 100kb or less without uploading. 100% Free, Private, and Offline-ready PDF Compressor." />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <script>
+        // PDF Worker Setup
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        // Tailwind Config (Matches Index)
         tailwind.config = {
+            darkMode: 'class', 
             theme: {
                 extend: {
-                    // COLOR CHANGED TO RED (#ef4444)
-                    colors: { brand: '#ef4444', bg: '#F3F4F6' },
-                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                    colors: { 
+                        brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a' },
+                        dark: { bg: '#0f172a', card: '#1e293b', text: '#f8fafc', border: '#334155' } 
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Outfit', 'sans-serif'] },
+                    animation: { 'fade-in': 'fadeIn 0.5s ease-out' },
+                    keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
                 }
             }
         }
     </script>
 
     <style>
-        /* Custom Style for Range Slider Bubble */
-        .range-wrap {
-            position: relative;
-            margin: 0 auto 3rem;
-        }
-        .range {
-            width: 100%;
-        }
+        .glass-nav { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        .dark .glass-nav { background: rgba(15, 23, 42, 0.9); }
+        
+        /* Range Slider Styling */
+        .range-wrap { position: relative; margin: 0 auto 2rem; }
         .bubble {
-            background: #ef4444; /* RED */
+            background: #2563eb; 
             color: white;
             padding: 4px 12px;
             position: absolute;
             border-radius: 4px;
             left: 50%;
             transform: translateX(-50%);
-            bottom: 140%;
+            bottom: 120%;
             font-size: 0.85rem;
             font-weight: bold;
-            white-space: nowrap;
-            pointer-events: none;
             opacity: 0;
             transition: opacity 0.2s;
-            z-index: 10;
+            pointer-events: none;
+            white-space: nowrap;
         }
         .bubble::after {
-            content: "";
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #ef4444; /* RED */
-            bottom: -4px;
-            left: 50%;
+            content: ""; position: absolute; width: 8px; height: 8px;
+            background: #2563eb; bottom: -4px; left: 50%;
             transform: translateX(-50%) rotate(45deg);
         }
-        .range-wrap:hover .bubble,
-        .range-wrap:active .bubble {
-            opacity: 1;
-        }
-        
-        /* Smooth FAQ Animation */
-        details > summary { list-style: none; }
-        details > summary::-webkit-details-marker { display: none; }
-        details[open] summary ~ * { animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { 0% { opacity: 0; transform: translateY(-5px); } 100% { opacity: 1; transform: translateY(0); } }
+        .range-wrap:hover .bubble, .range-wrap:active .bubble { opacity: 1; }
     </style>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    </script>
-
-    <script type="application/ld+json">
-    [
-      {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "The PDF Mechanic Compressor",
-        "operatingSystem": "Web Browser",
-        "applicationCategory": "ProductivityApplication",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-        "description": "A free online tool to Reduce PDF Size (Best for Scanned PDFs)s securely in the browser using JavaScript.",
-        "featureList": "Client-side compression, No file upload, Adjustable quality"
-      },
-      {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.thepdfmechanic.com/" },
-          { "@type": "ListItem", "position": 2, "name": "Compress PDF", "item": "https://www.thepdfmechanic.com/compressor.html" }
-        ]
-      },
-      {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Is The PDF Mechanic completely free?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Yes, all tools including PDF compression are 100% free." }
-          },
-          {
-            "@type": "Question",
-            "name": "Is it safe to upload my private documents?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Absolutely. Your files are processed locally in your browser and never uploaded to any server." }
-          }
-        ]
-      }
-    ]
-    </script>
 </head>
-<body class="font-sans bg-bg text-gray-900 flex flex-col min-h-screen">
+<body class="font-sans bg-slate-50 text-slate-900 dark:bg-dark-bg dark:text-dark-text flex flex-col min-h-screen selection:bg-brand-500 selection:text-white transition-colors duration-300">
 
-    <nav class="w-full" style="background-color:#ef4444;">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex h-16 items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <a href="index.html" class="text-white text-xl font-bold flex items-center gap-2">
-                        <i class="fa-solid fa-arrow-left text-sm opacity-80"></i> The PDF Mechanic
-                    </a>
-                </div>
+    <nav class="sticky top-0 z-50 glass-nav border-b border-slate-200 dark:border-dark-border transition-colors">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+          <a href="index.html" class="flex items-center gap-2 group">
+            <div class="w-9 h-9 bg-brand-600 rounded-lg flex items-center justify-center text-white text-lg shadow-lg group-hover:bg-brand-700 transition">
+                <i class="fa-solid fa-wrench"></i>
             </div>
+            <span class="font-display font-bold text-xl tracking-tight">The PDF Mechanic</span>
+          </a>
+          <div class="flex items-center gap-5">
+            <a href="index.html" class="text-sm font-medium hover:text-brand-600 dark:hover:text-brand-400 transition hidden sm:block">
+                <i class="fa-solid fa-arrow-left mr-1"></i> Back to Tools
+            </a>
+            <button id="themeToggle" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-yellow-400 flex items-center justify-center transition hover:ring-2 ring-brand-500">
+                <i class="fa-solid fa-moon dark:hidden"></i>
+                <i class="fa-solid fa-sun hidden dark:block"></i>
+            </button>
+          </div>
         </div>
+      </div>
     </nav>
 
-    <main class="flex-grow max-w-4xl mx-auto px-4 py-12 w-full">
-        
-        <div class="text-center mb-8">
-            <h1 class="text-3xl font-bold text-gray-900">Reduce PDF Size (Best for Scanned PDFs)</h1>
-            <p class="text-gray-600 mt-2">For best results, use scanned or image-based PDFs. 
-  Text PDFs may be converted to images during compression.</p>
+    <header class="pt-16 pb-10 text-center px-4">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-50 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300 text-xs font-semibold mb-6 border border-rose-100 dark:border-rose-800">
+            <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span> Client-Side Compression
         </div>
+        <h1 class="font-display text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-4">
+            Compress PDF
+        </h1>
+        <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+            Reduce file size securely in your browser. Perfect for scanned documents and forms.
+        </p>
+    </header>
 
-        <div class="bg-white rounded-2xl shadow-xl p-6 md:p-10 border-t-4 border-brand">
+    <main class="flex-grow w-full px-4 pb-20">
+        
+        <div class="max-w-4xl mx-auto bg-white dark:bg-dark-card rounded-3xl shadow-xl border border-slate-200 dark:border-dark-border overflow-hidden p-6 md:p-10 mb-20 relative">
             
-            <div id="uploadArea" class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:bg-gray-50 transition cursor-pointer relative" onclick="document.getElementById('fileInput').click()">
+            <div id="uploadArea" class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-2xl p-10 text-center hover:bg-brand-50 dark:hover:bg-slate-800 transition cursor-pointer group" onclick="document.getElementById('fileInput').click()">
                 <input type="file" id="fileInput" accept="application/pdf" class="hidden" onchange="handleFileSelect(event)">
-                <div class="text-brand text-5xl mb-4"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-                <h3 class="text-xl font-semibold text-gray-700">Click or Drag PDF here</h3>
-                <p class="text-sm text-gray-500 mt-2">Maximum file size: 50MB</p>
+                <div class="w-20 h-20 bg-brand-100 dark:bg-brand-900/30 text-brand-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-cloud-arrow-up text-4xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-2">Click or Drag PDF here</h3>
+                <p class="text-slate-500 dark:text-slate-400">Max file size: 50MB (Processed Locally)</p>
             </div>
 
-            <div id="settingsArea" class="hidden mt-6">
-                <div class="flex items-center justify-between bg-gray-100 p-4 rounded-lg mb-6">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-file-pdf text-red-500 text-2xl"></i>
+            <div id="settingsArea" class="hidden">
+                <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800 p-4 rounded-xl mb-8 border border-slate-200 dark:border-slate-700">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-red-100 text-red-600 rounded-lg flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </div>
                         <div>
-                            <p id="fileName" class="font-semibold text-gray-800 text-sm truncate max-w-[200px]"></p>
-                            <p id="fileSize" class="text-xs text-gray-500"></p>
+                            <p id="fileName" class="font-bold text-slate-800 dark:text-white truncate max-w-[200px] sm:max-w-xs"></p>
+                            <p id="fileSize" class="text-xs text-slate-500 dark:text-slate-400 font-mono"></p>
                         </div>
                     </div>
-                    <button onclick="resetTool()" class="text-gray-400 hover:text-red-500"><i class="fa-solid fa-xmark"></i></button>
+                    <button onclick="resetTool()" class="text-slate-400 hover:text-red-500 transition"><i class="fa-solid fa-xmark text-xl"></i></button>
                 </div>
 
-                <div class="mb-2">
-                    <label class="block text-sm font-medium text-gray-700 mb-6">Image Quality vs File Size</label>
+                <div class="mb-8">
+                    <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-6 text-center">Adjust Compression Level</label>
                     
                     <div class="range-wrap" id="rangeWrap">
                         <div class="bubble" id="bubble"></div>
-                        <input type="range" id="qualityRange" min="0.1" max="1.0" step="0.01" value="0.5" class="range w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand" oninput="updateBubble(this)">
+                        <input type="range" id="qualityRange" min="0.1" max="1.0" step="0.01" value="0.5" 
+                               class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-brand-600" 
+                               oninput="updateBubble(this)">
                     </div>
 
-                    <div class="flex justify-between text-xs text-gray-500 mt-1">
-                        <span>Smaller File Size</span>
-                        <span>Better Visual Quality</span>
+                    <div class="flex justify-between text-xs font-medium text-slate-500 dark:text-slate-400">
+                        <span>Smaller Size</span>
+                        <span>Better Quality</span>
                     </div>
                 </div>
 
-                <button id="compressBtn" onclick="startCompression()" class="w-full bg-brand text-white py-3 rounded-lg font-semibold hover:opacity-90 transition shadow-lg mt-6">
+                <button id="compressBtn" onclick="startCompression()" class="w-full bg-brand-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-brand-700 transition shadow-lg shadow-brand-500/30">
                     Compress PDF Now
                 </button>
 
-                <div id="progressContainer" class="hidden mt-4">
-                    <div class="w-full bg-gray-200 rounded-full h-2.5">
-                        <div id="progressBar" class="bg-brand h-2.5 rounded-full" style="width: 0%"></div>
+                <div id="progressContainer" class="hidden mt-8 text-center">
+                    <div class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-3 mb-3 overflow-hidden">
+                        <div id="progressBar" class="bg-brand-600 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
                     </div>
-                    <p id="progressText" class="text-center text-xs text-gray-500 mt-2">Processing page 0 of 0...</p>
+                    <p id="progressText" class="text-sm text-slate-600 dark:text-slate-400 animate-pulse">Initializing...</p>
                 </div>
             </div>
 
-            <div id="resultArea" class="hidden mt-6 text-center">
-                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fa-solid fa-check text-green-600 text-2xl"></i>
+            <div id="resultArea" class="hidden text-center py-6">
+                <div class="w-20 h-20 bg-green-100 dark:bg-green-900/30 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fa-solid fa-check text-3xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-800">Compression Complete!</h3>
-                <p class="text-gray-600 mt-2">Your file is ready.</p>
+                <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Success!</h3>
                 
-                <div class="flex justify-center gap-4 mt-2 text-sm">
-                    <span class="text-red-500 line-through" id="oldSizeDisplay"></span>
-                    <span class="text-green-600 font-bold" id="newSizeDisplay"></span>
+                <div class="flex justify-center items-center gap-4 text-sm mb-8 bg-slate-50 dark:bg-slate-800 py-3 rounded-lg max-w-xs mx-auto border border-slate-100 dark:border-slate-700">
+                    <span class="text-slate-400 line-through" id="oldSizeDisplay"></span>
+                    <i class="fa-solid fa-arrow-right text-slate-300"></i>
+                    <span class="text-green-600 font-bold text-lg" id="newSizeDisplay"></span>
                 </div>
 
-                <a id="downloadLink" class="inline-block mt-6 bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition shadow-lg cursor-pointer">
-                    <i class="fa-solid fa-download mr-2"></i> Download Compressed PDF
+                <a id="downloadLink" class="inline-flex items-center justify-center gap-2 bg-green-600 text-white px-8 py-3.5 rounded-xl font-semibold hover:bg-green-700 transition shadow-lg w-full sm:w-auto">
+                    <i class="fa-solid fa-download"></i> Download PDF
                 </a>
                 
-                <button onclick="resetTool()" class="block w-full mt-4 text-brand text-sm hover:underline">Compress Another File</button>
+                <button onclick="resetTool()" class="block w-full mt-6 text-sm text-slate-500 hover:text-brand-600 dark:text-slate-400">Compress Another File</button>
             </div>
-
         </div>
 
-        <div class="mt-12 text-gray-600 text-sm">
-            <h3 class="font-bold text-gray-900 mb-2">How it works?</h3>
-            <p>This tool renders your PDF pages into images and recompresses them to reduce file size. All processing happens inside your browser. Your files are never sent to any server.</p>
-        </div>
-        
-        <section class="mt-16 border-t pt-10">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                
-                <div>
-                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Best Free Online PDF Compressor Tool</h2>
-                    <p class="text-gray-700 mb-4 leading-relaxed">
-                        Looking for a way to <strong>reduce PDF file size</strong> without compromising quality? The PDF Mechanic offers a fast, free, and secure solution. Whether you need to shrink a large document for email attachments or optimize files for web uploads, our <strong>client-side PDF compressor</strong> gets the job done instantly.
+        <section class="max-w-5xl mx-auto mb-20">
+            <h2 class="text-2xl sm:text-3xl font-bold text-center mb-12 text-slate-900 dark:text-white font-display">
+                How to Compress PDF Files?
+            </h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-50 dark:bg-blue-900/20 text-brand-600 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4 shadow-sm">
+                        <i class="fa-solid fa-upload"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-900 dark:text-white mb-2">1. Select File</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">Upload your PDF document. Your file stays on your device.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-50 dark:bg-blue-900/20 text-brand-600 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4 shadow-sm">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-900 dark:text-white mb-2">2. Choose Quality</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">Use the slider to balance between file size and image clarity.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-50 dark:bg-blue-900/20 text-brand-600 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4 shadow-sm">
+                        <i class="fa-solid fa-download"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-900 dark:text-white mb-2">3. Download</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">Click compress and download your optimized PDF instantly.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 border-t border-slate-200 dark:border-slate-800 pt-16">
+            <div>
+                <h3 class="text-2xl font-display font-bold text-slate-900 dark:text-white mb-4">Why use this Compressor?</h3>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+                    Most online compressors upload your file to a server. <strong>The PDF Mechanic</strong> is different. We render your PDF pages into optimized images right inside your browser. This means:
+                </p>
+                <ul class="space-y-3 mb-6">
+                    <li class="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300">
+                        <i class="fa-solid fa-circle-check text-green-500"></i> No data upload (100% Private)
+                    </li>
+                    <li class="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300">
+                        <i class="fa-solid fa-circle-check text-green-500"></i> Works without Internet
+                    </li>
+                    <li class="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300">
+                        <i class="fa-solid fa-circle-check text-green-500"></i> No daily limits
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="space-y-4">
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4">FAQ</h3>
+                <details class="group bg-white dark:bg-dark-card p-4 rounded-xl border border-slate-200 dark:border-dark-border cursor-pointer">
+                    <summary class="flex justify-between items-center font-medium text-slate-800 dark:text-slate-200">
+                        <span>Why did the text become an image?</span>
+                        <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-brand-600"></i></span>
+                    </summary>
+                    <p class="text-slate-600 dark:text-slate-400 mt-3 text-sm leading-relaxed">
+                        To achieve maximum compression securely in the browser, we convert pages to optimized images. This drastically shrinks file size but disables text selection.
                     </p>
-                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Why Use The PDF Mechanic?</h3>
-                    <ul class="list-disc pl-5 text-gray-700 space-y-2 mb-4">
-                        <li><strong>100% Secure:</strong> Unlike other websites, we do not upload your files to any server. Compression happens right inside your browser.</li>
-                        <li><strong>Unlimited Free Usage:</strong> No hidden costs, no sign-ups, and no watermarks.</li>
-                        <li><strong>High Quality:</strong> This tool is optimized for scanned and image-based PDFs. Text-based PDFs may be converted into images to reduce file size securely inside your browser.</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 mb-8">
-                        <h3 class="text-lg font-bold text-gray-900 mb-4">How to Compress PDF Online?</h3>
-                        <ol class="list-decimal pl-5 text-gray-700 space-y-3">
-                            <li>Click on <strong>"Click or Drag PDF here"</strong> to select your file.</li>
-                            <li>Wait for the file to load.</li>
-                            <li>Slide to adjust the <strong>Estimated Size</strong> perfectly.</li>
-                            <li>Click <strong>"Compress PDF Now"</strong>.</li>
-                            <li>Download your smaller PDF instantly.</li>
-                        </ol>
-                    </div>
-
-                    <div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h3>
-                        <div class="space-y-4">
-                            <details class="group p-4 bg-white rounded-lg shadow-sm border border-gray-100 cursor-pointer">
-   <summary class="flex justify-between items-center font-medium">
-    <span>Why does my text PDF become image-based?</span>
-    <span class="transition group-open:rotate-180 text-brand">
-      <i class="fa-solid fa-chevron-down"></i>
-    </span>
-  </summary>
-  <p class="text-gray-600 mt-2 text-sm">
-    This tool works by optimizing PDF pages as images to reduce file size.
-    Text-based PDFs may be converted to images during compression.
-    This helps reduce size but text selection may not be available.
-  </p>
-</details>
-
-                            <details class="group p-4 bg-white rounded-lg shadow-sm border border-gray-100 cursor-pointer">
-                                <summary class="flex justify-between items-center font-medium">
-                                    <span>Is my data safe?</span>
-                                    <span class="transition group-open:rotate-180 text-brand"><i class="fa-solid fa-chevron-down"></i></span>
-                                </summary>
-                                <p class="text-gray-600 mt-2 text-sm">Yes, completely. Since we use client-side technology, your PDF never leaves your computer.</p>
-                            </details>
-
-                            <details class="group p-4 bg-white rounded-lg shadow-sm border border-gray-100 cursor-pointer">
-                                <summary class="flex justify-between items-center font-medium">
-                                    <span>Does it affect file quality?</span>
-                                    <span class="transition group-open:rotate-180 text-brand"><i class="fa-solid fa-chevron-down"></i></span>
-                                </summary>
-                                <p class="text-gray-600 mt-2 text-sm">Compression reduces image resolution to save space. Use the slider to balance size and quality.</p>
-                            </details>
-
-                            <details class="group p-4 bg-white rounded-lg shadow-sm border border-gray-100 cursor-pointer">
-                                <summary class="flex justify-between items-center font-medium">
-                                    <span>Is there a file size limit?</span>
-                                    <span class="transition group-open:rotate-180 text-brand"><i class="fa-solid fa-chevron-down"></i></span>
-                                </summary>
-                                <p class="text-gray-600 mt-2 text-sm">We recommend files under 50MB for optimal browser performance, as processing happens on your device.</p>
-                            </details>
-                        </div>
-                    </div>
-
-                </div>
+                </details>
+                <details class="group bg-white dark:bg-dark-card p-4 rounded-xl border border-slate-200 dark:border-dark-border cursor-pointer">
+                    <summary class="flex justify-between items-center font-medium text-slate-800 dark:text-slate-200">
+                        <span>Is there a file size limit?</span>
+                        <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-brand-600"></i></span>
+                    </summary>
+                    <p class="text-slate-600 dark:text-slate-400 mt-3 text-sm leading-relaxed">
+                        We recommend files under 50MB because the processing happens on your device's RAM. Larger files might slow down your browser.
+                    </p>
+                </details>
             </div>
         </section>
     </main>
 
-    <footer class="mt-auto bg-gray-900 text-white pt-10 pb-6">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-                <div>
-                    <h3 class="text-xl font-bold mb-4">The PDF Mechanic</h3>
-                    <p class="text-gray-400 text-sm">Secure, client-side PDF tools designed for privacy and speed.</p>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Popular Tools</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="compressor.html" class="hover:text-brand transition">Compress PDF</a></li>
-                        <li><a href="merger.html" class="hover:text-brand transition">Merge PDF</a></li>
-                        <li><a href="splitter.html" class="hover:text-brand transition">Split PDF</a></li>
-                        <li><a href="delete-pages.html" class="hover:text-brand transition">Delete Pages</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4 text-gray-200">Feedback</h4>
-                    <p class="text-sm text-gray-400">Please leave your feedback and report any problem.</p>
-                    <div class="flex items-center gap-3 mt-3">
-                        <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-brand hover:border-brand transition" title="Meet Developer"><i class="fa-solid fa-user"></i></a>
-                        <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-brand hover:border-brand transition" title="Email"><i class="fa-solid fa-envelope"></i></a>
-                        <a href="#" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-green-600 hover:border-green-600 transition" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-                    </div>
-                </div>
+    <footer class="bg-slate-950 text-slate-400 pt-16 pb-8 border-t border-slate-800 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-10">
+        <div class="col-span-1 sm:col-span-2 md:col-span-1">
+            <div class="flex items-center gap-2 mb-4 text-white">
+                <i class="fa-solid fa-wrench text-brand-600 text-xl"></i>
+                <span class="font-bold text-xl font-display">The PDF Mechanic</span>
             </div>
-            <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
-                <p>© <span id="year"></span> The PDF Mechanic. All rights reserved.</p>
+            <p class="text-sm leading-relaxed text-slate-500 mb-4">
+                Built for speed and privacy. The only PDF toolkit that works 100% offline in your browser.
+            </p>
             </div>
+        
+        <div>
+            <h4 class="text-white font-bold text-sm mb-4">Organize & Edit</h4>
+            <ul class="space-y-2 text-sm">
+                <li><a href="merger.html" class="hover:text-brand-500 transition">Merge PDF</a></li>
+                <li><a href="compressor.html" class="hover:text-brand-500 transition">Compress PDF</a></li>
+                <li><a href="splitter.html" class="hover:text-brand-500 transition">Split PDF</a></li>
+                <li><a href="rotate-pdf.html" class="hover:text-brand-500 transition">Rotate PDF</a></li>
+            </ul>
         </div>
-    </footer>
+
+        <div>
+            <h4 class="text-white font-bold text-sm mb-4">Convert</h4>
+            <ul class="space-y-2 text-sm">
+                <li><a href="pdf-to-word.html" class="hover:text-brand-500 transition">PDF to Word</a></li>
+                <li><a href="images-to-pdf.html" class="hover:text-brand-500 transition">JPG to PDF</a></li>
+                <li><a href="excel-to-pdf.html" class="hover:text-brand-500 transition">Excel to PDF</a></li>
+                <li><a href="html-to-pdf.html" class="hover:text-brand-500 transition">HTML to PDF</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h4 class="text-white font-bold text-sm mb-4">Legal & More</h4>
+            <ul class="space-y-2 text-sm">
+                <li><a href="privacy.html" class="hover:text-brand-500 transition">Privacy Policy</a></li>
+                <li><a href="terms.html" class="hover:text-brand-500 transition">Terms of Use</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="border-t border-slate-900 pt-8 text-center text-xs text-slate-600 px-4">
+        &copy; <span id="year"></span> The PDF Mechanic. All rights reserved.
+    </div>
+</footer>
 
     <script>
+        // Theme Logic
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+        } else { html.classList.remove('dark'); }
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+        });
         document.getElementById('year').textContent = new Date().getFullYear();
-        
+
+        // COMPRESSION LOGIC (Unchanged)
         let selectedFile = null;
         let pdfDoc = null;
         let originalSizeBytes = 0;
@@ -379,7 +349,7 @@
             bubble.style.opacity = '1';
 
             if (originalSizeBytes > 0 && pdfDoc) {
-                bubble.innerHTML = 'Estimating…';
+                bubble.innerHTML = 'Estimating...';
                 if (estimateTimeout) clearTimeout(estimateTimeout);
                 estimateTimeout = setTimeout(async () => {
                     const q = 0.4 + 0.6 * val;
@@ -484,25 +454,17 @@
             document.getElementById('settingsArea').classList.add('hidden');
             document.getElementById('resultArea').classList.remove('hidden');
 
-           const newSize = blob.size;
+            const newSize = blob.size;
 
-// If compressed PDF is larger, return original file
-if (newSize >= originalSizeBytes) {
-  alert(
-    "Compression would increase file size.\n" +
-    "Your original PDF is already optimized."
-  );
-
-  const originalUrl = URL.createObjectURL(selectedFile);
-  const downloadLink = document.getElementById('downloadLink');
-  downloadLink.href = originalUrl;
-  downloadLink.download = selectedFile.name;
-
-  document.getElementById('newSizeDisplay').textContent =
-    formatBytes(originalSizeBytes);
-
-  return;
-}
+            if (newSize >= originalSizeBytes) {
+                alert("Compression would increase file size. Your original PDF is already optimized.");
+                const originalUrl = URL.createObjectURL(selectedFile);
+                const downloadLink = document.getElementById('downloadLink');
+                downloadLink.href = originalUrl;
+                downloadLink.download = selectedFile.name;
+                document.getElementById('newSizeDisplay').textContent = formatBytes(originalSizeBytes);
+                return;
+            }
 
             document.getElementById('oldSizeDisplay').textContent = formatBytes(originalSizeBytes);
             document.getElementById('newSizeDisplay').textContent = formatBytes(newSize);
@@ -511,7 +473,6 @@ if (newSize >= originalSizeBytes) {
             const downloadLink = document.getElementById('downloadLink');
             downloadLink.href = url;
             
-            // FILENAME FIX
             let name = selectedFile.name.replace(/\.[^/.]+$/, "");
             downloadLink.download = `${name}_compressed_PDF_Mechanic.pdf`;
         }
@@ -532,7 +493,3 @@ if (newSize >= originalSizeBytes) {
     </script>
 </body>
 </html>
-
-
-
-

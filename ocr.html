@@ -1,331 +1,326 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta property="og:title" content="Free OCR PDF Online – Make PDF Searchable">
-<meta property="og:description" content="Convert scanned PDFs & images into searchable text. 100% free & secure OCR.">
-<meta property="og:url" content="https://www.pdfmechanic.com/ocr.html">
-<meta property="og:type" content="website">
-<meta property="og:image" content="https://www.pdfmechanic.com/og-ocr.png">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Free OCR PDF Online">
-<meta name="twitter:description" content="Make scanned PDFs searchable instantly with client-side OCR.">
-<meta name="twitter:image" content="https://www.pdfmechanic.com/og-ocr.png">
-
-<title>Free OCR PDF Tool – Convert Scanned PDF to Searchable Text Online</title>
-<meta name="description" content="Convert scanned PDF files and images into searchable and selectable text using our free online OCR PDF tool. 100% secure, works directly in your browser." />
-    <meta name="keywords" content="ocr pdf, image to text, scanned pdf to text, make pdf searchable, free online ocr, client-side ocr, hindi ocr" />
+    
+    <title>Free OCR PDF Online | Convert Scanned PDF to Searchable Text | The PDF Mechanic</title>
+    <meta name="description" content="Convert scanned PDFs and images into searchable text using free online OCR. 100% secure client-side tool. Supports English, Hindi, and more." />
+    <meta name="keywords" content="ocr pdf online free, scanned pdf to text, image to text converter, make pdf searchable, client-side ocr, extract text from pdf, tesseract js ocr" />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://www.pdfmechanic.com/ocr.html" />
-    
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    
+    <link rel="canonical" href="https://www.thepdfmechanic.com/ocr.html" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Free OCR Tool - Make PDF Searchable" />
+    <meta property="og:description" content="Convert scanned documents into searchable text instantly in your browser. No uploads." />
+    <meta property="og:image" content="https://www.thepdfmechanic.com/og-image.png" />
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { brand: '#0ea5e9', bg: '#F3F4F6' }, // Blue Theme for OCR
-                    fontFamily: { sans: ['Inter', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 
+    <script>
+      tailwind.config = {
+        darkMode: 'class', 
+        theme: {
+          extend: {
+            colors: { 
+                brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a' },
+                dark: { bg: '#0f172a', card: '#1e293b', text: '#f8fafc', border: '#334155' } 
+            },
+            fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Outfit', 'sans-serif'] },
+            animation: { 'bounce-slow': 'bounce 3s infinite', 'fade-in': 'fadeIn 0.5s ease-out' },
+            keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
+          }
+        }
+      }
+    </script>
     <style>
-        /* Smooth Animations */
-        details > summary { list-style: none; }
-        details > summary::-webkit-details-marker { display: none; }
-        details[open] summary ~ * { animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { 0% { opacity: 0; transform: translateY(-5px); } 100% { opacity: 1; transform: translateY(0); } }
-        
         .loader-bar {
-            background: linear-gradient(90deg, #0ea5e9 0%, #3b82f6 50%, #0ea5e9 100%);
+            background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 50%, #3b82f6 100%);
             background-size: 200% 100%;
             animation: loading 1.5s infinite;
         }
         @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        
+        /* Custom Scrollbar for Logs */
+        .log-scrollbar::-webkit-scrollbar { width: 6px; }
+        .log-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .log-scrollbar::-webkit-scrollbar-thumb { background-color: #475569; border-radius: 20px; }
     </style>
-    <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Free OCR PDF Online",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "Web",
-  "description": "Convert scanned PDFs and images into searchable text using free client-side OCR.",
-  "url": "https://www.pdfmechanic.com/ocr.html",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  }
-}
-</script>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [{
-    "@type": "Question",
-    "name": "Is this OCR tool free?",
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "Yes, The PDF Mechanic OCR tool is 100% free and runs entirely in your browser."
-    }
-  },{
-    "@type": "Question",
-    "name": "Is my document safe?",
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "Yes, files are processed locally in your browser and never uploaded to any server."
-    }
-  },{
-    "@type": "Question",
-    "name": "Which languages are supported?",
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "English, Hindi, Spanish, French, and German are supported."
-    }
-  }]
-}
-</script>
-
 </head>
-<body class="font-sans bg-bg text-gray-900 flex flex-col min-h-screen">
+<body class="font-sans bg-slate-50 text-slate-900 dark:bg-dark-bg dark:text-dark-text flex flex-col min-h-screen transition-colors duration-300">
 
-    <nav class="w-full bg-gray-900 text-white shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex h-16 items-center justify-between">
-                <a href="index.html" class="text-xl font-bold flex items-center gap-2 hover:text-brand transition">
-                    <i class="fa-solid fa-wrench text-brand"></i> The PDF Mechanic
-                </a>
-                <a href="index.html" class="text-sm font-medium hover:text-brand transition">Back to Tools</a>
-            </div>
+    <nav class="sticky top-0 z-50 bg-white/90 dark:bg-dark-bg/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+          <div class="flex items-center gap-4">
+              <a href="index.html" class="flex items-center gap-2 group">
+                <div class="w-9 h-9 bg-brand-600 rounded-lg flex items-center justify-center text-white text-lg shadow-md group-hover:bg-brand-700 transition">
+                    <i class="fa-solid fa-wrench"></i>
+                </div>
+                <span class="font-display font-bold text-xl tracking-tight hidden sm:block">The PDF Mechanic</span>
+              </a>
+          </div>
+          <div class="flex items-center gap-4">
+             <a href="index.html" class="text-sm font-medium text-slate-500 hover:text-brand-600 dark:text-slate-400 transition hidden md:block">
+                <i class="fa-solid fa-arrow-left mr-1"></i> Back Home
+             </a>
+             <button id="themeToggle" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-yellow-400 flex items-center justify-center transition hover:ring-2 ring-brand-500">
+                <i class="fa-solid fa-moon dark:hidden"></i>
+                <i class="fa-solid fa-sun hidden dark:block"></i>
+             </button>
+          </div>
         </div>
+      </div>
     </nav>
 
-    <main class="flex-grow max-w-4xl mx-auto px-4 py-12 w-full">
+    <main class="flex-grow max-w-6xl mx-auto px-4 py-12 w-full">
         
         <div class="text-center mb-10">
-            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">Free OCR PDF Tool – Make Scanned PDFs Searchable</h1>
-            <p class="text-gray-600 text-lg">Make Scanned PDFs & Images Searchable and Selectable.</p>
+            <span class="inline-block py-1 px-3 rounded-full bg-brand-50 dark:bg-brand-900/30 text-brand-600 dark:text-brand-300 text-xs font-bold uppercase tracking-wider mb-3">Offline Tool</span>
+            <h1 class="font-display text-4xl md:text-5xl font-extrabold mb-4 text-slate-900 dark:text-white">Free OCR PDF Tool</h1>
+            <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                Make scanned PDFs and images searchable. Convert text instantly in your browser without uploading.
+            </p>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-xl p-6 md:p-10 border-t-4 border-brand">
+        <div class="bg-white dark:bg-dark-card rounded-3xl shadow-xl border border-slate-200 dark:border-dark-border overflow-hidden min-h-[400px] transition-colors relative mb-20">
             
-            <div id="uploadArea" class="border-2 border-dashed border-gray-300 rounded-xl p-10 text-center hover:bg-blue-50 hover:border-brand transition cursor-pointer group" onclick="document.getElementById('fileInput').click()">
+            <div id="uploadArea" class="p-8 md:p-16 text-center cursor-pointer group h-full flex flex-col justify-center items-center" onclick="document.getElementById('fileInput').click()">
                 <input type="file" id="fileInput" accept="application/pdf, image/*" class="hidden">
-                <div class="w-20 h-20 bg-blue-100 text-brand rounded-full flex items-center justify-center text-4xl mx-auto mb-4 group-hover:scale-110 transition">
-                    <i class="fa-solid fa-eye"></i>
+                
+                <div class="w-24 h-24 bg-brand-50 dark:bg-brand-900/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
+                    <i class="fa-solid fa-eye text-4xl text-brand-600"></i>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-700">Click to Upload Scanned PDF or Image</h3>
-                <p class="text-sm text-gray-500 mt-2">Supports: PDF, JPG, PNG (Max 50MB)</p>
+                
+                <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-2">Upload Scanned File</h3>
+                <p class="text-slate-500 dark:text-slate-400 mb-6">PDF, JPG, PNG supported. Processed Locally.</p>
+                
+                <button class="bg-brand-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-brand-700 transition shadow-lg shadow-brand-500/30">
+                    Choose File
+                </button>
             </div>
 
-            <div id="settingsArea" class="hidden mt-6">
-                <div class="flex items-center justify-between bg-gray-50 p-4 rounded-lg mb-6 border border-gray-200">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-file-pdf text-brand text-2xl"></i>
-                        <span id="fileName" class="font-semibold text-gray-800 text-sm truncate max-w-[200px]">filename.pdf</span>
+            <div id="settingsArea" class="hidden p-6 md:p-8 animate-fade-in">
+                
+                <div class="flex flex-col sm:flex-row items-center justify-between bg-slate-50 dark:bg-slate-800 p-4 rounded-xl mb-6 border border-slate-200 dark:border-slate-700 gap-4">
+                    <div class="flex items-center gap-3 overflow-hidden w-full">
+                        <div class="w-10 h-10 rounded-lg bg-red-100 dark:bg-red-900/20 text-red-600 flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </div>
+                        <span id="fileName" class="font-semibold text-slate-800 dark:text-white text-sm truncate">filename.pdf</span>
                     </div>
-                    <button onclick="location.reload()" class="text-gray-400 hover:text-red-500 transition"><i class="fa-solid fa-xmark"></i></button>
+                    <button onclick="location.reload()" class="text-slate-500 hover:text-red-500 transition px-2"><i class="fa-solid fa-xmark text-lg"></i></button>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Document Language</label>
-                        <select id="langSelect" class="w-full border border-gray-300 rounded-lg p-3 bg-white focus:ring-2 focus:ring-brand outline-none">
-                            <option value="eng">English</option>
-                            <option value="hin">Hindi (हिन्दी)</option>
-                            <option value="spa">Spanish</option>
-                            <option value="fra">French</option>
-                            <option value="deu">German</option>
-                        </select>
+                        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Document Language</label>
+                        <div class="relative">
+                            <select id="langSelect" class="w-full appearance-none border border-slate-300 dark:border-slate-600 rounded-xl p-3 pl-4 bg-white dark:bg-slate-800 text-slate-800 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none transition">
+                                <option value="eng">English</option>
+                                <option value="hin">Hindi (हिन्दी)</option>
+                                <option value="spa">Spanish</option>
+                                <option value="fra">French</option>
+                                <option value="deu">German</option>
+                            </select>
+                            <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-slate-500">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Action</label>
-                        <button id="convertBtn" class="w-full bg-brand text-white font-bold p-3 rounded-lg shadow hover:bg-blue-600 transition disabled:opacity-50 disabled:cursor-not-allowed">
-                            <i class="fa-solid fa-bolt mr-2"></i> Start OCR Process
+                        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Action</label>
+                        <button id="convertBtn" class="w-full bg-brand-600 text-white font-bold p-3 rounded-xl shadow-lg shadow-brand-500/20 hover:bg-brand-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-bolt"></i> Start OCR Process
                         </button>
                     </div>
                 </div>
 
-                <div id="statusArea" class="hidden">
+                <div id="statusArea" class="hidden animate-fade-in">
                     <div class="flex justify-between items-end mb-2">
-                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Live Processing Logs</span>
-                        <span id="percentBadge" class="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded">0%</span>
+                        <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Processing Logs</span>
+                        <span id="percentBadge" class="bg-brand-100 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300 text-xs font-bold px-2 py-1 rounded">0%</span>
                     </div>
                     
-                    <div class="bg-gray-900 rounded-lg p-4 font-mono text-xs h-32 overflow-y-auto text-green-400 shadow-inner mb-2" id="logs">
+                    <div class="bg-slate-900 rounded-xl p-4 font-mono text-xs h-40 overflow-y-auto text-green-400 shadow-inner mb-4 log-scrollbar border border-slate-800" id="logs">
                         <p>> System Ready.</p>
                     </div>
                     
-                    <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                        <div id="progressBar" class="loader-bar h-full w-0 transition-all duration-300"></div>
+                    <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2.5 overflow-hidden">
+                        <div id="progressBar" class="loader-bar h-full w-0 transition-all duration-300 rounded-full"></div>
                     </div>
-                    <p class="text-center text-xs text-gray-400 mt-2">Processing happens locally. Please do not close this tab.</p>
+                    <p class="text-center text-xs text-slate-500 dark:text-slate-400 mt-3">
+                        <i class="fa-solid fa-shield-halved mr-1"></i> Processing locally. Do not close this tab.
+                    </p>
                 </div>
             </div>
 
+            <div class="bg-slate-50 dark:bg-slate-800/50 p-4 border-t border-slate-200 dark:border-slate-700 flex justify-center items-center gap-6 text-xs sm:text-sm text-slate-500 dark:text-slate-400 flex-wrap">
+                <span class="flex items-center gap-2"><i class="fa-solid fa-lock text-brand-600"></i> Secure</span>
+                <span class="flex items-center gap-2"><i class="fa-solid fa-bolt text-brand-600"></i> Fast Tesseract Engine</span>
+                <span class="flex items-center gap-2"><i class="fa-solid fa-ban text-brand-600"></i> No Uploads</span>
+            </div>
         </div>
 
-        <section class="mt-16">
-            <h2 class="text-2xl font-bold text-gray-900 text-center mb-8">How to Make a Scanned PDF Searchable Online</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm text-center">
-                    <div class="w-12 h-12 bg-blue-50 text-brand rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">1</div>
-                    <h3 class="font-bold mb-2">Upload File</h3>
-                    <p class="text-sm text-gray-600">Select your scanned PDF or image from your device.</p>
+        <section class="mb-20">
+            <h2 class="text-2xl font-bold text-center text-slate-900 dark:text-white mb-10 font-display">How to Convert Scanned PDF to Text</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="p-6 bg-white dark:bg-dark-card rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                    <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-full flex items-center justify-center text-xl mx-auto mb-4 font-bold">1</div>
+                    <h3 class="font-bold text-lg text-slate-800 dark:text-white mb-2">Upload Scan</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Select your scanned PDF or image (JPG/PNG). We support heavy files too.</p>
                 </div>
-                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm text-center">
-                    <div class="w-12 h-12 bg-blue-50 text-brand rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">2</div>
-                    <h3 class="font-bold mb-2">Select Language</h3>
-                    <p class="text-sm text-gray-600">Choose the language of your document (e.g., English, Hindi).</p>
+                <div class="p-6 bg-white dark:bg-dark-card rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                    <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-full flex items-center justify-center text-xl mx-auto mb-4 font-bold">2</div>
+                    <h3 class="font-bold text-lg text-slate-800 dark:text-white mb-2">Choose Language</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Select the language of your document (e.g., Hindi, English) for better accuracy.</p>
                 </div>
-                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm text-center">
-                    <div class="w-12 h-12 bg-blue-50 text-brand rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">3</div>
-                    <h3 class="font-bold mb-2">Download</h3>
-                    <p class="text-sm text-gray-600">Get a new PDF where text can be selected, copied, and searched.</p>
+                <div class="p-6 bg-white dark:bg-dark-card rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                    <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-full flex items-center justify-center text-xl mx-auto mb-4 font-bold">3</div>
+                    <h3 class="font-bold text-lg text-slate-800 dark:text-white mb-2">Download</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Get a searchable PDF file where you can select, copy, and search text.</p>
                 </div>
             </div>
         </section>
 
-        <section class="mt-16 bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
-            <span class="bg-brand text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Guide</span>
-            <h2 class="text-2xl font-bold text-gray-900 mt-3 mb-6">Why Convert Scanned PDF to Searchable Text?</h2>
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+            <div>
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">Why use our OCR Tool?</h2>
+                <div class="space-y-6">
+                    <div class="flex gap-4">
+                        <div class="w-10 h-10 rounded-lg bg-green-100 dark:bg-green-900/20 text-green-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-eye"></i></div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 dark:text-white">Make PDFs Searchable</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Turn flat images into text-selectable documents. Perfect for archiving and searching through old records.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/20 text-blue-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-language"></i></div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 dark:text-white">Multilingual Support</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">We use the Tesseract engine which supports multiple languages including Hindi and English.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
-            <div class="prose max-w-none text-gray-700 space-y-4">
-                <p>
-                    Scanned documents are essentially images. You cannot select text, search for keywords (Ctrl+F), or copy content from them. This is where <strong>OCR (Optical Character Recognition)</strong> comes in.
-                </p>
-                <h3 class="text-lg font-bold text-gray-900">What is OCR?</h3>
-                <p>
-                    OCR is a technology that recognizes text within a digital image. It is commonly used to recognize text in scanned documents and images. Our tool uses advanced browser-based OCR to create an invisible text layer over your image, making it look exactly like the original but with functional text.
-                </p>
-                <h3 class="text-lg font-bold text-gray-900">Benefits of Searchable PDFs</h3>
-                <ul class="list-disc pl-5 space-y-2">
-                    <li><strong>Searchability:</strong> Find specific words or phrases instantly using search functions.</li>
-                    <li><strong>Accessibility:</strong> Screen readers can read the text aloud for visually impaired users.</li>
-                    <li><strong>Copy & Paste:</strong> Easily extract quotes or data without retyping manually.</li>
-                    <li><strong>Small Size:</strong> Often reduces file size compared to high-res raw scans.</li>
-                </ul>
-                <p class="text-sm text-gray-500 italic mt-4">
-                    Note: This tool runs entirely in your browser. Your sensitive documents are never uploaded to our servers, ensuring 100% privacy.
-                </p>
+            <div>
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">FAQ</h2>
+                <div class="space-y-3">
+                    <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4 cursor-pointer">
+                        <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white">
+                            <span>Is this OCR tool free?</span>
+                            <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-brand-500"></i></span>
+                        </summary>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500">Yes, it is 100% free and runs entirely in your browser. No limits on usage.</p>
+                    </details>
+                    <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4 cursor-pointer">
+                        <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white">
+                            <span>Is my document safe?</span>
+                            <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-brand-500"></i></span>
+                        </summary>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500">Absolutely. We use <strong>Client-side OCR</strong>. Your file is processed by your own computer and never uploaded to any server.</p>
+                    </details>
+                </div>
             </div>
         </section>
 
-        <section class="mt-12">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Frequently Asked Questions</h2>
-            <div class="space-y-4">
+        <section class="border-t border-slate-200 dark:border-slate-800 pt-16 pb-8">
+            <article class="prose dark:prose-invert max-w-none">
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-6 font-display">Free OCR PDF Online: Convert Scanned Documents to Text</h2>
                 
-                <details class="group bg-white p-5 rounded-lg border border-gray-200 shadow-sm cursor-pointer">
-                    <summary class="flex justify-between items-center font-semibold text-gray-800 list-none">
-                        <span>Is this OCR tool free?</span>
-                        <span class="transition group-open:rotate-180 text-brand"><i class="fa-solid fa-chevron-down"></i></span>
-                    </summary>
-                    <p class="text-gray-600 mt-3 text-sm">Yes, The PDF Mechanic OCR tool is 100% free to use for all users. No registration required.</p>
-                </details>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+                    In the digital age, having documents in a "flat" image format is a productivity killer. You can't search for keywords, you can't copy text, and screen readers can't read them. The PDF Mechanic offers a powerful <strong>Free OCR PDF Online</strong> tool that solves this problem instantly. Using advanced Optical Character Recognition (OCR) technology, we convert your scanned PDFs and images into fully searchable text documents.
+                </p>
 
-                <details class="group bg-white p-5 rounded-lg border border-gray-200 shadow-sm cursor-pointer">
-                    <summary class="flex justify-between items-center font-semibold text-gray-800 list-none">
-                        <span>Does it support handwriting?</span>
-                        <span class="transition group-open:rotate-180 text-brand"><i class="fa-solid fa-chevron-down"></i></span>
-                    </summary>
-                    <p class="text-gray-600 mt-3 text-sm">OCR works best with printed text (books, invoices, papers). Handwriting recognition may vary depending on clarity.</p>
-                </details>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4">What is Client-Side OCR?</h3>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+                    Most online OCR tools ask you to upload your sensitive documents to their cloud servers for processing. This creates a security risk. Our tool is different. We utilize <strong>Tesseract.js</strong>, a powerful OCR engine that runs directly inside your web browser. This means when you use our <strong>image to text converter</strong>, your data never leaves your device. It is the safest way to digitize bank statements, legal contracts, and personal ID proofs.
+                </p>
 
-                <details class="group bg-white p-5 rounded-lg border border-gray-200 shadow-sm cursor-pointer">
-                    <summary class="flex justify-between items-center font-semibold text-gray-800 list-none">
-                        <span>Which languages are supported?</span>
-                        <span class="transition group-open:rotate-180 text-brand"><i class="fa-solid fa-chevron-down"></i></span>
-                    </summary>
-                    <p class="text-gray-600 mt-3 text-sm">Currently, we support English, Hindi, Spanish, French, and German. Select your language from the dropdown for best accuracy.</p>
-                </details>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4">Extract Text from Images and Scans</h3>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+                    Whether you have a photo of a book page (JPG/PNG) or a multi-page scanned PDF, our tool handles it all. It overlays a transparent text layer on top of your original image. This preserves the visual look of the document while allowing you to use <strong>Ctrl+F</strong> to find information instantly. We support multiple languages including English, Hindi, Spanish, and more, making it a versatile tool for students and professionals alike.
+                </p>
 
-                <details class="group bg-white p-5 rounded-lg border border-gray-200 shadow-sm cursor-pointer">
-                    <summary class="flex justify-between items-center font-semibold text-gray-800 list-none">
-                        <span>Is my document safe?</span>
-                        <span class="transition group-open:rotate-180 text-brand"><i class="fa-solid fa-chevron-down"></i></span>
-                    </summary>
-                    <p class="text-gray-600 mt-3 text-sm">Absolutely. We use <strong>Client-side OCR</strong>. Your file is processed by your own computer's browser and is never sent to any external server.</p>
-                </details>
-
-                <details class="group bg-white p-5 rounded-lg border border-gray-200 shadow-sm cursor-pointer">
-                    <summary class="flex justify-between items-center font-semibold text-gray-800 list-none">
-                        <span>What file formats can I upload?</span>
-                        <span class="transition group-open:rotate-180 text-brand"><i class="fa-solid fa-chevron-down"></i></span>
-                    </summary>
-                    <p class="text-gray-600 mt-3 text-sm">You can upload PDF files (scanned) or Image files (JPG, PNG, BMP). The output will always be a Searchable PDF.</p>
-                </details>
-
-            </div>
+                <div class="bg-brand-50 dark:bg-brand-900/20 p-6 rounded-2xl mb-6">
+                    <h4 class="font-bold text-brand-700 dark:text-brand-400 mb-2"><i class="fa-solid fa-lightbulb mr-2"></i>Performance Tip</h4>
+                    <p class="text-sm text-slate-700 dark:text-slate-300">
+                        Since the processing happens on your device, the speed depends on your computer's power. For very large documents (50+ pages), it might take a few minutes. Please keep the tab open until the process completes.
+                    </p>
+                </div>
+            </article>
         </section>
 
     </main>
 
-    <footer class="bg-gray-900 text-white pt-16 pb-8 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center border-b border-gray-800 pb-8 mb-8">
-                <div class="mb-6 md:mb-0 text-center md:text-left">
-                    <h2 class="text-2xl font-bold flex items-center justify-center md:justify-start gap-2">
-                        <i class="fa-solid fa-wrench text-brand"></i> The PDF Mechanic
-                    </h2>
-                    <p class="text-gray-400 text-sm mt-2 max-w-xs">Secure, client-side PDF tools. Your files never leave your browser.</p>
-                </div>
+    <footer class="bg-slate-950 text-slate-400 pt-16 pb-8 border-t border-slate-800 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-10">
+        <div class="col-span-1 sm:col-span-2 md:col-span-1">
+            <div class="flex items-center gap-2 mb-4 text-white">
+                <i class="fa-solid fa-wrench text-brand-600 text-xl"></i>
+                <span class="font-bold text-xl font-display">The PDF Mechanic</span>
             </div>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-                <div>
-                    <h3 class="text-lg font-semibold mb-4 text-gray-200">Popular Tools</h3>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="compressor.html" class="hover:text-white transition">Compress PDF</a></li>
-                        <li><a href="merger.html" class="hover:text-white transition">Merge PDF</a></li>
-                        <li><a href="ocr.html" class="hover:text-white transition">OCR PDF</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4 text-gray-200">Convert</h3>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="images-to-pdf.html" class="hover:text-white transition">JPG to PDF</a></li>
-                        <li><a href="pdf-to-images.html" class="hover:text-white transition">PDF to JPG</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4 text-gray-200">Edit</h3>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="splitter.html" class="hover:text-white transition">Split PDF</a></li>
-                        <li><a href="delete-pages.html" class="hover:text-white transition">Delete Pages</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4 text-gray-200">Support</h3>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-white transition">Contact Us</a></li>
-                        <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
-                    </ul>
-                </div>
+            <p class="text-sm leading-relaxed text-slate-500 mb-4">
+                Built for speed and privacy. The only PDF toolkit that works 100% offline in your browser.
+            </p>
             </div>
-            <div class="border-t border-gray-800 pt-8 text-center text-sm text-gray-500">
-                <p>&copy; <span id="year"></span> The PDF Mechanic. All rights reserved.</p>
-            </div>
+        
+        <div>
+            <h4 class="text-white font-bold text-sm mb-4">Organize & Edit</h4>
+            <ul class="space-y-2 text-sm">
+                <li><a href="merger.html" class="hover:text-brand-500 transition">Merge PDF</a></li>
+                <li><a href="compressor.html" class="hover:text-brand-500 transition">Compress PDF</a></li>
+                <li><a href="splitter.html" class="hover:text-brand-500 transition">Split PDF</a></li>
+                <li><a href="rotate-pdf.html" class="hover:text-brand-500 transition">Rotate PDF</a></li>
+            </ul>
         </div>
-    </footer>
-    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+
+        <div>
+            <h4 class="text-white font-bold text-sm mb-4">Convert</h4>
+            <ul class="space-y-2 text-sm">
+                <li><a href="pdf-to-word.html" class="hover:text-brand-500 transition">PDF to Word</a></li>
+                <li><a href="images-to-pdf.html" class="hover:text-brand-500 transition">JPG to PDF</a></li>
+                <li><a href="excel-to-pdf.html" class="hover:text-brand-500 transition">Excel to PDF</a></li>
+                <li><a href="html-to-pdf.html" class="hover:text-brand-500 transition">HTML to PDF</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h4 class="text-white font-bold text-sm mb-4">Legal & More</h4>
+            <ul class="space-y-2 text-sm">
+                <li><a href="privacy.html" class="hover:text-brand-500 transition">Privacy Policy</a></li>
+                <li><a href="terms.html" class="hover:text-brand-500 transition">Terms of Use</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="border-t border-slate-900 pt-8 text-center text-xs text-slate-600 px-4">
+        &copy; <span id="year"></span> The PDF Mechanic. All rights reserved.
+    </div>
+</footer>
 
     <script>
-        // Setup PDF.js Worker
+        // Theme Logic
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          html.classList.add('dark');
+        } else { html.classList.remove('dark'); }
+        themeToggle.addEventListener('click', () => {
+          html.classList.toggle('dark');
+          localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+        });
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Setup PDF.js Worker (Original Logic Preserved)
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
         const fileInput = document.getElementById('fileInput');
@@ -344,6 +339,7 @@
         // Logging Helper
         const log = (msg) => {
             const p = document.createElement('p');
+            p.className = 'mb-1';
             p.innerText = `> ${msg}`;
             logs.appendChild(p);
             logs.scrollTop = logs.scrollHeight;
@@ -361,65 +357,84 @@
             }
         });
 
-        convertBtn.addEventListener('click', async () => {
-            if(!selectedFile) return;
+       convertBtn.addEventListener('click', async () => {
+    if(!selectedFile) return;
 
-            // UI Reset
-            convertBtn.disabled = true;
-            statusArea.classList.remove('hidden');
-            logs.innerHTML = '';
-            progressBar.style.width = '0%';
-            percentBadge.innerText = '0%';
-            
-            log("Initializing Application...");
+    // UI Reset
+    convertBtn.disabled = true;
+    convertBtn.classList.add('opacity-70', 'cursor-not-allowed');
+    statusArea.classList.remove('hidden');
+    logs.innerHTML = '';
+    progressBar.style.width = '0%';
+    percentBadge.innerText = '0%';
+    
+    log("Initializing OCR Engine...");
 
-            let worker = null;
+    let worker = null;
 
-            try {
-                // 1. Initialize Tesseract
-                const lang = langSelect.value;
-                worker = await Tesseract.createWorker();
-                log(`Loading Language Data (${lang})...`);
-                await worker.loadLanguage(lang);
-                await worker.initialize(lang);
-
-                // 2. Prepare for PDF Merging (using pdf-lib)
-                const { PDFDocument } = PDFLib;
-                const finalPdfDoc = await PDFDocument.create();
-
-                // 3. Check File Type
-                if (selectedFile.type === 'application/pdf') {
-                    log("Detected PDF Input.");
-                    await processScannedPDF(selectedFile, worker, finalPdfDoc);
-                } else {
-                    log("Detected Image Input.");
-                    await processImage(selectedFile, worker, finalPdfDoc);
+    try {
+        const lang = langSelect.value;
+        
+        // --- CHANGE START: Better Worker Creation with Logger ---
+        // Ye logger aapko batayega ki file download ho rahi hai ya nahi
+        worker = await Tesseract.createWorker(lang, 1, {
+            logger: m => {
+                // Sirf main status updates dikhayein
+                if(m.status.includes('loading') || m.status.includes('recognizing')) {
+                     log(`> ${m.status} (${(m.progress * 100).toFixed(0)}%)`);
+                     // Progress bar update sirf recognition ke waqt
+                     if(m.status === 'recognizing text') {
+                         const p = Math.round(m.progress * 100);
+                         progressBar.style.width = `${p}%`;
+                         percentBadge.innerText = `${p}%`;
+                     }
                 }
-
-                // 4. Download Final PDF
-                log("Finalizing document...");
-                const pdfBytes = await finalPdfDoc.save();
-                
-                // --- NEW FILENAME LOGIC HERE ---
-                const originalName = selectedFile.name.replace(/\.[^/.]+$/, "");
-                const newFileName = `${originalName}-searchable-pdfmechanic.pdf`;
-                downloadBlob(pdfBytes, newFileName);
-
-                log("Success! Download started.");
-                progressBar.style.width = '100%';
-                percentBadge.innerText = 'Done';
-
-            } catch (err) {
-                console.error(err);
-                log("ERROR: " + err.message);
-                alert("Error occurred: " + err.message);
-            } finally {
-                if (worker) {
-                    await worker.terminate();
-                }
-                convertBtn.disabled = false;
             }
         });
+        // --- CHANGE END ---
+
+        log(`Language (${lang}) Loaded Successfully.`);
+
+        // 2. Prepare for PDF Merging (using pdf-lib)
+        const { PDFDocument } = PDFLib;
+        const finalPdfDoc = await PDFDocument.create();
+
+        // 3. Check File Type
+        if (selectedFile.type === 'application/pdf') {
+            log("Detected PDF Input.");
+            await processScannedPDF(selectedFile, worker, finalPdfDoc);
+        } else {
+            log("Detected Image Input.");
+            await processImage(selectedFile, worker, finalPdfDoc);
+        }
+
+        // 4. Download Final PDF
+        log("Finalizing document...");
+        const pdfBytes = await finalPdfDoc.save();
+        
+        const originalName = selectedFile.name.replace(/\.[^/.]+$/, "");
+        const newFileName = `${originalName}-searchable-pdfmechanic.pdf`;
+        downloadBlob(pdfBytes, newFileName);
+
+        log("Success! Download started.");
+        progressBar.style.width = '100%';
+        percentBadge.innerText = 'Done';
+
+    } catch (err) {
+        console.error(err);
+        log("ERROR: " + err.message);
+        // User ko batayein agar language load fail hui
+        if(err.message.includes('Network') || err.message.includes('load')) {
+             log("TIP: Check internet connection. Language data needs to download first time.");
+        }
+    } finally {
+        if (worker) {
+            await worker.terminate();
+        }
+        convertBtn.disabled = false;
+        convertBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+    }
+});
 
         // --- Logic: Process Single Image ---
         async function processImage(file, worker, finalPdfDoc) {
@@ -498,5 +513,17 @@
             document.body.removeChild(a);
         }
     </script>
+    <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then((registration) => {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, (err) => {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+    });
+  }
+</script>
 </body>
 </html>

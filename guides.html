@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>PDF Guides, Tutorials & Security Tips | The PDF Mechanic</title>
+    <meta name="description" content="Explore our library of tutorials on merging PDFs offline, compressing files for email, and understanding client-side security.">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    
+    <meta property="og:title" content="PDF Guides & Tutorials | The PDF Mechanic">
+    <meta property="og:description" content="Master your documents with our latest tips, tricks, and security explanations.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a' }, dark: { bg: '#0f172a', card: '#1e293b', text: '#f8fafc', border: '#334155' } }, fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Outfit', 'sans-serif'] }, animation: { 'fade-in': 'fadeIn 0.5s ease-out' }, keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } } } }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="font-sans bg-slate-50 text-slate-900 dark:bg-dark-bg dark:text-dark-text flex flex-col min-h-screen transition-colors duration-300">
+
+    <nav class="sticky top-0 z-50 bg-white/90 dark:bg-dark-bg/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="flex items-center gap-2 group">
+                    <div class="w-9 h-9 bg-brand-600 rounded-lg flex items-center justify-center text-white text-lg shadow-md group-hover:bg-brand-700 transition">
+                        <i class="fa-solid fa-wrench"></i>
+                    </div>
+                    <span class="font-display font-bold text-xl tracking-tight hidden sm:block">The PDF Mechanic</span>
+                </a>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="text-sm font-medium text-slate-500 hover:text-brand-600 dark:text-slate-400 transition">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Back to Tools
+                </a>
+                <button id="themeToggle" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-yellow-400 flex items-center justify-center transition hover:ring-2 ring-brand-500">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:block"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="py-20 text-center px-4 bg-white dark:bg-dark-card border-b border-slate-200 dark:border-dark-border">
+        <div class="max-w-3xl mx-auto">
+            <span class="text-brand-600 dark:text-brand-400 font-bold tracking-wider text-xs uppercase mb-4 block">Knowledge Base</span>
+            <h1 class="font-display text-4xl md:text-5xl font-extrabold mb-6 text-slate-900 dark:text-white leading-tight">
+                Guides & <span class="text-brand-600">Resources</span>
+            </h1>
+            <p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+                Expert tips on managing your documents securely. Learn how to compress, merge, and convert files without uploading them to the cloud.
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex-grow">
+        
+        <div class="flex gap-2 overflow-x-auto pb-8 mb-4 hide-scrollbar">
+            <button class="px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full text-sm font-bold shadow-md">All Guides</button>
+            <button class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 rounded-full text-sm font-medium hover:bg-slate-50 transition">Tutorials</button>
+            <button class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 rounded-full text-sm font-medium hover:bg-slate-50 transition">Security</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <article class="group flex flex-col bg-white dark:bg-dark-card rounded-2xl border border-slate-200 dark:border-dark-border overflow-hidden hover:shadow-xl transition duration-300 animate-fade-in">
+                <a href="how-to-merge-pdf.html" class="block h-48 bg-brand-100 dark:bg-brand-900/20 relative overflow-hidden">
+                    <div class="absolute inset-0 flex items-center justify-center text-brand-500/30 text-8xl group-hover:scale-110 transition duration-500">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-white/90 dark:bg-slate-900/90 text-slate-900 dark:text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm backdrop-blur-sm">Tutorial</span>
+                    </div>
+                </a>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div class="text-xs text-slate-500 mb-3 flex items-center gap-2">
+                        <i class="fa-regular fa-calendar"></i> Jan 05, 2026
+                        <span class="w-1 h-1 rounded-full bg-slate-300"></span>
+                        3 min read
+                    </div>
+                    <h3 class="font-bold text-xl text-slate-900 dark:text-white mb-3 leading-tight group-hover:text-brand-600 transition">
+                        <a href="how-to-merge-pdf.html">How to Merge PDF Files Offline</a>
+                    </h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+                        Step-by-step guide to combining documents on your device without internet access.
+                    </p>
+                    <a href="how-to-merge-pdf.html" class="inline-flex items-center text-brand-600 font-semibold text-sm hover:underline">
+                        Read Article <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                    </a>
+                </div>
+            </article>
+
+            <article class="group flex flex-col bg-white dark:bg-dark-card rounded-2xl border border-slate-200 dark:border-dark-border overflow-hidden hover:shadow-xl transition duration-300 animate-fade-in" style="animation-delay: 0.1s">
+                <a href="reduce-pdf-size.html" class="block h-48 bg-rose-100 dark:bg-rose-900/20 relative overflow-hidden">
+                    <div class="absolute inset-0 flex items-center justify-center text-rose-500/30 text-8xl group-hover:scale-110 transition duration-500">
+                        <i class="fa-solid fa-compress"></i>
+                    </div>
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-white/90 dark:bg-slate-900/90 text-slate-900 dark:text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm backdrop-blur-sm">Tips</span>
+                    </div>
+                </a>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div class="text-xs text-slate-500 mb-3 flex items-center gap-2">
+                        <i class="fa-regular fa-calendar"></i> Jan 05, 2026
+                        <span class="w-1 h-1 rounded-full bg-slate-300"></span>
+                        2 min read
+                    </div>
+                    <h3 class="font-bold text-xl text-slate-900 dark:text-white mb-3 leading-tight group-hover:text-brand-600 transition">
+                        <a href="reduce-pdf-size.html">Reduce PDF Size for Email</a>
+                    </h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+                        How to shrink large reports to fit Gmail limits (25MB) easily without losing quality.
+                    </p>
+                    <a href="reduce-pdf-size.html" class="inline-flex items-center text-brand-600 font-semibold text-sm hover:underline">
+                        Read Article <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                    </a>
+                </div>
+            </article>
+
+            <article class="group flex flex-col bg-white dark:bg-dark-card rounded-2xl border border-slate-200 dark:border-dark-border overflow-hidden hover:shadow-xl transition duration-300 animate-fade-in" style="animation-delay: 0.2s">
+                <a href="pdf-security-explained.html" class="block h-48 bg-purple-100 dark:bg-purple-900/20 relative overflow-hidden">
+                    <div class="absolute inset-0 flex items-center justify-center text-purple-500/30 text-8xl group-hover:scale-110 transition duration-500">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-white/90 dark:bg-slate-900/90 text-slate-900 dark:text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm backdrop-blur-sm">Security</span>
+                    </div>
+                </a>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div class="text-xs text-slate-500 mb-3 flex items-center gap-2">
+                        <i class="fa-regular fa-calendar"></i> Jan 04, 2026
+                        <span class="w-1 h-1 rounded-full bg-slate-300"></span>
+                        4 min read
+                    </div>
+                    <h3 class="font-bold text-xl text-slate-900 dark:text-white mb-3 leading-tight group-hover:text-brand-600 transition">
+                        <a href="pdf-security-explained.html">Why Client-side PDF tools are safer</a>
+                    </h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+                        Understanding the privacy difference between server uploads and local tools.
+                    </p>
+                    <a href="pdf-security-explained.html" class="inline-flex items-center text-brand-600 font-semibold text-sm hover:underline">
+                        Read Article <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                    </a>
+                </div>
+            </article>
+
+        </div>
+    </main>
+
+    <footer class="bg-slate-950 text-slate-400 pt-16 pb-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-10">
+            <div class="col-span-1 sm:col-span-2 md:col-span-1">
+                <div class="flex items-center gap-2 mb-4 text-white">
+                    <i class="fa-solid fa-wrench text-brand-600 text-xl"></i>
+                    <span class="font-bold text-xl font-display">The PDF Mechanic</span>
+                </div>
+                <p class="text-sm leading-relaxed text-slate-500 mb-4">
+                    Built for speed and privacy. The only PDF toolkit that works 100% offline in your browser.
+                </p>
+            </div>
+            
+            <div>
+                <h4 class="text-white font-bold text-sm mb-4">Tools</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="compressor.html" class="hover:text-brand-500 transition">Compress PDF</a></li>
+                    <li><a href="merger.html" class="hover:text-brand-500 transition">Merge PDF</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold text-sm mb-4">Convert</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="pdf-to-word.html" class="hover:text-brand-500 transition">PDF to Word</a></li>
+                    <li><a href="images-to-pdf.html" class="hover:text-brand-500 transition">JPG to PDF</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold text-sm mb-4">Legal</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="privacy.html" class="hover:text-brand-500 transition">Privacy Policy</a></li>
+                    <li><a href="terms.html" class="hover:text-brand-500 transition">Terms of Use</a></li>
+                    <li><a href="sitemap.xml" class="hover:text-brand-500 transition">Sitemap</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="border-t border-slate-900 pt-8 text-center text-xs text-slate-600 px-4">
+            &copy; <span id="year"></span> The PDF Mechanic. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+      const themeToggle = document.getElementById('themeToggle');
+      const html = document.documentElement;
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) html.classList.add('dark');
+      themeToggle.addEventListener('click', () => { html.classList.toggle('dark'); localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light'; });
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</body>
+</html>
