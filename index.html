@@ -310,20 +310,21 @@
       document.getElementById('year').textContent = new Date().getFullYear();
 
 // 2. Data-Driven Tool Grid with Keywords
-      const tools = [
-        { title: 'PDF to Word', desc: 'Convert PDF to editable Word.', icon: 'fa-file-word', cat: 'convert', active: true, link: 'pdf-to-word.html', color: 'text-blue-600', bg: 'bg-blue-50 dark:bg-blue-900/20', keywords: 'docx, edit, convert' },
-        { title: 'Word to PDF', desc: 'Create PDF from Docx.', icon: 'fa-file-word', cat: 'convert', active: true, link: 'word-to-pdf.html', color: 'text-blue-700', bg: 'bg-blue-100 dark:bg-blue-800/20', keywords: 'doc, create pdf' },
-        { title: 'JPG to PDF', desc: 'Images to PDF document.', icon: 'fa-images', cat: 'convert', active: true, link: 'images-to-pdf.html', color: 'text-orange-500', bg: 'bg-orange-50 dark:bg-orange-900/20', keywords: 'image, picture, gallery' },
-        { title: 'Excel to PDF', desc: 'XLSX sheets to PDF.', icon: 'fa-file-excel', cat: 'convert', active: true, link: 'excel-to-pdf.html', color: 'text-emerald-600', bg: 'bg-emerald-50 dark:bg-emerald-900/20', keywords: 'spreadsheet, xlsx, data' },
+       const tools = [
         { title: 'Compress PDF', desc: 'Reduce file size (100kb).', icon: 'fa-compress', cat: 'edit', active: true, link: 'compressor.html', color: 'text-rose-500', bg: 'bg-rose-50 dark:bg-rose-900/20', badge: 'Popular', keywords: 'shrink, reduce, optimize' },
         { title: 'Merge PDF', desc: 'Combine PDFs offline.', icon: 'fa-object-group', cat: 'organize', active: true, link: 'merger.html', color: 'text-indigo-500', bg: 'bg-indigo-50 dark:bg-indigo-900/20', badge: 'Popular', keywords: 'combine, join, binder' },
-        { title: 'eSign PDF', desc: 'Digital Signature tool.', icon: 'fa-signature', cat: 'edit', active: true, link: 'esign-pdf.html', color: 'text-pink-500', bg: 'bg-pink-50 dark:bg-pink-900/20', badge: 'New', keywords: 'sign, contract' },
-        { title: 'OCR PDF', desc: 'Extract text from scan.', icon: 'fa-eye', cat: 'edit', active: true, link: 'ocr.html', color: 'text-sky-500', bg: 'bg-sky-50 dark:bg-sky-900/20', badge: 'New', keywords: 'scan, recognize' },
         { title: 'Split PDF', desc: 'Separate PDF pages.', icon: 'fa-scissors', cat: 'organize', active: true, link: 'splitter.html', color: 'text-green-500', bg: 'bg-green-50 dark:bg-green-900/20', keywords: 'cut, divide' },
+        { title: 'Compress Image', desc: 'Reduce image file size.', icon: 'fa-image', cat: 'other', active: true, link: 'image-compressor.html', color: 'text-yellow-500', bg: 'bg-yellow-50 dark:bg-yellow-900/20', keywords: 'shrink, jpg, png' },
+        { title: 'OCR PDF', desc: 'Extract text from scan.', icon: 'fa-eye', cat: 'edit', active: true, link: 'ocr.html', color: 'text-sky-500', bg: 'bg-sky-50 dark:bg-sky-900/20', badge: 'New', keywords: 'scan, recognize' },
+        { title: 'JPG to PDF', desc: 'Images to PDF document.', icon: 'fa-images', cat: 'convert', active: true, link: 'images-to-pdf.html', color: 'text-orange-500', bg: 'bg-orange-50 dark:bg-orange-900/20', keywords: 'image, picture, gallery' },
+
+        { title: 'PDF to Word', desc: 'Convert PDF to editable Word.', icon: 'fa-file-word', cat: 'convert', active: true, link: 'pdf-to-word.html', color: 'text-blue-600', bg: 'bg-blue-50 dark:bg-blue-900/20', keywords: 'docx, edit, convert' },
+        { title: 'Word to PDF', desc: 'Create PDF from Docx.', icon: 'fa-file-word', cat: 'convert', active: true, link: 'word-to-pdf.html', color: 'text-blue-700', bg: 'bg-blue-100 dark:bg-blue-800/20', keywords: 'doc, create pdf' },
+        { title: 'Excel to PDF', desc: 'XLSX sheets to PDF.', icon: 'fa-file-excel', cat: 'convert', active: true, link: 'excel-to-pdf.html', color: 'text-emerald-600', bg: 'bg-emerald-50 dark:bg-emerald-900/20', keywords: 'spreadsheet, xlsx, data' },
+        { title: 'eSign PDF', desc: 'Digital Signature tool.', icon: 'fa-signature', cat: 'edit', active: true, link: 'esign-pdf.html', color: 'text-pink-500', bg: 'bg-pink-50 dark:bg-pink-900/20', badge: 'New', keywords: 'sign, contract' },
         { title: 'Rotate PDF', desc: 'Fix page orientation.', icon: 'fa-rotate-right', cat: 'organize', active: true, link: 'rotate-pdf.html', color: 'text-purple-500', bg: 'bg-purple-50 dark:bg-purple-900/20', keywords: 'turn, flip' },
         { title: 'PDF Editor', desc: 'Add text & shapes.', icon: 'fa-pen-to-square', cat: 'edit', active: true, link: 'pdf-editor.html', color: 'text-violet-500', bg: 'bg-violet-50 dark:bg-violet-900/20', keywords: 'annotate, modify' },
         { title: 'HTML to PDF', desc: 'Webpage to PDF.', icon: 'fa-code', cat: 'convert', active: true, link: 'html-to-pdf.html', color: 'text-gray-600', bg: 'bg-gray-100 dark:bg-gray-800', keywords: 'web, url' },
-        
 // Inactive Tools Logic
         { title: 'Unlock PDF', desc: 'Remove passwords.', icon: 'fa-unlock', cat: 'edit', active: false, color: 'text-slate-400', bg: 'bg-slate-100 dark:bg-slate-800', keywords: 'decrypt' },
         { title: 'Protect PDF', desc: 'Encrypt with password.', icon: 'fa-lock', cat: 'edit', active: false, color: 'text-slate-400', bg: 'bg-slate-100 dark:bg-slate-800', keywords: 'security' },
