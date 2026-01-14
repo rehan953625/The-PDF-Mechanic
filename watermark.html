@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>Drag & Drop Watermark to PDF | Custom Position Offline | The PDF Mechanic</title>
+    <meta name="description" content="Add text or image watermarks to PDF with Drag & Drop positioning. Place watermark anywhere on the page instantly. Secure, offline, and free." />
+    <meta name="keywords" content="drag and drop watermark pdf, move watermark pdf, place watermark anywhere, pdf stamper custom position, add logo to pdf specific position, free pdf watermark tool offline" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.thepdfmechanic.com/watermark.html" />
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Watermark PDF - Drag & Drop Positioning" />
+    <meta property="og:description" content="Simply drag your watermark to place it anywhere on the PDF page. Full control." />
+    <meta property="og:image" content="https://www.thepdfmechanic.com/og-watermark.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Watermark PDF - Drag & Drop" />
+    <meta name="twitter:description" content="Simply drag your watermark to place it anywhere on the PDF page." />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+    </script>
+
+    <script>
+      tailwind.config = {
+        darkMode: 'class', 
+        theme: {
+          extend: {
+            colors: { 
+                brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a' },
+                dark: { bg: '#0f172a', card: '#1e293b', text: '#f8fafc', border: '#334155' } 
+            },
+            fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Outfit', 'sans-serif'] },
+            animation: { 'fade-in': 'fadeIn 0.5s ease-out' },
+            keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
+          }
+        }
+      }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Drag & Drop Watermark PDF",
+      "applicationCategory": "ProductivityApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A free online tool to add text or image watermarks to PDF documents with drag and drop positioning."
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "How do I position the watermark?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It's easy! Just click and drag the watermark on the preview image to place it exactly where you want."
+        }
+      },{
+        "@type": "Question",
+        "name": "Does it work on Mobile?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, you can use your finger to touch and drag the watermark on your phone screen."
+        }
+      },{
+        "@type": "Question",
+        "name": "Is my document secure?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The watermarking process happens locally in your browser using JavaScript. Your files are never uploaded to any server."
+        }
+      }]
+    }
+    </script>
+</head>
+<body class="font-sans bg-slate-50 text-slate-900 dark:bg-dark-bg dark:text-dark-text flex flex-col min-h-screen transition-colors duration-300">
+
+    <nav class="sticky top-0 z-50 bg-white/90 dark:bg-dark-bg/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+          <div class="flex items-center gap-4">
+              <a href="index.html" class="flex items-center gap-2 group">
+                <div class="w-9 h-9 bg-brand-600 rounded-lg flex items-center justify-center text-white text-lg shadow-md group-hover:bg-brand-700 transition">
+                    <i class="fa-solid fa-wrench"></i>
+                </div>
+                <span class="font-display font-bold text-xl tracking-tight hidden sm:block">The PDF Mechanic</span>
+              </a>
+          </div>
+          <div class="flex items-center gap-4">
+             <a href="index.html" class="text-sm font-medium text-slate-500 hover:text-brand-600 dark:text-slate-400 transition hidden md:block">
+                <i class="fa-solid fa-arrow-left mr-1"></i> Back Home
+             </a>
+             <button id="themeToggle" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-yellow-400 flex items-center justify-center transition hover:ring-2 ring-brand-500">
+                <i class="fa-solid fa-moon dark:hidden"></i>
+                <i class="fa-solid fa-sun hidden dark:block"></i>
+             </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 py-12 w-full">
+        
+        <div class="text-center mb-10">
+            <span class="inline-block py-1 px-3 rounded-full bg-brand-50 dark:bg-brand-900/30 text-brand-600 dark:text-brand-300 text-xs font-bold uppercase tracking-wider mb-3">Offline Tool</span>
+            <h1 class="font-display text-4xl md:text-5xl font-extrabold mb-4 text-slate-900 dark:text-white">Watermark PDF Files</h1>
+            <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                Drag and drop your watermark anywhere on the page. Secure, fast, and easy.
+            </p>
+        </div>
+
+        <div class="bg-white dark:bg-dark-card rounded-3xl shadow-xl border border-slate-200 dark:border-dark-border overflow-hidden min-h-[500px] transition-colors relative mb-20">
+            
+            <div class="p-6 md:p-8">
+                
+                <div id="uploadArea" class="border-3 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-16 text-center hover:bg-brand-50 dark:hover:bg-brand-900/10 hover:border-brand-500 transition duration-300 cursor-pointer group relative" onclick="document.getElementById('fileInput').click()">
+                    <input type="file" id="fileInput" accept="application/pdf" class="hidden">
+                    
+                    <div class="w-24 h-24 bg-brand-50 dark:bg-brand-900/20 rounded-full flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-up-down-left-right text-4xl text-brand-600"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-2">Select PDF File</h3>
+                    <p class="text-slate-500 dark:text-slate-400">or drop PDF here</p>
+                </div>
+
+                <div id="settingsArea" class="hidden animate-fade-in flex flex-col lg:flex-row gap-8">
+                    
+                    <div class="w-full lg:w-1/3 space-y-5">
+                        
+                        <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <div class="flex items-center gap-2 overflow-hidden">
+                                <i class="fa-solid fa-file-pdf text-brand-600 text-xl"></i>
+                                <span id="fileName" class="font-semibold text-slate-800 dark:text-slate-200 text-sm truncate">doc.pdf</span>
+                            </div>
+                            <button onclick="location.reload()" class="text-slate-400 hover:text-red-500 transition"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+
+                        <div class="flex gap-4 border-b border-slate-200 dark:border-slate-700">
+                            <button onclick="switchTab('text')" id="tab-text" class="pb-2 px-2 font-bold text-brand-600 border-b-2 border-brand-600 transition text-sm">Text</button>
+                            <button onclick="switchTab('image')" id="tab-image" class="pb-2 px-2 font-medium text-slate-500 dark:text-slate-400 hover:text-brand-600 transition border-b-2 border-transparent text-sm">Image</button>
+                        </div>
+
+                        <div id="textOptions" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Text</label>
+                                <input type="text" id="textWatermarkInput" value="CONFIDENTIAL" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg p-2.5 bg-white dark:bg-dark-card text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-brand-500 outline-none text-sm" oninput="updatePreview()">
+                            </div>
+                            
+                            <div class="flex gap-4">
+                                <div class="flex-1">
+                                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Color</label>
+                                    <div class="flex items-center gap-2">
+                                        <input type="color" id="colorInput" value="#cccccc" class="h-9 w-full p-1 rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-dark-card cursor-pointer" oninput="updatePreview()">
+                                    </div>
+                                </div>
+                                <div class="flex-1">
+                                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Font Size</label>
+                                    <input type="number" id="fontSizeInput" value="50" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg p-2 bg-white dark:bg-dark-card text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-brand-500 outline-none text-sm" oninput="updatePreview()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="imageOptions" class="hidden space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Upload Logo</label>
+                                <input type="file" id="imageWatermarkInput" accept="image/png, image/jpeg" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg p-2 bg-white dark:bg-dark-card text-xs text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100" onchange="handleImageUpload()">
+                            </div>
+                             <div>
+                                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Scale (%)</label>
+                                <input type="range" id="scaleRange" min="10" max="200" value="50" class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-brand-600" oninput="updatePreview()">
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 pt-4 border-t border-slate-200 dark:border-slate-700">
+                             
+                             <div class="bg-brand-50 dark:bg-brand-900/20 p-3 rounded-lg border border-brand-100 dark:border-brand-800/50">
+                                <p class="text-xs text-brand-700 dark:text-brand-300 font-semibold flex items-center gap-2">
+                                    <i class="fa-solid fa-hand-pointer"></i>
+                                    Drag the watermark on preview to move
+                                </p>
+                             </div>
+
+                             <div class="opacity-50 hover:opacity-100 transition-opacity">
+                                <label class="block text-xs font-bold text-slate-500 mb-2">Fine Tune Position (X/Y)</label>
+                                <div class="space-y-3">
+                                    <div>
+                                        <input type="range" id="xRange" min="0" max="100" value="50" class="w-full h-1 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-brand-600" oninput="updateFromSliders()">
+                                    </div>
+                                    <div>
+                                        <input type="range" id="yRange" min="0" max="100" value="50" class="w-full h-1 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-brand-600" oninput="updateFromSliders()">
+                                    </div>
+                                </div>
+                             </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1 flex justify-between">
+                                    <span>Rotation</span>
+                                    <span id="rotVal" class="text-brand-600">45°</span>
+                                </label>
+                                <input type="range" id="rotationRange" min="0" max="360" value="45" class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-brand-600" oninput="updatePreview()">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1 flex justify-between">
+                                    <span>Opacity</span>
+                                    <span id="opaVal" class="text-brand-600">0.5</span>
+                                </label>
+                                <input type="range" id="opacityRange" min="0.1" max="1" step="0.1" value="0.5" class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-brand-600" oninput="updatePreview()">
+                            </div>
+                        </div>
+
+                         <button id="processBtn" class="w-full bg-brand-600 text-white px-6 py-3 rounded-xl font-bold text-lg hover:bg-brand-700 shadow-lg shadow-brand-500/30 transform transition hover:-translate-y-1 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-stamp"></i> Apply Watermark
+                        </button>
+                    </div>
+
+                    <div class="w-full lg:w-2/3 bg-slate-100 dark:bg-slate-900 rounded-xl p-4 flex items-center justify-center relative overflow-hidden min-h-[400px]">
+                        
+                        <div id="previewWrapper" class="relative shadow-2xl border border-slate-300 dark:border-slate-700 cursor-crosshair">
+                             <canvas id="pdfPreview" class="block max-w-full h-auto pointer-events-none"></canvas>
+                             
+                             <div id="watermarkOverlay" class="absolute transform -translate-x-1/2 -translate-y-1/2 z-10 cursor-move select-none touch-none hover:ring-2 ring-brand-500/50 rounded-lg p-2 transition-shadow" style="left: 50%; bottom: 50%;">
+                                 <div id="watermarkElement" class="origin-center whitespace-nowrap" style="transform: rotate(-45deg); opacity: 0.5;">
+                                     CONFIDENTIAL
+                                 </div>
+                             </div>
+
+                        </div>
+
+                        <div id="loadingPreview" class="absolute inset-0 bg-white/80 dark:bg-dark-card/80 flex flex-col items-center justify-center z-20 hidden">
+                             <i class="fa-solid fa-circle-notch fa-spin text-brand-600 text-3xl"></i>
+                             <p class="text-sm font-semibold mt-2 text-slate-700 dark:text-slate-300">Generating Preview...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="downloadArea" class="hidden text-center py-10 animate-fade-in">
+                    <div class="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fa-solid fa-check text-4xl text-green-600 dark:text-green-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-2">Success!</h3>
+                    <p class="text-slate-600 dark:text-slate-400 mb-8">Watermark has been applied.</p>
+                    
+                    <button id="downloadBtn" class="bg-brand-600 text-white px-10 py-3 rounded-lg font-bold text-lg hover:bg-brand-700 shadow-md transition">
+                        <i class="fa-solid fa-download mr-2"></i> Download PDF
+                    </button>
+                    
+                    <button onclick="location.reload()" class="block mx-auto mt-6 text-slate-500 hover:text-brand-600 underline text-sm">
+                        Process Another File
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="bg-slate-50 dark:bg-slate-800/50 p-4 border-t border-slate-200 dark:border-slate-700 flex justify-center items-center gap-6 text-sm text-slate-500 dark:text-slate-400 flex-wrap">
+                <span class="flex items-center gap-2"><i class="fa-solid fa-lock text-brand-500"></i> Secure Processing</span>
+                <span class="flex items-center gap-2"><i class="fa-solid fa-bolt text-brand-500"></i> Drag & Drop</span>
+                <span class="flex items-center gap-2"><i class="fa-solid fa-crosshairs text-brand-500"></i> Custom Position</span>
+            </div>
+        </div>
+
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-8 font-display">Drag & Drop Watermark on PDF</h2>
+            
+            <article class="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-400 leading-relaxed">
+                <p class="mb-6">
+                    Placing a watermark shouldn't be a guessing game. With The PDF Mechanic's <strong>Drag & Drop Watermark Tool</strong>, you can simply grab your text or logo and place it exactly where you want it on the page. No more dealing with confusing coordinates or restricted positions.
+                </p>
+
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4">Why is Drag & Drop better?</h3>
+                <p class="mb-6">
+                    It offers the most intuitive experience. Just like you would place a sticker on a physical paper, you can move your digital watermark freely.
+                </p>
+                <ul class="list-disc pl-5 space-y-2 mb-6">
+                    <li><strong>Visual Precision:</strong> See exactly where the watermark lands relative to your text.</li>
+                    <li><strong>Touch Friendly:</strong> Works perfectly on smartphones and tablets. Just touch and drag.</li>
+                    <li><strong>Instant Feedback:</strong> What you see in the preview is exactly what you get in the final PDF.</li>
+                </ul>
+            </article>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+            <div>
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">Frequently Asked Questions</h2>
+                <div class="space-y-4">
+                    <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 cursor-pointer shadow-sm">
+                        <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white">
+                            <span>How do I move the watermark?</span>
+                            <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-brand-500"></i></span>
+                        </summary>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500">
+                            Simply click (or touch) the watermark on the preview image and drag it to your desired location.
+                        </p>
+                    </details>
+                    <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 cursor-pointer shadow-sm">
+                        <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white">
+                            <span>Is the position accurate?</span>
+                            <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-brand-500"></i></span>
+                        </summary>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500">
+                            Yes! The tool calculates the exact percentage of the position relative to the page size, ensuring it stays in the same spot on every page of your PDF.
+                        </p>
+                    </details>
+                </div>
+            </div>
+            
+             <div class="flex flex-col justify-center">
+                <div class="bg-brand-50 dark:bg-brand-900/10 rounded-3xl p-8 border border-brand-100 dark:border-brand-800/30 text-center">
+                    <div class="w-16 h-16 bg-brand-100 dark:bg-brand-900/30 text-brand-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                        <i class="fa-solid fa-shield-cat"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Privacy First</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6">
+                        We do not store or view your files. Everything happens on your device.
+                    </p>
+                    <a href="privacy.html" class="text-brand-600 font-semibold hover:text-brand-700 dark:hover:text-brand-400 text-sm">Read Privacy Policy <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-950 text-slate-400 pt-16 pb-8 border-t border-slate-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-10">
+            <div class="col-span-1 sm:col-span-2 md:col-span-1">
+                <div class="flex items-center gap-2 mb-4 text-white">
+                    <i class="fa-solid fa-wrench text-brand-600 text-xl"></i>
+                    <span class="font-bold text-xl font-display">The PDF Mechanic</span>
+                </div>
+                <p class="text-sm leading-relaxed text-slate-500 mb-4">
+                    Built for speed and privacy. The only PDF toolkit that works 100% offline in your browser.
+                </p>
+                </div>
+            
+            <div>
+                <h4 class="text-white font-bold text-sm mb-4">Organize & Edit</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="merger.html" class="hover:text-brand-500 transition">Merge PDF</a></li>
+                    <li><a href="compressor.html" class="hover:text-brand-500 transition">Compress PDF</a></li>
+                    <li><a href="watermark.html" class="text-white font-bold">Watermark PDF</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold text-sm mb-4">Convert</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="pdf-to-word.html" class="hover:text-brand-500 transition">PDF to Word</a></li>
+                    <li><a href="images-to-pdf.html" class="hover:text-brand-500 transition">JPG to PDF</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold text-sm mb-4">Legal & More</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="privacy.html" class="hover:text-brand-500 transition">Privacy Policy</a></li>
+                    <li><a href="terms.html" class="hover:text-brand-500 transition">Terms of Use</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="border-t border-slate-900 pt-8 text-center text-xs text-slate-600 px-4">
+            &copy; <span id="year"></span> The PDF Mechanic. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          html.classList.add('dark');
+        } else { html.classList.remove('dark'); }
+        themeToggle.addEventListener('click', () => {
+          html.classList.toggle('dark');
+          localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+        });
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // --- Variables ---
+        const fileInput = document.getElementById('fileInput');
+        const uploadArea = document.getElementById('uploadArea');
+        const settingsArea = document.getElementById('settingsArea');
+        const processBtn = document.getElementById('processBtn');
+        const xRange = document.getElementById('xRange');
+        const yRange = document.getElementById('yRange');
+        const overlay = document.getElementById('watermarkOverlay');
+        const previewWrapper = document.getElementById('previewWrapper');
+        
+        let currentFile = null;
+        let pdfDocBytes = null;
+        let activeTab = 'text';
+        let uploadedImageURL = null; 
+        let uploadedImageFile = null; 
+
+        // --- 1. File Upload & Preview ---
+        fileInput.addEventListener('change', async (e) => {
+            if (e.target.files && e.target.files[0]) {
+                currentFile = e.target.files[0];
+                document.getElementById('fileName').innerText = currentFile.name;
+                uploadArea.classList.add('hidden');
+                settingsArea.classList.remove('hidden');
+                
+                document.getElementById('loadingPreview').classList.remove('hidden');
+                await renderPDFPreview(currentFile);
+                document.getElementById('loadingPreview').classList.add('hidden');
+                updatePreview();
+            }
+        });
+
+        async function renderPDFPreview(file) {
+            const arrayBuffer = await file.arrayBuffer();
+            const loadingTask = pdfjsLib.getDocument(arrayBuffer);
+            const pdf = await loadingTask.promise;
+            const page = await pdf.getPage(1);
+            
+            const canvas = document.getElementById('pdfPreview');
+            const context = canvas.getContext('2d');
+            const viewport = page.getViewport({ scale: 1 });
+            
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            
+            await page.render({ canvasContext: context, viewport: viewport }).promise;
+        }
+
+        // --- 2. DRAG & DROP LOGIC ---
+        let isDragging = false;
+
+        function startDrag(e) {
+            isDragging = true;
+            overlay.style.cursor = 'grabbing';
+        }
+
+        function endDrag() {
+            isDragging = false;
+            overlay.style.cursor = 'grab';
+        }
+
+        function handleDrag(e) {
+            if (!isDragging) return;
+            e.preventDefault(); // Prevent scrolling on touch
+
+            // Get pointer position (Mouse or Touch)
+            let clientX, clientY;
+            if (e.type === 'touchmove') {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+
+            // Get wrapper dimensions
+            const rect = previewWrapper.getBoundingClientRect();
+            
+            // Calculate relative position inside wrapper (in pixels)
+            let x = clientX - rect.left;
+            let y = clientY - rect.top;
+
+            // Clamp values (keep inside box)
+            x = Math.max(0, Math.min(x, rect.width));
+            y = Math.max(0, Math.min(y, rect.height));
+
+            // Convert to Percentages for sliders & logic
+            const xPercent = (x / rect.width) * 100;
+            // PDF Y is from bottom, HTML Y is from top. 
+            // Our sliders and logic use "Bottom %" internally for PDFLib usually, 
+            // BUT here we are mapping visual placement.
+            // Let's stick to storing standard coordinates in sliders as "Left %" and "Bottom %"
+            // Wait, previous code used Bottom %. Let's check updatePreview.
+            // updatePreview uses: overlay.style.bottom = y + '%'.
+            // If y=50%, it's center. If y=0%, it's bottom.
+            // So dragging UP should increase Y value.
+            
+            // HTML Y (from top) to Bottom %:
+            const yPercent = 100 - ((y / rect.height) * 100);
+
+            // Update Sliders
+            xRange.value = xPercent;
+            yRange.value = yPercent;
+
+            // Update Visuals
+            updatePreview();
+        }
+
+        // Event Listeners for Dragging
+        overlay.addEventListener('mousedown', startDrag);
+        overlay.addEventListener('touchstart', startDrag);
+
+        window.addEventListener('mouseup', endDrag);
+        window.addEventListener('touchend', endDrag);
+
+        window.addEventListener('mousemove', handleDrag);
+        window.addEventListener('touchmove', handleDrag, { passive: false });
+
+
+        // --- 3. UI Updates ---
+
+        function updateFromSliders() {
+            updatePreview();
+        }
+
+        function updatePreview() {
+            const element = document.getElementById('watermarkElement');
+            const rotation = document.getElementById('rotationRange').value;
+            const opacity = document.getElementById('opacityRange').value;
+            const x = xRange.value;
+            const y = yRange.value; 
+            
+            document.getElementById('rotVal').innerText = rotation + '°';
+            document.getElementById('opaVal').innerText = opacity;
+
+            // Update Overlay Position (Left / Bottom)
+            overlay.style.left = x + '%';
+            overlay.style.bottom = y + '%';
+
+            // Style Element
+            element.style.opacity = opacity;
+            element.style.transform = `rotate(-${rotation}deg)`; 
+
+            if(activeTab === 'text') {
+                const text = document.getElementById('textWatermarkInput').value || "CONFIDENTIAL";
+                const color = document.getElementById('colorInput').value;
+                const size = document.getElementById('fontSizeInput').value;
+                
+                element.innerHTML = text;
+                element.style.color = color;
+                element.style.fontSize = (size * 1.33) + 'px'; 
+                element.style.fontFamily = 'Helvetica, sans-serif';
+                element.style.fontWeight = 'bold';
+            } else {
+                if(uploadedImageURL) {
+                     const scale = document.getElementById('scaleRange').value;
+                     const width = 200 * (scale / 100); 
+                     element.innerHTML = `<img src="${uploadedImageURL}" style="width:${width}px; height:auto;">`;
+                } else {
+                    element.innerHTML = '<span class="text-xs text-red-500">Upload Image</span>';
+                }
+            }
+        }
+
+        function switchTab(tab) {
+            activeTab = tab;
+            if(tab === 'text') {
+                document.getElementById('textOptions').classList.remove('hidden');
+                document.getElementById('imageOptions').classList.add('hidden');
+                document.getElementById('tab-text').className = "pb-2 px-2 font-bold text-brand-600 border-b-2 border-brand-600 transition text-sm";
+                document.getElementById('tab-image').className = "pb-2 px-2 font-medium text-slate-500 dark:text-slate-400 hover:text-brand-600 transition border-b-2 border-transparent text-sm";
+            } else {
+                document.getElementById('textOptions').classList.add('hidden');
+                document.getElementById('imageOptions').classList.remove('hidden');
+                document.getElementById('tab-image').className = "pb-2 px-2 font-bold text-brand-600 border-b-2 border-brand-600 transition text-sm";
+                document.getElementById('tab-text').className = "pb-2 px-2 font-medium text-slate-500 dark:text-slate-400 hover:text-brand-600 transition border-b-2 border-transparent text-sm";
+            }
+            updatePreview();
+        }
+
+        function handleImageUpload() {
+            const input = document.getElementById('imageWatermarkInput');
+            if (input.files && input.files[0]) {
+                uploadedImageFile = input.files[0];
+                uploadedImageURL = URL.createObjectURL(uploadedImageFile);
+                updatePreview();
+            }
+        }
+
+        // Helper: Hex to RGB
+        function hexToRgb(hex) {
+            const r = parseInt(hex.slice(1, 3), 16) / 255;
+            const g = parseInt(hex.slice(3, 5), 16) / 255;
+            const b = parseInt(hex.slice(5, 7), 16) / 255;
+            return { r, g, b };
+        }
+
+        // --- 4. Process PDF ---
+        processBtn.addEventListener('click', async () => {
+            if (!currentFile) return;
+            
+            const btn = processBtn;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+            btn.disabled = true;
+
+            try {
+                const arrayBuffer = await currentFile.arrayBuffer();
+                const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+                const pages = pdfDoc.getPages();
+                
+                const rotation = parseInt(document.getElementById('rotationRange').value);
+                const opacity = parseFloat(document.getElementById('opacityRange').value);
+                const xPercent = parseInt(xRange.value) / 100;
+                const yPercent = parseInt(yRange.value) / 100;
+                const { degrees } = PDFLib;
+
+                let imageEmbed = null;
+                let font = null;
+                let text = "";
+                let textColor = { r:0.8, g:0.8, b:0.8 }; 
+                let fontSize = 50;
+                let imgScaleVal = 50;
+
+                if (activeTab === 'image') {
+                    if (uploadedImageFile) {
+                        const imgBytes = await uploadedImageFile.arrayBuffer();
+                        if(uploadedImageFile.type === 'image/png') imageEmbed = await pdfDoc.embedPng(imgBytes);
+                        else imageEmbed = await pdfDoc.embedJpg(imgBytes);
+                        imgScaleVal = document.getElementById('scaleRange').value;
+                    } else {
+                        alert("Please select an image.");
+                        btn.innerHTML = '<i class="fa-solid fa-stamp"></i> Apply Watermark';
+                        btn.disabled = false;
+                        return;
+                    }
+                } else {
+                    text = document.getElementById('textWatermarkInput').value || "CONFIDENTIAL";
+                    font = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+                    const hex = document.getElementById('colorInput').value;
+                    textColor = hexToRgb(hex);
+                    fontSize = parseInt(document.getElementById('fontSizeInput').value);
+                }
+
+                pages.forEach(page => {
+                    const { width, height } = page.getSize();
+                    let contentWidth, contentHeight;
+
+                    if (activeTab === 'text') {
+                        contentWidth = font.widthOfTextAtSize(text, fontSize);
+                        contentHeight = fontSize;
+                    } else {
+                        const scale = imgScaleVal / 100; 
+                        contentWidth = imageEmbed.width * scale;
+                        contentHeight = imageEmbed.height * scale;
+                    }
+
+                    // Calculation based on Percentage (Center Anchor)
+                    const x = (width * xPercent) - (contentWidth / 2);
+                    const y = (height * yPercent) - (contentHeight / 2);
+
+                    if (activeTab === 'text') {
+                        page.drawText(text, {
+                            x: x,
+                            y: y,
+                            size: fontSize,
+                            font: font,
+                            color: PDFLib.rgb(textColor.r, textColor.g, textColor.b),
+                            opacity: opacity,
+                            rotate: degrees(rotation),
+                        });
+                    } else if (imageEmbed) {
+                        page.drawImage(imageEmbed, {
+                            x: x,
+                            y: y,
+                            width: contentWidth,
+                            height: contentHeight,
+                            opacity: opacity,
+                            rotate: degrees(rotation),
+                        });
+                    }
+                });
+
+                pdfDocBytes = await pdfDoc.save();
+                
+                document.getElementById('settingsArea').classList.add('hidden');
+                document.getElementById('downloadArea').classList.remove('hidden');
+
+            } catch (err) {
+                console.error(err);
+                alert("Error: " + err.message);
+                btn.innerHTML = '<i class="fa-solid fa-stamp"></i> Apply Watermark';
+                btn.disabled = false;
+            }
+        });
+
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            if (!pdfDocBytes) return;
+            const blob = new Blob([pdfDocBytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const name = currentFile.name.replace(/\.[^/.]+$/, "");
+            a.download = `${name}-watermarked-thepdfmechanic.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        });
+
+    </script>
+    <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then((registration) => {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, (err) => {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+    });
+  }
+</script>
+</body>
+</html>
