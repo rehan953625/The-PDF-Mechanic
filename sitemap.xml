@@ -3,9 +3,46 @@
 
    <url>
       <loc>https://www.thepdfmechanic.com/</loc>
-      <lastmod>2026-01-07</lastmod>
+      <lastmod>2026-01-14</lastmod>
       <changefreq>daily</changefreq>
       <priority>1.0</priority>
+   </url>
+
+   <url>
+      <loc>https://www.thepdfmechanic.com/image-compressor.html</loc>
+      <lastmod>2026-01-14</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://www.thepdfmechanic.com/pdf-to-excel.html</loc>
+      <lastmod>2026-01-14</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://www.thepdfmechanic.com/watermark.html</loc>
+      <lastmod>2026-01-14</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://www.thepdfmechanic.com/delete-pages.html</loc>
+      <lastmod>2026-01-14</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://www.thepdfmechanic.com/reorder-pages.html</loc>
+      <lastmod>2026-01-14</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://www.thepdfmechanic.com/add-page-numbers.html</loc>
+      <lastmod>2026-01-14</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
    </url>
 
    <url>
@@ -50,7 +87,6 @@
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
    </url>
-
    <url>
       <loc>https://www.thepdfmechanic.com/pdf-to-word.html</loc>
       <lastmod>2026-01-07</lastmod>
@@ -112,6 +148,12 @@
       <changefreq>weekly</changefreq>
       <priority>0.7</priority>
    </url>
+   <url>
+      <loc>https://www.thepdfmechanic.com/free-ocr-tool/</loc>
+      <lastmod>2026-01-08</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.9</priority>
+   </url>
 
    <url>
       <loc>https://www.thepdfmechanic.com/guides.html</loc>
@@ -137,7 +179,6 @@
       <changefreq>monthly</changefreq>
       <priority>0.6</priority>
    </url>
-
    <url>
       <loc>https://www.thepdfmechanic.com/privacy.html</loc>
       <lastmod>2026-01-07</lastmod>
@@ -149,12 +190,6 @@
       <lastmod>2026-01-07</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.5</priority>
-   </url>
-   <url>
-   <loc>https://www.thepdfmechanic.com/free-ocr-tool/</loc>
-   <lastmod>2026-01-08</lastmod>
-   <changefreq>weekly</changefreq>
-   <priority>0.9</priority>
    </url>
 
 </urlset>
