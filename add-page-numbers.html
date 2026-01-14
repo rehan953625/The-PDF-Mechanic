@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>Add Page Numbers to PDF Offline | Free PDF Pagination Tool | The PDF Mechanic</title>
+    <meta name="description" content="Add page numbers to PDF files offline using your browser. Secure, free, and no file uploads required. Custom position and format (1 of N) available." />
+    <meta name="keywords" content="add page numbers to pdf offline, paginate pdf free, number pdf pages client-side, pdf page counter tool, secure pdf numbering, browser-based pdf tools, insert page numbers pdf" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.thepdfmechanic.com/add-page-numbers.html" />
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Add Page Numbers to PDF - Free & Secure (Offline)" />
+    <meta property="og:description" content="Insert page numbers into your PDF files instantly. Processed securely in your browser without uploads." />
+    <meta property="og:image" content="https://www.thepdfmechanic.com/og-pagenumber.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Add Page Numbers to PDF - Free & Secure" />
+    <meta name="twitter:description" content="Insert page numbers into your PDF files instantly. Processed securely in your browser." />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+    <script>
+      tailwind.config = {
+        darkMode: 'class', 
+        theme: {
+          extend: {
+            colors: { 
+                brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a' },
+                dark: { bg: '#0f172a', card: '#1e293b', text: '#f8fafc', border: '#334155' } 
+            },
+            fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Outfit', 'sans-serif'] },
+            animation: { 'bounce-slow': 'bounce 3s infinite', 'fade-in': 'fadeIn 0.5s ease-out' },
+            keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
+          }
+        }
+      }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Add Page Numbers to PDF",
+      "applicationCategory": "ProductivityApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A free online tool to insert page numbers into PDF documents securely within the browser."
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "How do I add page numbers to a PDF offline?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Simply upload your file to The PDF Mechanic. The tool runs in your browser, so you can even turn off the internet after loading the page."
+        }
+      },{
+        "@type": "Question",
+        "name": "Is it safe for confidential documents?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, absolutely. Since no file is uploaded to any server, your sensitive data (like legal contracts or bank statements) remains 100% private on your device."
+        }
+      },{
+        "@type": "Question",
+        "name": "Can I format the page numbers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, you can choose from formats like '1', 'Page 1', or '1 of N' and position them anywhere on the page."
+        }
+      },{
+        "@type": "Question",
+        "name": "Is this tool free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, The PDF Mechanic is completely free to use with no hidden costs."
+        }
+      }]
+    }
+    </script>
+</head>
+<body class="font-sans bg-slate-50 text-slate-900 dark:bg-dark-bg dark:text-dark-text flex flex-col min-h-screen transition-colors duration-300">
+
+    <nav class="sticky top-0 z-50 bg-white/90 dark:bg-dark-bg/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+          <div class="flex items-center gap-4">
+              <a href="index.html" class="flex items-center gap-2 group">
+                <div class="w-9 h-9 bg-brand-600 rounded-lg flex items-center justify-center text-white text-lg shadow-md group-hover:bg-brand-700 transition">
+                    <i class="fa-solid fa-wrench"></i>
+                </div>
+                <span class="font-display font-bold text-xl tracking-tight hidden sm:block">The PDF Mechanic</span>
+              </a>
+          </div>
+          <div class="flex items-center gap-4">
+             <a href="index.html" class="text-sm font-medium text-slate-500 hover:text-brand-600 dark:text-slate-400 transition hidden md:block">
+                <i class="fa-solid fa-arrow-left mr-1"></i> Back Home
+             </a>
+             <button id="themeToggle" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-yellow-400 flex items-center justify-center transition hover:ring-2 ring-brand-500">
+                <i class="fa-solid fa-moon dark:hidden"></i>
+                <i class="fa-solid fa-sun hidden dark:block"></i>
+             </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="flex-grow max-w-5xl mx-auto px-4 py-12 w-full">
+        
+        <div class="text-center mb-10">
+            <span class="inline-block py-1 px-3 rounded-full bg-brand-50 dark:bg-brand-900/30 text-brand-600 dark:text-brand-300 text-xs font-bold uppercase tracking-wider mb-3">Offline Tool</span>
+            <h1 class="font-display text-4xl md:text-5xl font-extrabold mb-4 text-slate-900 dark:text-white">Add Page Numbers to PDF</h1>
+            <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                Insert page numbers into your documents instantly. Choose position and format. Processed securely in your browser.
+            </p>
+        </div>
+
+        <div class="bg-white dark:bg-dark-card rounded-3xl shadow-xl border border-slate-200 dark:border-dark-border overflow-hidden min-h-[400px] transition-colors relative mb-20">
+            
+            <div class="p-8 md:p-12">
+                
+                <div id="uploadArea" class="border-3 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-12 text-center hover:bg-brand-50 dark:hover:bg-brand-900/10 hover:border-brand-500 transition duration-300 cursor-pointer group relative" onclick="document.getElementById('fileInput').click()">
+                    <input type="file" id="fileInput" accept="application/pdf" class="hidden">
+                    
+                    <div class="w-24 h-24 bg-brand-50 dark:bg-brand-900/20 rounded-full flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-list-ol text-4xl text-brand-600"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-2">Select PDF File</h3>
+                    <p class="text-slate-500 dark:text-slate-400">or drop PDF here</p>
+                </div>
+
+                <div id="settingsArea" class="hidden animate-fade-in">
+                    <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800 p-4 rounded-lg mb-8 border border-slate-200 dark:border-slate-700">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-file-pdf text-brand-600 text-2xl"></i>
+                            <span id="fileName" class="font-semibold text-slate-800 dark:text-slate-200 text-sm truncate max-w-[200px]">document.pdf</span>
+                        </div>
+                        <button onclick="location.reload()" class="text-slate-400 hover:text-red-500 transition" title="Remove file"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                        
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Position</label>
+                            <div class="grid grid-cols-3 gap-2 bg-slate-100 dark:bg-slate-800 p-2 rounded-lg">
+                                <button onclick="selectPos('tl')" id="btn-tl" class="pos-btn h-12 border border-slate-300 dark:border-slate-600 rounded hover:border-brand-500 bg-white dark:bg-dark-card transition"></button>
+                                <button onclick="selectPos('tc')" id="btn-tc" class="pos-btn h-12 border border-slate-300 dark:border-slate-600 rounded hover:border-brand-500 bg-white dark:bg-dark-card transition"></button>
+                                <button onclick="selectPos('tr')" id="btn-tr" class="pos-btn h-12 border border-slate-300 dark:border-slate-600 rounded hover:border-brand-500 bg-white dark:bg-dark-card transition"></button>
+                                
+                                <button onclick="selectPos('bl')" id="btn-bl" class="pos-btn h-12 border border-slate-300 dark:border-slate-600 rounded hover:border-brand-500 bg-white dark:bg-dark-card transition"></button>
+                                <button onclick="selectPos('bc')" id="btn-bc" class="pos-btn h-12 border-2 border-brand-600 rounded bg-brand-50 dark:bg-brand-900/20 relative"><i class="fa-solid fa-check text-brand-600 absolute inset-0 m-auto w-fit h-fit"></i></button> 
+                                <button onclick="selectPos('br')" id="btn-br" class="pos-btn h-12 border border-slate-300 dark:border-slate-600 rounded hover:border-brand-500 bg-white dark:bg-dark-card transition"></button>
+                            </div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 text-center">Click a box to set position (Default: Bottom Center)</p>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Number Format</label>
+                                <select id="formatSelect" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg p-3 bg-white dark:bg-dark-card text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-brand-500 outline-none">
+                                    <option value="n">1, 2, 3...</option>
+                                    <option value="p_n">Page 1, Page 2...</option>
+                                    <option value="n_of_t">1 of 10, 2 of 10...</option>
+                                    <option value="p_n_of_t">Page 1 of 10...</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Start From Number</label>
+                                <input type="number" id="startNumber" value="1" min="1" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg p-3 bg-white dark:bg-dark-card text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-brand-500 outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="processBtn" class="w-full bg-brand-600 text-white px-8 py-4 rounded-xl font-bold text-xl hover:bg-brand-700 shadow-lg shadow-brand-500/30 transform transition hover:-translate-y-1 flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-plus-circle"></i> Add Page Numbers
+                    </button>
+                </div>
+
+                <div id="downloadArea" class="hidden text-center py-10 animate-fade-in">
+                    <div class="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fa-solid fa-check text-4xl text-green-600 dark:text-green-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-2">Success!</h3>
+                    <p class="text-slate-600 dark:text-slate-400 mb-8">Page numbers added successfully.</p>
+                    
+                    <button id="downloadBtn" class="bg-brand-600 text-white px-10 py-3 rounded-lg font-bold text-lg hover:bg-brand-700 shadow-md transition">
+                        <i class="fa-solid fa-download mr-2"></i> Download PDF
+                    </button>
+                    
+                    <button onclick="location.reload()" class="block mx-auto mt-6 text-slate-500 hover:text-brand-600 underline text-sm">
+                        Process Another File
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="bg-slate-50 dark:bg-slate-800/50 p-4 border-t border-slate-200 dark:border-slate-700 flex justify-center items-center gap-6 text-sm text-slate-500 dark:text-slate-400 flex-wrap">
+                <span class="flex items-center gap-2"><i class="fa-solid fa-lock text-brand-500"></i> Secure Processing</span>
+                <span class="flex items-center gap-2"><i class="fa-solid fa-bolt text-brand-500"></i> Instant Result</span>
+                <span class="flex items-center gap-2"><i class="fa-solid fa-ban text-brand-500"></i> No Watermark</span>
+            </div>
+        </div>
+
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-8 font-display">The Secure Way to Number PDF Pages Online</h2>
+            
+            <article class="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-400 leading-relaxed">
+                <p class="mb-6">
+                    Managing professional documents often requires proper organization, and one of the most essential elements of a well-organized document is <strong>pagination</strong>. Whether you are submitting a thesis, a legal contract, or a business report, page numbers make navigation easy. However, many online tools require you to upload your sensitive files to a remote server, which poses a security risk.
+                </p>
+
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4">Why Use The PDF Mechanic?</h3>
+                <p class="mb-6">
+                    Our <strong>Add Page Numbers tool</strong> is unique because it operates entirely <em>client-side</em>. This means your PDF file never leaves your computer or phone. The processing happens in your browser's memory using advanced WebAssembly technology. This ensures that your confidential data—be it financial records or personal IDs—remains 100% secure and private.
+                </p>
+
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4">Key Features</h3>
+                <ul class="list-disc pl-5 space-y-2 mb-6">
+                    <li><strong>100% Free & Unlimited:</strong> No hidden costs, no watermarks, and no limits on the number of files you can process.</li>
+                    <li><strong>Offline Capability:</strong> Once the page loads, you can disconnect your internet, and the tool will still function perfectly.</li>
+                    <li><strong>Customizable Positioning:</strong> Place numbers in any corner (Top-Left, Bottom-Right, etc.) or in the center of the page.</li>
+                    <li><strong>Flexible Formatting:</strong> Choose from standard numbers (1, 2, 3), labeled formats (Page 1), or total count formats (Page 1 of 5).</li>
+                </ul>
+
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4">How to Add Page Numbers on Android & PC</h3>
+                <p class="mb-4">
+                    You don't need expensive software like Adobe Acrobat to number your PDF pages. Just follow these simple steps:
+                </p>
+                <ol class="list-decimal pl-5 space-y-2 mb-6">
+                    <li>Click <strong>Select PDF File</strong> and choose your document.</li>
+                    <li>Select the <strong>Position</strong> grid to choose where the number should appear.</li>
+                    <li>Choose your preferred <strong>Number Format</strong> (e.g., "1 of N").</li>
+                    <li>Click <strong>Add Page Numbers</strong> and download your new file instantly.</li>
+                </ol>
+
+                <div class="bg-brand-50 dark:bg-brand-900/20 p-6 rounded-2xl border-l-4 border-brand-500">
+                    <h4 class="font-bold text-brand-700 dark:text-brand-400 mb-2"><i class="fa-solid fa-lightbulb mr-2"></i>Pro Tip</h4>
+                    <p class="text-sm">
+                        Since this tool runs locally, it is incredibly fast. You can use it to add page numbers to large files without waiting for slow uploads or downloads.
+                    </p>
+                </div>
+            </article>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+            <div>
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">Frequently Asked Questions</h2>
+                <div class="space-y-4">
+                    
+                    <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 cursor-pointer shadow-sm">
+                        <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white">
+                            <span>Is it free to add page numbers?</span>
+                            <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-brand-500"></i></span>
+                        </summary>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500 leading-relaxed">
+                            Yes, The PDF Mechanic is completely free. There are no subscriptions, sign-ups, or hidden charges.
+                        </p>
+                    </details>
+
+                    <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 cursor-pointer shadow-sm">
+                        <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white">
+                            <span>Can I format the text as "Page 1 of 5"?</span>
+                            <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-brand-500"></i></span>
+                        </summary>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500 leading-relaxed">
+                            Absolutely! We offer multiple formats including "1", "Page 1", "1 of N", and "Page 1 of N". You can select this from the settings menu.
+                        </p>
+                    </details>
+
+                    <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 cursor-pointer shadow-sm">
+                        <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white">
+                            <span>Does it work on Mobile?</span>
+                            <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-brand-500"></i></span>
+                        </summary>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500 leading-relaxed">
+                            Yes, since it is a browser-based tool, it works perfectly on Android, iPhone (iOS), Windows, Mac, and Linux without installing any apps.
+                        </p>
+                    </details>
+
+                    <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 cursor-pointer shadow-sm">
+                        <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white">
+                            <span>Will it overwrite existing text?</span>
+                            <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-brand-500"></i></span>
+                        </summary>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500 leading-relaxed">
+                            The tool overlays the page number on top of the page content. It does not delete existing text. We recommend checking the position to ensure it doesn't overlap with important footer information.
+                        </p>
+                    </details>
+
+                </div>
+            </div>
+            
+            <div class="flex flex-col justify-center">
+                <div class="bg-brand-50 dark:bg-brand-900/10 rounded-3xl p-8 border border-brand-100 dark:border-brand-800/30 text-center">
+                    <div class="w-16 h-16 bg-brand-100 dark:bg-brand-900/30 text-brand-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                        <i class="fa-solid fa-shield-cat"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Privacy First</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6">
+                        Unlike other sites, we do not store or view your files. Everything happens on your device.
+                    </p>
+                    <a href="privacy.html" class="text-brand-600 font-semibold hover:text-brand-700 dark:hover:text-brand-400 text-sm">Read Privacy Policy <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-950 text-slate-400 pt-16 pb-8 border-t border-slate-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-10">
+            <div class="col-span-1 sm:col-span-2 md:col-span-1">
+                <div class="flex items-center gap-2 mb-4 text-white">
+                    <i class="fa-solid fa-wrench text-brand-600 text-xl"></i>
+                    <span class="font-bold text-xl font-display">The PDF Mechanic</span>
+                </div>
+                <p class="text-sm leading-relaxed text-slate-500 mb-4">
+                    Built for speed and privacy. The only PDF toolkit that works 100% offline in your browser.
+                </p>
+                </div>
+            
+            <div>
+                <h4 class="text-white font-bold text-sm mb-4">Organize & Edit</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="merger.html" class="hover:text-brand-500 transition">Merge PDF</a></li>
+                    <li><a href="compressor.html" class="hover:text-brand-500 transition">Compress PDF</a></li>
+                    <li><a href="splitter.html" class="hover:text-brand-500 transition">Split PDF</a></li>
+                    <li><a href="rotate-pdf.html" class="hover:text-brand-500 transition">Rotate PDF</a></li>
+                    <li><a href="add-page-numbers.html" class="text-white font-bold">Add Page Numbers</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold text-sm mb-4">Convert</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="pdf-to-word.html" class="hover:text-brand-500 transition">PDF to Word</a></li>
+                    <li><a href="images-to-pdf.html" class="hover:text-brand-500 transition">JPG to PDF</a></li>
+                    <li><a href="excel-to-pdf.html" class="hover:text-brand-500 transition">Excel to PDF</a></li>
+                    <li><a href="html-to-pdf.html" class="hover:text-brand-500 transition">HTML to PDF</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold text-sm mb-4">Legal & More</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="privacy.html" class="hover:text-brand-500 transition">Privacy Policy</a></li>
+                    <li><a href="terms.html" class="hover:text-brand-500 transition">Terms of Use</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="border-t border-slate-900 pt-8 text-center text-xs text-slate-600 px-4">
+            &copy; <span id="year"></span> The PDF Mechanic. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Theme Logic
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          html.classList.add('dark');
+        } else { html.classList.remove('dark'); }
+        themeToggle.addEventListener('click', () => {
+          html.classList.toggle('dark');
+          localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+        });
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // --- Tool Logic (Preserved but styled for new theme) ---
+        
+        // Variables
+        const fileInput = document.getElementById('fileInput');
+        const uploadArea = document.getElementById('uploadArea');
+        const settingsArea = document.getElementById('settingsArea');
+        const downloadArea = document.getElementById('downloadArea');
+        const fileNameDisp = document.getElementById('fileName');
+        const processBtn = document.getElementById('processBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        let currentFile = null;
+        let selectedPos = 'bc'; // Default: Bottom Center
+        let resultPdfBytes = null;
+
+        // Position Logic
+        function selectPos(pos) {
+            selectedPos = pos;
+            // Reset all styles (Updated classes for Slate/Brand theme)
+            document.querySelectorAll('.pos-btn').forEach(btn => {
+                btn.className = "pos-btn h-12 border border-slate-300 dark:border-slate-600 rounded hover:border-brand-500 bg-white dark:bg-dark-card transition";
+                btn.innerHTML = "";
+            });
+            // Set Active
+            const btn = document.getElementById('btn-' + pos);
+            btn.className = "pos-btn h-12 border-2 border-brand-600 rounded bg-brand-50 dark:bg-brand-900/20 relative";
+            btn.innerHTML = '<i class="fa-solid fa-check text-brand-600 absolute inset-0 m-auto w-fit h-fit"></i>';
+        }
+
+        // 1. Handle File Upload
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) {
+                currentFile = e.target.files[0];
+                fileNameDisp.innerText = currentFile.name;
+                uploadArea.classList.add('hidden');
+                settingsArea.classList.remove('hidden');
+            }
+        });
+
+        // 2. Process PDF
+        processBtn.addEventListener('click', async () => {
+            if (!currentFile) return;
+            
+            // UI State
+            processBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+            processBtn.disabled = true;
+
+            try {
+                const arrayBuffer = await currentFile.arrayBuffer();
+                const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+                const pages = pdfDoc.getPages();
+                const totalPages = pages.length;
+
+                // Settings
+                const format = document.getElementById('formatSelect').value;
+                const startNum = parseInt(document.getElementById('startNumber').value) || 1;
+                const font = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+                const fontSize = 12;
+
+                // Loop Pages
+                pages.forEach((page, idx) => {
+                    const pageNum = startNum + idx;
+                    let text = "";
+
+                    // Determine Text Format
+                    if (format === 'n') text = `${pageNum}`;
+                    else if (format === 'p_n') text = `Page ${pageNum}`;
+                    else if (format === 'n_of_t') text = `${pageNum} of ${totalPages}`;
+                    else if (format === 'p_n_of_t') text = `Page ${pageNum} of ${totalPages}`;
+
+                    const textWidth = font.widthOfTextAtSize(text, fontSize);
+                    const { width, height } = page.getSize();
+                    const margin = 20;
+
+                    let x, y;
+
+                    // Calculate Coordinates (PDF starts from Bottom-Left 0,0)
+                    switch (selectedPos) {
+                        case 'tl': x = margin; y = height - margin - fontSize; break;
+                        case 'tc': x = (width - textWidth) / 2; y = height - margin - fontSize; break;
+                        case 'tr': x = width - margin - textWidth; y = height - margin - fontSize; break;
+                        case 'bl': x = margin; y = margin; break;
+                        case 'bc': x = (width - textWidth) / 2; y = margin; break;
+                        case 'br': x = width - margin - textWidth; y = margin; break;
+                        default:   x = (width - textWidth) / 2; y = margin; 
+                    }
+
+                    page.drawText(text, {
+                        x: x,
+                        y: y,
+                        size: fontSize,
+                        font: font,
+                        color: PDFLib.rgb(0, 0, 0),
+                    });
+                });
+
+                // Save PDF
+                resultPdfBytes = await pdfDoc.save();
+                
+                // Show Success
+                settingsArea.classList.add('hidden');
+                downloadArea.classList.remove('hidden');
+
+            } catch (err) {
+                console.error(err);
+                alert("An error occurred processing the file.");
+                processBtn.innerHTML = 'Try Again';
+                processBtn.disabled = false;
+            }
+        });
+
+        // 3. Download Handler
+        downloadBtn.addEventListener('click', () => {
+            if (!resultPdfBytes) return;
+            const blob = new Blob([resultPdfBytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const originalName = currentFile.name.replace(/\.[^/.]+$/, ""); 
+            a.download = `${originalName}-numbered-thepdfmechanic.pdf`;          
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        });
+
+    </script>
+    <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then((registration) => {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, (err) => {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+    });
+  }
+</script>
+</body>
+</html>
