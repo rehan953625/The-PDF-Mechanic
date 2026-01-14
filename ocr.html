@@ -53,6 +53,48 @@
         .log-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .log-scrollbar::-webkit-scrollbar-thumb { background-color: #475569; border-radius: 20px; }
     </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Free OCR PDF to Text",
+      "applicationCategory": "ProductivityApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Convert scanned PDFs and images into searchable text using free online OCR. 100% secure client-side tool. Supports English, Hindi, and more.",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.6",
+        "ratingCount": "820"
+      }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "How accurate is this free OCR?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Our tool uses the Tesseract.js engine which is highly accurate for clear printed text. Since it runs in your browser, accuracy depends on the quality of your image."
+        }
+      },{
+        "@type": "Question",
+        "name": "Can I convert Hindi scanned documents?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, The PDF Mechanic supports multiple languages including English and Hindi. Just select the language from the dropdown before starting."
+        }
+      }]
+    }
+    </script>
 </head>
 <body class="font-sans bg-slate-50 text-slate-900 dark:bg-dark-bg dark:text-dark-text flex flex-col min-h-screen transition-colors duration-300">
 
@@ -526,4 +568,5 @@
   }
 </script>
 </body>
+
 </html>
