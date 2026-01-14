@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>Delete PDF Pages Offline | Remove Pages from PDF Free | The PDF Mechanic</title>
+    <meta name="description" content="Remove unwanted pages from PDF files securely in your browser. Select and delete specific pages instantly. Free, offline, and no file uploads required." />
+    <meta name="keywords" content="delete pdf pages, remove pages from pdf, cut pdf pages, online pdf page remover, clean pdf, delete pages from pdf offline, remove pdf pages free, browser-based pdf editor" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.thepdfmechanic.com/delete-pages.html" />
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Delete PDF Pages - Free & Secure (Offline)" />
+    <meta property="og:description" content="Remove unwanted pages from your PDF files instantly. Processed securely in your browser without uploads." />
+    <meta property="og:image" content="https://www.thepdfmechanic.com/og-delete.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Delete PDF Pages - Free & Secure" />
+    <meta name="twitter:description" content="Remove unwanted pages from your PDF files instantly. Processed securely in your browser." />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+    </script>
+
+    <script>
+      tailwind.config = {
+        darkMode: 'class', 
+        theme: {
+          extend: {
+            colors: { 
+                brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a' },
+                dark: { bg: '#0f172a', card: '#1e293b', text: '#f8fafc', border: '#334155' },
+                danger: { 50: '#fef2f2', 100: '#fee2e2', 500: '#ef4444', 600: '#dc2626' }
+            },
+            fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Outfit', 'sans-serif'] },
+            animation: { 'fade-in': 'fadeIn 0.5s ease-out' },
+            keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
+          }
+        }
+      }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Delete PDF Pages",
+      "applicationCategory": "ProductivityApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A free online tool to remove unwanted pages from PDF documents securely within the browser."
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "How do I remove pages from a PDF?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Upload your file, simply click on the pages you want to remove (they will turn red), and click 'Remove Selected Pages'."
+        }
+      },{
+        "@type": "Question",
+        "name": "Is it secure?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The deletion process happens entirely in your browser using WebAssembly. Your file is never uploaded to any server."
+        }
+      },{
+        "@type": "Question",
+        "name": "Can I delete multiple pages at once?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, you can select as many pages as you want to delete them in a single click."
+        }
+      },{
+        "@type": "Question",
+        "name": "Is this tool free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, The PDF Mechanic is completely free to use with no hidden costs."
+        }
+      }]
+    }
+    </script>
+</head>
+<body class="font-sans bg-slate-50 text-slate-900 dark:bg-dark-bg dark:text-dark-text flex flex-col min-h-screen transition-colors duration-300">
+
+    <nav class="sticky top-0 z-50 bg-white/90 dark:bg-dark-bg/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+          <div class="flex items-center gap-4">
+              <a href="index.html" class="flex items-center gap-2 group">
+                <div class="w-9 h-9 bg-brand-600 rounded-lg flex items-center justify-center text-white text-lg shadow-md group-hover:bg-brand-700 transition">
+                    <i class="fa-solid fa-wrench"></i>
+                </div>
+                <span class="font-display font-bold text-xl tracking-tight hidden sm:block">The PDF Mechanic</span>
+              </a>
+          </div>
+          <div class="flex items-center gap-4">
+             <a href="index.html" class="text-sm font-medium text-slate-500 hover:text-brand-600 dark:text-slate-400 transition hidden md:block">
+                <i class="fa-solid fa-arrow-left mr-1"></i> Back Home
+             </a>
+             <button id="themeToggle" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-yellow-400 flex items-center justify-center transition hover:ring-2 ring-brand-500">
+                <i class="fa-solid fa-moon dark:hidden"></i>
+                <i class="fa-solid fa-sun hidden dark:block"></i>
+             </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="flex-grow max-w-5xl mx-auto px-4 py-12 w-full">
+        
+        <div class="text-center mb-10">
+            <span class="inline-block py-1 px-3 rounded-full bg-brand-50 dark:bg-brand-900/30 text-brand-600 dark:text-brand-300 text-xs font-bold uppercase tracking-wider mb-3">Offline Tool</span>
+            <h1 class="font-display text-4xl md:text-5xl font-extrabold mb-4 text-slate-900 dark:text-white">Delete PDF Pages</h1>
+            <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                Remove unwanted pages from your document instantly. Click on pages to delete them. Processed securely in your browser.
+            </p>
+        </div>
+
+        <div class="bg-white dark:bg-dark-card rounded-3xl shadow-xl border border-slate-200 dark:border-dark-border overflow-hidden min-h-[400px] transition-colors relative mb-20">
+            
+            <div class="p-8 md:p-12">
+                
+                <div id="uploadArea" class="border-3 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-12 text-center hover:bg-brand-50 dark:hover:bg-brand-900/10 hover:border-brand-500 transition duration-300 cursor-pointer group relative" onclick="document.getElementById('fileInput').click()">
+                    <input type="file" id="fileInput" accept="application/pdf" class="hidden">
+                    
+                    <div class="w-24 h-24 bg-brand-50 dark:bg-brand-900/20 rounded-full flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-eraser text-4xl text-brand-600"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-2">Select PDF File</h3>
+                    <p class="text-slate-500 dark:text-slate-400">or drop PDF here to start editing</p>
+                </div>
+
+                <div id="loading" class="hidden flex flex-col items-center justify-center py-12">
+                    <i class="fa-solid fa-circle-notch fa-spin text-brand-600 text-4xl mb-4"></i>
+                    <p class="text-slate-600 dark:text-slate-300 font-medium">Loading Pages...</p>
+                </div>
+
+                <div id="editorArea" class="hidden animate-fade-in">
+                    <div class="flex flex-col sm:flex-row items-center justify-between bg-slate-50 dark:bg-slate-800 p-4 rounded-lg mb-8 border border-slate-200 dark:border-slate-700 gap-4">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-file-pdf text-brand-600 text-2xl"></i>
+                            <span id="fileName" class="font-semibold text-slate-800 dark:text-slate-200 text-sm truncate max-w-[200px]">document.pdf</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                             <span id="selectionCount" class="text-sm font-bold text-red-500">0 pages selected</span>
+                             <button onclick="location.reload()" class="text-slate-400 hover:text-red-500 transition" title="Close"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="text-center mb-4">
+                        <p class="text-sm text-slate-500 dark:text-slate-400"><i class="fa-solid fa-computer-mouse mr-1"></i> Click on pages to mark them for deletion</p>
+                    </div>
+
+                    <div id="pagesContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-8 max-h-[600px] overflow-y-auto p-2">
+                        </div>
+
+                    <button id="processBtn" class="w-full bg-red-600 text-white px-8 py-4 rounded-xl font-bold text-xl hover:bg-red-700 shadow-lg shadow-red-500/30 transform transition hover:-translate-y-1 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <i class="fa-solid fa-trash-can"></i> Remove Selected Pages
+                    </button>
+                </div>
+
+                <div id="downloadArea" class="hidden text-center py-10 animate-fade-in">
+                    <div class="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fa-solid fa-check text-4xl text-green-600 dark:text-green-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-2">Done!</h3>
+                    <p class="text-slate-600 dark:text-slate-400 mb-8">Unwanted pages have been removed.</p>
+                    
+                    <a id="downloadBtn" class="inline-flex items-center justify-center bg-brand-600 text-white px-10 py-3 rounded-lg font-bold text-lg hover:bg-brand-700 shadow-md transition cursor-pointer">
+                        <i class="fa-solid fa-download mr-2"></i> Download Cleaned PDF
+                    </a>
+                    
+                    <button onclick="location.reload()" class="block mx-auto mt-6 text-slate-500 hover:text-brand-600 underline text-sm">
+                        Edit Another File
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="bg-slate-50 dark:bg-slate-800/50 p-4 border-t border-slate-200 dark:border-slate-700 flex justify-center items-center gap-6 text-sm text-slate-500 dark:text-slate-400 flex-wrap">
+                <span class="flex items-center gap-2"><i class="fa-solid fa-lock text-brand-500"></i> Secure Processing</span>
+                <span class="flex items-center gap-2"><i class="fa-solid fa-bolt text-brand-500"></i> Instant Result</span>
+                <span class="flex items-center gap-2"><i class="fa-solid fa-ban text-brand-500"></i> No Watermark</span>
+            </div>
+        </div>
+
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-8 font-display">How to Remove Pages from PDF securely?</h2>
+            
+            <article class="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-400 leading-relaxed">
+                <p class="mb-6">
+                    Often, PDF documents contain unnecessary pages—blank pages, duplicate scans, or sensitive information that you don't want to share. <strong>Deleting specific pages from a PDF</strong> is a common need, but using expensive desktop software or uploading your files to insecure online servers isn't always the best option.
+                </p>
+
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4">The Safest Way to Edit PDFs</h3>
+                <p class="mb-6">
+                    The PDF Mechanic offers a <strong>Client-Side PDF Page Remover</strong>. Unlike other "free online tools" that upload your documents to a cloud server to process them, our tool runs locally on your device. This means your bank statements, legal contracts, or personal records never leave your browser. It is the digital equivalent of using a pair of scissors on paper at your own desk—private and fast.
+                </p>
+
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4">Key Benefits</h3>
+                <ul class="list-disc pl-5 space-y-2 mb-6">
+                    <li><strong>100% Privacy:</strong> Since no file upload occurs, your data is safe from hackers or data breaches.</li>
+                    <li><strong>No Size Limits:</strong> Because it uses your computer's processing power, you can edit large files without hitting "premium" paywalls.</li>
+                    <li><strong>Visual Interface:</strong> We generate thumbnails of every page, so you know exactly which page you are deleting. No more guessing page numbers.</li>
+                    <li><strong>Works Offline:</strong> You can load this page, disconnect your WiFi, and still clean up your documents.</li>
+                </ul>
+
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4">Step-by-Step Guide</h3>
+                <ol class="list-decimal pl-5 space-y-2 mb-6">
+                    <li>Click <strong>Select PDF File</strong> to open your document.</li>
+                    <li>Wait for the thumbnails to load.</li>
+                    <li>Click on the pages you want to remove. They will be highlighted in <strong>Red</strong> with a trash icon.</li>
+                    <li>Click <strong>Remove Selected Pages</strong>.</li>
+                    <li>Download your new, smaller PDF file instantly.</li>
+                </ol>
+
+                <div class="bg-red-50 dark:bg-red-900/10 p-6 rounded-2xl border-l-4 border-red-500">
+                    <h4 class="font-bold text-red-700 dark:text-red-400 mb-2"><i class="fa-solid fa-triangle-exclamation mr-2"></i>Note</h4>
+                    <p class="text-sm">
+                        This action creates a new copy of your PDF. Your original file remains untouched on your computer, so don't worry about making mistakes!
+                    </p>
+                </div>
+            </article>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+            <div>
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">Frequently Asked Questions</h2>
+                <div class="space-y-4">
+                    
+                    <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 cursor-pointer shadow-sm">
+                        <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white">
+                            <span>Is it free to delete pages?</span>
+                            <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-brand-500"></i></span>
+                        </summary>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500 leading-relaxed">
+                            Yes, it is 100% free. You can use it as many times as you want without any watermark or registration.
+                        </p>
+                    </details>
+
+                    <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 cursor-pointer shadow-sm">
+                        <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white">
+                            <span>Does it work on Mac and Windows?</span>
+                            <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-brand-500"></i></span>
+                        </summary>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500 leading-relaxed">
+                            Yes! Since it works in your browser (Chrome, Safari, Edge, Firefox), it is compatible with Windows, macOS, Linux, Android, and iOS.
+                        </p>
+                    </details>
+
+                    <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 cursor-pointer shadow-sm">
+                        <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white">
+                            <span>Can I recover deleted pages?</span>
+                            <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-brand-500"></i></span>
+                        </summary>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500 leading-relaxed">
+                            The tool creates a <em>new</em> file. Your original file on your computer is not changed. If you made a mistake, just open the original file again.
+                        </p>
+                    </details>
+
+                    <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 cursor-pointer shadow-sm">
+                        <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white">
+                            <span>Is my data private?</span>
+                            <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-brand-500"></i></span>
+                        </summary>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500 leading-relaxed">
+                            Absolutely. We do not store your files. All processing is done locally on your device using JavaScript.
+                        </p>
+                    </details>
+
+                </div>
+            </div>
+            
+            <div class="flex flex-col justify-center">
+                <div class="bg-brand-50 dark:bg-brand-900/10 rounded-3xl p-8 border border-brand-100 dark:border-brand-800/30 text-center">
+                    <div class="w-16 h-16 bg-brand-100 dark:bg-brand-900/30 text-brand-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                        <i class="fa-solid fa-shield-cat"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Privacy First</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6">
+                        Unlike other sites, we do not store or view your files. Everything happens on your device.
+                    </p>
+                    <a href="privacy.html" class="text-brand-600 font-semibold hover:text-brand-700 dark:hover:text-brand-400 text-sm">Read Privacy Policy <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-950 text-slate-400 pt-16 pb-8 border-t border-slate-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-10">
+            <div class="col-span-1 sm:col-span-2 md:col-span-1">
+                <div class="flex items-center gap-2 mb-4 text-white">
+                    <i class="fa-solid fa-wrench text-brand-600 text-xl"></i>
+                    <span class="font-bold text-xl font-display">The PDF Mechanic</span>
+                </div>
+                <p class="text-sm leading-relaxed text-slate-500 mb-4">
+                    Built for speed and privacy. The only PDF toolkit that works 100% offline in your browser.
+                </p>
+                </div>
+            
+            <div>
+                <h4 class="text-white font-bold text-sm mb-4">Organize & Edit</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="merger.html" class="hover:text-brand-500 transition">Merge PDF</a></li>
+                    <li><a href="compressor.html" class="hover:text-brand-500 transition">Compress PDF</a></li>
+                    <li><a href="splitter.html" class="hover:text-brand-500 transition">Split PDF</a></li>
+                    <li><a href="delete-pages.html" class="text-white font-bold">Delete Pages</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold text-sm mb-4">Convert</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="pdf-to-word.html" class="hover:text-brand-500 transition">PDF to Word</a></li>
+                    <li><a href="images-to-pdf.html" class="hover:text-brand-500 transition">JPG to PDF</a></li>
+                    <li><a href="excel-to-pdf.html" class="hover:text-brand-500 transition">Excel to PDF</a></li>
+                    <li><a href="html-to-pdf.html" class="hover:text-brand-500 transition">HTML to PDF</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold text-sm mb-4">Legal & More</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="privacy.html" class="hover:text-brand-500 transition">Privacy Policy</a></li>
+                    <li><a href="terms.html" class="hover:text-brand-500 transition">Terms of Use</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="border-t border-slate-900 pt-8 text-center text-xs text-slate-600 px-4">
+            &copy; <span id="year"></span> The PDF Mechanic. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Theme Logic
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          html.classList.add('dark');
+        } else { html.classList.remove('dark'); }
+        themeToggle.addEventListener('click', () => {
+          html.classList.toggle('dark');
+          localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+        });
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // --- Tool Logic (Refined for new UI) ---
+
+        const fileInput = document.getElementById('fileInput');
+        const uploadArea = document.getElementById('uploadArea');
+        const editorArea = document.getElementById('editorArea');
+        const pagesContainer = document.getElementById('pagesContainer');
+        const processBtn = document.getElementById('processBtn');
+        const selectionCount = document.getElementById('selectionCount');
+        const loadingDiv = document.getElementById('loading');
+        
+        let currentFile = null;
+        let pdfDoc = null;
+        let pagesToDelete = new Set(); 
+
+        // 1. Handle File Upload
+        fileInput.addEventListener('change', async (e) => {
+            if (e.target.files && e.target.files[0]) {
+                currentFile = e.target.files[0];
+                document.getElementById('fileName').innerText = currentFile.name;
+                
+                uploadArea.classList.add('hidden');
+                loadingDiv.classList.remove('hidden');
+                
+                // Load PDF and Render Thumbnails
+                await loadAndRender(currentFile);
+                
+                loadingDiv.classList.add('hidden');
+                editorArea.classList.remove('hidden');
+            }
+        });
+
+        async function loadAndRender(file) {
+            const arrayBuffer = await file.arrayBuffer();
+            
+            // Load for PDF-Lib (Editing)
+            pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+            
+            // Load for PDF.js (Rendering Thumbnails)
+            const loadingTask = pdfjsLib.getDocument(arrayBuffer);
+            const pdf = await loadingTask.promise;
+            
+            pagesContainer.innerHTML = '';
+            pagesToDelete.clear();
+            updateCount();
+
+            for (let i = 1; i <= pdf.numPages; i++) {
+                // Render Page
+                const page = await pdf.getPage(i);
+                const viewport = page.getViewport({ scale: 0.2 }); // Low res for speed
+                
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                await page.render({ canvasContext: context, viewport: viewport }).promise;
+
+                // Create UI Element
+                const div = document.createElement('div');
+                div.className = "relative group cursor-pointer border-2 border-transparent rounded-lg overflow-hidden transition-all duration-200 hover:shadow-lg";
+                div.setAttribute('data-page', i - 1); // 0-based index for PDF-Lib
+                
+                div.innerHTML = `
+                    <img src="${canvas.toDataURL()}" class="w-full h-auto object-cover bg-slate-200">
+                    <div class="absolute inset-0 bg-red-600/20 hidden group-hover:flex items-center justify-center transition-all overlay-state">
+                        <i class="fa-solid fa-trash-can text-red-600 text-3xl drop-shadow-md"></i>
+                    </div>
+                    <div class="absolute top-2 left-2 bg-slate-900/70 text-white text-xs px-2 py-1 rounded">Page ${i}</div>
+                    <div class="absolute inset-0 border-4 border-red-500 hidden selection-border"></div>
+                `;
+
+                // Click Event
+                div.addEventListener('click', () => togglePage(i - 1, div));
+                pagesContainer.appendChild(div);
+            }
+        }
+
+        function togglePage(index, element) {
+            const overlay = element.querySelector('.overlay-state');
+            const border = element.querySelector('.selection-border');
+
+            if (pagesToDelete.has(index)) {
+                pagesToDelete.delete(index);
+                // Styles for unselected
+                element.classList.remove('ring-4', 'ring-red-500');
+                border.classList.add('hidden');
+                overlay.classList.add('hidden');
+                overlay.classList.remove('flex');
+            } else {
+                pagesToDelete.add(index);
+                // Styles for selected
+                element.classList.add('ring-4', 'ring-red-500');
+                border.classList.remove('hidden');
+                overlay.classList.remove('hidden');
+                overlay.classList.add('flex');
+            }
+            updateCount();
+        }
+
+        function updateCount() {
+            const count = pagesToDelete.size;
+            selectionCount.innerText = `${count} page${count !== 1 ? 's' : ''} selected`;
+            processBtn.disabled = count === 0;
+            processBtn.innerHTML = count === 0 
+                ? '<i class="fa-solid fa-trash-can"></i> Select Pages to Remove'
+                : `<i class="fa-solid fa-trash-can"></i> Remove ${count} Page${count !== 1 ? 's' : ''}`;
+            
+            // Visual feedback on button
+            if(count > 0) {
+                processBtn.classList.remove('bg-gray-400');
+                processBtn.classList.add('bg-red-600', 'hover:bg-red-700');
+            } else {
+                processBtn.classList.add('bg-gray-400');
+                processBtn.classList.remove('bg-red-600', 'hover:bg-red-700');
+            }
+        }
+
+        // 2. Process Delete
+        processBtn.addEventListener('click', async () => {
+            if (pagesToDelete.size === 0) return;
+            
+            const btn = processBtn;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+            btn.disabled = true;
+
+            try {
+                // PDF-Lib creates a NEW document and copies only kept pages
+                const { PDFDocument } = PDFLib;
+                // We already have pdfDoc loaded
+                const newDoc = await PDFDocument.create();
+
+                // Get indices of pages to KEEP
+                const pageCount = pdfDoc.getPageCount();
+                const keepIndices = [];
+                for(let i=0; i < pageCount; i++) {
+                    if(!pagesToDelete.has(i)) {
+                        keepIndices.push(i);
+                    }
+                }
+
+                if(keepIndices.length === 0) {
+                    alert("You cannot delete all pages!");
+                    updateCount();
+                    return;
+                }
+
+                const copiedPages = await newDoc.copyPages(pdfDoc, keepIndices);
+                copiedPages.forEach(page => newDoc.addPage(page));
+
+                const pdfBytes = await newDoc.save();
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                
+                // Show Result
+                document.getElementById('editorArea').classList.add('hidden');
+                document.getElementById('downloadArea').classList.remove('hidden');
+                
+                const url = URL.createObjectURL(blob);
+                const dlBtn = document.getElementById('downloadBtn');
+                dlBtn.href = url;
+                const originalName = currentFile.name.replace(/\.[^/.]+$/, "");
+                dlBtn.download = `${originalName}-cleaned-thepdfmechanic.pdf`;
+
+            } catch (err) {
+                console.error(err);
+                alert("An error occurred while deleting pages.");
+                updateCount();
+            }
+        });
+
+    </script>
+    <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then((registration) => {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, (err) => {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+    });
+  }
+</script>
+</body>
+</html>
