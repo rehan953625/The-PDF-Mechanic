@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>Compress Image Online to 20kb/50kb | Fast & Secure Photo Reducer</title>
+    <meta name="description" content="Reduce image size to 20kb, 50kb, or 100kb for government forms. Compress JPG/PNG online without uploading to server. 100% Secure & Client-side.">
+    <meta name="keywords" content="compress image to 20kb, reduce photo size for ssc, image compressor for government exam, resize image in kb, client side image optimizer">
+    <meta name="author" content="The PDF Mechanic" />
+    <link rel="canonical" href="https://www.thepdfmechanic.com/image-compressor.html" />
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <meta name="theme-color" content="#2563eb">
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class', 
+        theme: {
+          extend: {
+            colors: { 
+                brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a' },
+                dark: { bg: '#0f172a', card: '#1e293b', text: '#f8fafc', border: '#334155' } 
+            },
+            fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Outfit', 'sans-serif'] },
+            animation: { 'fade-in': 'fadeIn 0.5s ease-out' },
+            keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
+          }
+        }
+      }
+    </script>
+    <style>
+        .glass-nav { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); }
+        .dark .glass-nav { background: rgba(15, 23, 42, 0.9); }
+    </style>
+</head>
+<body class="font-sans bg-slate-50 text-slate-900 dark:bg-dark-bg dark:text-dark-text flex flex-col min-h-screen selection:bg-brand-500 selection:text-white transition-colors duration-300">
+
+    <nav class="sticky top-0 z-50 glass-nav border-b border-slate-200 dark:border-dark-border transition-colors">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+          <a href="/" class="flex items-center gap-2 group">
+            <div class="w-9 h-9 bg-brand-600 rounded-lg flex items-center justify-center text-white text-lg shadow-lg group-hover:bg-brand-700 transition">
+                <i class="fa-solid fa-wrench"></i>
+            </div>
+            <span class="font-display font-bold text-xl tracking-tight">The PDF Mechanic</span>
+          </a>
+          
+          <div class="flex items-center gap-5">
+             <div class="hidden md:flex gap-6 text-sm font-medium">
+                <a href="./index.html" class="hover:text-brand-600 dark:hover:text-brand-400 transition">All Tools</a>
+                <a href="#guide-content" class="hover:text-brand-600 dark:hover:text-brand-400 transition">How to Use</a>
+            </div>
+            <button id="themeToggle" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-yellow-400 flex items-center justify-center transition hover:ring-2 ring-brand-500">
+                <i class="fa-solid fa-moon dark:hidden"></i>
+                <i class="fa-solid fa-sun hidden dark:block"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <header class="relative pt-16 pb-12 text-center px-4">
+        <div class="max-w-3xl mx-auto">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-semibold mb-6 border border-green-200 dark:border-green-800">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> No Uploads • 100% Private
+            </div>
+            <h1 class="font-display text-4xl sm:text-5xl font-extrabold leading-tight mb-6 text-slate-900 dark:text-white">
+                Compress Image to <span class="text-brand-600">KB/MB</span> Online
+            </h1>
+            <p class="text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto">
+                Resize JPG, PNG, and WEBP photos for government forms (SSC, UPSC) or websites. Works offline in your browser.
+            </p>
+        </div>
+    </header>
+
+    <main class="flex-grow px-4 pb-20">
+        <div class="max-w-4xl mx-auto bg-white dark:bg-dark-card rounded-3xl shadow-xl border border-slate-200 dark:border-dark-border overflow-hidden">
+            
+            <div id="uploadStep" class="p-10 text-center border-b border-slate-100 dark:border-slate-800">
+                <div class="w-20 h-20 bg-brand-50 dark:bg-brand-900/20 text-brand-600 rounded-full flex items-center justify-center text-4xl mx-auto mb-6">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Select Image to Compress</h3>
+                <p class="text-slate-500 text-sm mb-6">Supports JPG, PNG, WEBP (Max 50MB)</p>
+                
+                <input type="file" id="uploadInput" accept="image/*" class="hidden">
+                <button onclick="document.getElementById('uploadInput').click()" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg shadow-brand-500/30 transition-all hover:-translate-y-1">
+                    Choose Image File
+                </button>
+            </div>
+
+            <div id="controlsStep" class="hidden p-8">
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    
+                    <div class="bg-slate-100 dark:bg-slate-800 p-4 rounded-xl flex items-center justify-center min-h-[300px]">
+                        <img id="previewImg" class="max-w-full max-h-[400px] rounded shadow-sm object-contain" />
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-center pb-4 border-b border-slate-200 dark:border-slate-700">
+                            <h3 class="font-bold text-lg">Compression Settings</h3>
+                            <button onclick="resetTool()" class="text-sm text-red-500 hover:text-red-600 font-medium">Remove File</button>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-100 dark:border-red-800/30">
+                                <div class="text-xs text-red-600 dark:text-red-400 font-bold uppercase">Original</div>
+                                <div id="originalSize" class="text-lg font-bold text-slate-800 dark:text-white">0 KB</div>
+                            </div>
+                            <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-100 dark:border-green-800/30">
+                                <div class="text-xs text-green-600 dark:text-green-400 font-bold uppercase">Compressed</div>
+                                <div id="compressedSize" class="text-lg font-bold text-slate-800 dark:text-white">0 KB</div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="flex justify-between text-sm font-medium mb-2">
+                                <span>Quality Level</span>
+                                <span id="qualityValue" class="text-brand-600 font-bold">70%</span>
+                            </label>
+                            <input type="range" id="qualitySlider" min="10" max="100" value="70" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-600">
+                            <p class="text-xs text-slate-500 mt-2">Lower quality = Smaller file size.</p>
+                        </div>
+
+                        <button id="compressBtn" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-brand-500/30 transition-all hover:-translate-y-1 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-download"></i> Download Compressed Image
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <section id="guide-content" class="max-w-4xl mx-auto px-4 pb-20">
+        <div class="prose prose-slate dark:prose-invert max-w-none">
+            
+            <h2 class="text-3xl font-display font-bold mb-6 text-slate-900 dark:text-white">How to Compress Images for Government Forms (SSC, UPSC)</h2>
+            <p class="mb-4">
+                Are you trying to upload a photo for an online application but facing the error <em>"File size must be between 20kb and 50kb"</em>? You are not alone. Most government portals in India, including SSC, UPSC, and IBPS, have strict size limits for uploading signatures and photographs.
+            </p>
+            <p class="mb-6">
+                <strong>The PDF Mechanic Image Compressor</strong> helps you resize your photos instantly without uploading them to a risky server. Since the processing happens <strong>Client-Side (in your browser)</strong>, your personal photos never leave your mobile or laptop.
+            </p>
+
+            <h3 class="text-2xl font-bold mb-4 mt-8">Why use this Client-Side Image Tool?</h3>
+            <ul class="list-disc pl-5 space-y-2 mb-6 text-slate-700 dark:text-slate-300">
+                <li><strong>100% Privacy:</strong> Unlike other websites, we don't store your photos. Everything happens on your device.</li>
+                <li><strong>No Quality Loss:</strong> We use advanced algorithms to reduce file size while keeping the image sharp.</li>
+                <li><strong>Works Offline:</strong> Once the page loads, you can turn off the internet and still compress images.</li>
+                <li><strong>Unlimited Free Use:</strong> Resize as many photos as you want without any hidden costs.</li>
+            </ul>
+
+            <h3 class="text-2xl font-bold mb-4 mt-8">Steps to Reduce Image Size to 20KB</h3>
+            <ol class="list-decimal pl-5 space-y-2 mb-6 text-slate-700 dark:text-slate-300">
+                <li>Click on the <strong>"Choose Image File"</strong> button above.</li>
+                <li>Select your JPG or PNG photo from your gallery.</li>
+                <li>Use the <strong>Quality Slider</strong> to adjust the file size.
+                    <br><span class="text-sm text-slate-500">Tip: Slide it down to 50% or 40% to reach under 20KB.</span>
+                </li>
+                <li>Watch the "Compressed Size" indicator update in real-time.</li>
+                <li>Click <strong>Download</strong> once you are happy with the size.</li>
+            </ol>
+
+            <div class="bg-brand-50 dark:bg-brand-900/20 p-6 rounded-xl border border-brand-100 dark:border-brand-800 my-8">
+                <h4 class="font-bold text-brand-700 dark:text-brand-300 mb-2">Need to handle PDF files?</h4>
+                <p class="text-sm text-brand-800 dark:text-brand-200">
+                    We also have tools for documents. You can <a href="compressor.html" class="underline font-semibold hover:text-brand-600">Compress PDF to 100kb</a>, <a href="merger.html" class="underline font-semibold hover:text-brand-600">Merge PDF Files</a>, or even convert <a href="images-to-pdf.html" class="underline font-semibold hover:text-brand-600">JPG Images to PDF</a> directly.
+                </p>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-4">Frequently Asked Questions</h3>
+            <div class="space-y-4">
+                <details class="group bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border rounded-lg p-4 cursor-pointer">
+                    <summary class="font-bold text-slate-800 dark:text-slate-200 list-none flex justify-between items-center">
+                        Can I resize photos for PAN Card or Aadhaar update?
+                        <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down"></i></span>
+                    </summary>
+                    <p class="text-slate-600 dark:text-slate-400 mt-3 text-sm">
+                        Yes! This tool is perfect for creating small-size images required for PAN card applications, Aadhaar corrections, and driving license forms.
+                    </p>
+                </details>
+                <details class="group bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border rounded-lg p-4 cursor-pointer">
+                    <summary class="font-bold text-slate-800 dark:text-slate-200 list-none flex justify-between items-center">
+                        Is my photo uploaded to your server?
+                        <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down"></i></span>
+                    </summary>
+                    <p class="text-slate-600 dark:text-slate-400 mt-3 text-sm">
+                        No. We use HTML5 Canvas technology to process the image locally within your browser. No data leaves your device.
+                    </p>
+                </details>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="bg-slate-950 text-slate-400 pt-16 pb-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-10">
+            <div class="col-span-1 sm:col-span-2 md:col-span-1">
+                <div class="flex items-center gap-2 mb-4 text-white">
+                    <i class="fa-solid fa-wrench text-brand-600 text-xl"></i>
+                    <span class="font-bold text-xl font-display">The PDF Mechanic</span>
+                </div>
+                
+                <p class="text-sm leading-relaxed text-slate-500 mb-6">
+                    Built for speed and privacy. The only PDF toolkit that works 100% offline in your browser.
+                </p>
+
+                <div class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 flex items-center gap-2">
+                  
+                </div>
+            </div>
+            
+            <div>
+                <h4 class="text-white font-bold text-sm mb-4">Tools</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="compressor.html" class="hover:text-brand-500 transition">Compress PDF</a></li>
+                    <li><a href="merger.html" class="hover:text-brand-500 transition">Merge PDF</a></li>
+                    <li><a href="ocr.html" class="hover:text-brand-500 transition">OCR Scans</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold text-sm mb-4">Convert</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="pdf-to-word.html" class="hover:text-brand-500 transition">PDF to Word</a></li>
+                    <li><a href="images-to-pdf.html" class="hover:text-brand-500 transition">JPG to PDF</a></li>
+                    <li><a href="excel-to-pdf.html" class="hover:text-brand-500 transition">Excel to PDF</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold text-sm mb-4">Legal</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="privacy.html" class="hover:text-brand-500 transition">Privacy Policy</a></li>
+                    <li><a href="terms.html" class="hover:text-brand-500 transition">Terms of Use</a></li>
+                    <li><a href="sitemap.xml" class="hover:text-brand-500 transition">Sitemap</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="border-t border-slate-900 pt-8 text-center text-xs text-slate-600 px-4">
+            &copy; <span id="year"></span> The PDF Mechanic. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // 1. Theme Logic
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+        }
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+        });
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // 2. Compression Logic
+        const uploadInput = document.getElementById('uploadInput');
+        const uploadStep = document.getElementById('uploadStep');
+        const controlsStep = document.getElementById('controlsStep');
+        const qualitySlider = document.getElementById('qualitySlider');
+        const qualityValue = document.getElementById('qualityValue');
+        const originalSizeSpan = document.getElementById('originalSize');
+        const compressedSizeSpan = document.getElementById('compressedSize');
+        const compressBtn = document.getElementById('compressBtn');
+        const previewImg = document.getElementById('previewImg');
+
+        let originalFile = null;
+        let compressedBlob = null;
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function resetTool() {
+            uploadInput.value = '';
+            originalFile = null;
+            uploadStep.classList.remove('hidden');
+            controlsStep.classList.add('hidden');
+        }
+
+        uploadInput.addEventListener('change', function(e) {
+            if(e.target.files.length > 0){
+                originalFile = e.target.files[0];
+                originalSizeSpan.innerText = formatBytes(originalFile.size);
+                
+                uploadStep.classList.add('hidden');
+                controlsStep.classList.remove('hidden');
+                controlsStep.classList.add('animate-fade-in');
+                
+                processImage();
+            }
+        });
+
+        qualitySlider.addEventListener('input', function() {
+            qualityValue.innerText = this.value + "%";
+            processImage();
+        });
+
+        function processImage() {
+            if (!originalFile) return;
+            const reader = new FileReader();
+            reader.readAsDataURL(originalFile);
+            
+            reader.onload = function(event) {
+                const img = new Image();
+                img.src = event.target.result;
+                
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                    // Quality Logic: 10% to 100% -> 0.1 to 1.0
+                    const quality = qualitySlider.value / 100;
+
+                    // Always Convert to JPEG for best compression ratio
+                    // (Use 'image/webp' for even better size if desired)
+                    canvas.toBlob(function(blob) {
+                        compressedBlob = blob;
+                        compressedSizeSpan.innerText = formatBytes(blob.size);
+                        previewImg.src = URL.createObjectURL(blob);
+                    }, 'image/jpeg', quality);
+                }
+            }
+        }
+
+        compressBtn.addEventListener('click', function() {
+            if (!compressedBlob) return;
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(compressedBlob);
+            // Filename: compressed_image.jpg
+            link.download = "compressed_" + (originalFile.name.split('.')[0]) + ".jpg";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    </script>
+</body>
+</html>
