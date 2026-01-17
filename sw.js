@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pdf-mechanic-v2';
+const CACHE_NAME = 'pdf-mechanic-v3';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
