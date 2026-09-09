@@ -1,1841 +1,1291 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <script>
-      (function () {
-        try {
-          var t = localStorage.getItem('theme');
-          if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-          }
-        } catch (e) {}
-      })();
-    </script>
-
-    <title>Free PDF Editor Online – Add Text, Images & Annotations | The PDF Mechanic</title>
-    <meta name="description" content="Add text, images, drawings, and annotations to a PDF for free, entirely in your browser. Your file is never uploaded. Works on desktop and mobile, with honest limits clearly explained for scanned documents." />
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-    <link rel="canonical" href="https://www.thepdfmechanic.com/pdf-editor.html" />
-
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <meta name="theme-color" content="#2563eb">
-
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Free PDF Editor – Add Text, Images & Annotations, No Upload">
-    <meta property="og:description" content="Add text, images, drawings, and annotations to a PDF entirely in your browser. Free, no watermark, nothing ever uploaded.">
-    <meta property="og:url" content="https://www.thepdfmechanic.com/pdf-editor.html">
-    <meta property="og:image" content="https://www.thepdfmechanic.com/og-home.png">
-    <meta property="og:site_name" content="The PDF Mechanic">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Free PDF Editor – No Watermark, No Upload">
-    <meta name="twitter:description" content="Add text, images, and annotations to a PDF entirely client-side.">
-    <meta name="twitter:image" content="https://www.thepdfmechanic.com/og-home.png">
-
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <!-- Uses Google's CSS2 API rather than a hardcoded gstatic file hash, which can go
-         stale/404 when Google rotates a font build; the CSS2 endpoint always resolves
-         to the current valid file. -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
-
-    <link rel="stylesheet" href="common.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Mechanic - Professional PDF Editor</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-/* pdf-editor.html-specific residual CSS */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --border: #e2e8f0;
+            --text: #0f172a;
+            --text-light: #475569;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --radius: 8px;
+            --radius-lg: 12px;
+        }
 
-/* --- Layout utilities --- */
-.fixed { position: fixed; }
-.flex-1 { flex: 1 1 0%; }
-.min-h-0 { min-height: 0; }
-.grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.justify-around { justify-content: space-around; }
-.ml-auto { margin-left: auto; }
-.mx-1\.5 { margin-left: 0.375rem; margin-right: 0.375rem; }
-.gap-0\.5 { gap: 0.125rem; }
-.opacity-75 { opacity: 0.75; }
-.overflow-x-auto { overflow-x: auto; }
-.whitespace-nowrap { white-space: nowrap; }
-.text-left { text-align: left; }
-.tabular-nums { font-variant-numeric: tabular-nums; }
-.rounded-t-2xl { border-top-left-radius: 1rem; border-top-right-radius: 1rem; }
-.border-y { border-top-width: 1px; border-bottom-width: 1px; }
-.w-px { width: 1px; }
-.h-7 { height: 1.75rem; }
-.h-8 { height: 2rem; }
-.w-8 { width: 2rem; }
-.w-28 { width: 7rem; }
-.w-64 { width: 16rem; }
-.py-14 { padding-top: 3.5rem; padding-bottom: 3.5rem; }
-.max-h-\[70vh\] { max-height: 70vh; }
-.z-40 { z-index: 40; }
-.z-\[60\] { z-index: 60; }
-.bg-black\/40 { background-color: rgb(0 0 0 / 0.4); }
-.bg-slate-100\/80 { background-color: rgb(241 245 249 / 0.8); }
-.dark .dark\:bg-slate-900\/80 { background-color: rgb(15 23 42 / 0.8); }
-.dark .dark\:bg-slate-950 { background-color: #020617; }
-.bg-slate-300 { background-color: #cbd5e1; }
-.bg-amber-100 { background-color: #fef3c7; }
-.dark .dark\:bg-amber-900\/20 { background-color: rgb(120 53 15 / 0.2); }
-.border-amber-200 { border-color: #fde68a; }
-.dark .dark\:border-amber-800 { border-color: #92400e; }
-.text-amber-600 { color: #d97706; }
-.dark .dark\:text-amber-400 { color: #fbbf24; }
-.dark .dark\:text-brand-400 { color: #60a5fa; }
-.hover\:bg-slate-100:hover { background-color: #f1f5f9; }
-.hover\:border-brand-500:hover { border-color: #3b82f6; }
-.dark .dark\:hover\:border-brand-500:hover { border-color: #3b82f6; }
-.hover\:opacity-100:hover { opacity: 1; }
-.hover\:shadow-md:hover { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
-.dark .dark\:hover\:text-brand-400:hover { color: #60a5fa; }
-.bg-gradient-to-b { background-image: linear-gradient(to bottom, var(--tw-gradient-stops)); }
-.from-white { --tw-gradient-from: #ffffff; --tw-gradient-to: rgb(255 255 255 / 0); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
-.to-slate-50 { --tw-gradient-to: #f8fafc; }
-.dark .dark\:from-dark-card { --tw-gradient-from: #1e293b; --tw-gradient-to: rgb(30 41 59 / 0); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
-.dark .dark\:to-dark-bg { --tw-gradient-to: #0f172a; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-@media (min-width: 640px) {
-  .sm\:gap-2 { gap: 0.5rem; }
-  .sm\:gap-6 { gap: 1.5rem; }
-  .sm\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .sm\:inline { display: inline; }
-  .sm\:inline-flex { display: inline-flex; }
-  .sm\:p-12 { padding: 3rem; }
-  .sm\:px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
-  .sm\:px-4 { padding-left: 1rem; padding-right: 1rem; }
-  .sm\:py-16 { padding-top: 4rem; padding-bottom: 4rem; }
-}
-@media (min-width: 768px) {
-  .md\:flex-col { flex-direction: column; }
-  .md\:hidden { display: none; }
-}
-@media (min-width: 1024px) {
-  .lg\:flex { display: flex; }
-  .lg\:flex-col { flex-direction: column; }
-  .lg\:w-36 { width: 9rem; }
-}
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
 
-/* --- Custom component classes (not Tailwind utilities) --- */
-.hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
-.hide-scrollbar::-webkit-scrollbar { display: none; }
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
 
-.tool-btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 40px; height: 40px; min-width: 44px; min-height: 44px;
-  border-radius: 0.5rem; color: #475569; font-size: 15px;
-  transition: background-color 0.15s, color 0.15s;
-}
-.tool-btn:hover:not(:disabled) { background-color: #f1f5f9; }
-.dark .tool-btn { color: #cbd5e1; }
-.dark .tool-btn:hover:not(:disabled) { background-color: #1e293b; }
-.tool-btn.active, .tool-btn[aria-pressed="true"] { background-color: #2563eb; color: #ffffff; }
-.tool-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        /* Header */
+        .header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-sm);
+            z-index: 100;
+        }
 
-#uploadArea.drag-active { border-color: #2563eb; background-color: #eff6ff; }
-.dark #uploadArea.drag-active { background-color: rgb(30 58 138 / 0.2); }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
 
-/* Status banner color states */
-.status-loading { background-color: #eff6ff; color: #1e40af; border-color: #bfdbfe; }
-.status-info { background-color: #f0f9ff; color: #075985; border-color: #bae6fd; }
-.status-success { background-color: #f0fdf4; color: #166534; border-color: #bbf7d0; }
-.status-error { background-color: #fef2f2; color: #991b1b; border-color: #fecaca; }
-.dark .status-loading { background-color: rgb(30 58 138 / 0.2); color: #93c5fd; border-color: rgb(30 64 175 / 0.4); }
-.dark .status-info { background-color: rgb(12 74 110 / 0.2); color: #7dd3fc; border-color: rgb(7 89 133 / 0.4); }
-.dark .status-success { background-color: rgb(20 83 45 / 0.2); color: #86efac; border-color: rgb(22 101 52 / 0.4); }
-.dark .status-error { background-color: rgb(127 29 29 / 0.2); color: #fca5a5; border-color: rgb(153 27 27 / 0.4); }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
 
-/* Minimal prose styles for the crawlable long-form content */
-.prose { max-width: 65ch; color: #334155; }
-.prose h2, .prose h3 { color: #0f172a; font-weight: 700; }
-.prose p { line-height: 1.75; }
-.prose strong { color: #0f172a; font-weight: 600; }
-.dark .dark\:prose-invert { color: #cbd5e1; }
-.dark .dark\:prose-invert h2, .dark .dark\:prose-invert h3 { color: #f8fafc; }
-.dark .dark\:prose-invert strong { color: #f1f5f9; }
+        .logo svg {
+            width: 32px;
+            height: 32px;
+        }
 
-/* Canvas viewport: pinch/pan handled manually in JS, so disable native
-   touch gestures (browser pull-to-refresh/scroll) on this element only. */
-#canvasViewport.touch-none, .touch-none { touch-action: none; }
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-light);
+            font-size: 14px;
+        }
 
-</style>
+        .file-info span {
+            background: var(--background);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
 
-    <!-- Schema 1: WebApplication. No aggregateRating — no genuine, verifiable review
-         data exists for this tool, and Google's structured-data policy treats
-         fabricated/unverifiable ratings as a manual-action risk. -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "PDF Editor - The PDF Mechanic",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Web Browser",
-      "url": "https://www.thepdfmechanic.com/pdf-editor.html",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-      "description": "Free tool to add text, images, drawings, and annotations to a PDF entirely in the browser. No watermark, no uploads."
-    }
-    </script>
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
 
-    <!-- Schema 2: BreadcrumbList -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.thepdfmechanic.com/" },
-        { "@type": "ListItem", "position": 2, "name": "PDF Editor", "item": "https://www.thepdfmechanic.com/pdf-editor.html" }
-      ]
-    }
-    </script>
+        /* Toolbar */
+        .toolbar {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            box-shadow: var(--shadow-sm);
+            z-index: 90;
+        }
 
-    <!-- Schema 3: FAQPage. Google fully deprecated FAQ rich results for all sites in
-         May 2026, so this produces no SERP snippet — kept only because it accurately
-         mirrors real, visible on-page FAQ content, which Google's own guidance says
-         is harmless even though it yields no ranking or snippet benefit. -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        { "@type": "Question", "name": "Is this PDF editor really free, with no watermark?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Adding text, images, drawings, or shapes is completely free, with no watermark added to the downloaded file and no page or usage limit." } },
-        { "@type": "Question", "name": "Can I edit the original text already printed in a PDF?", "acceptedAnswer": { "@type": "Answer", "text": "Reliably, only for simple, single-line text on a PDF that has a real text layer, using the Quick Text Replace (Best Effort) tool. It covers the old text and places new text in roughly the same spot, size, and color \u2014 it does not reflow surrounding content, and results vary by document. For scanned or image-based PDFs, there's no existing text to replace at all. For anything else, adding new text on top is the reliable option." } },
-        { "@type": "Question", "name": "Is my PDF uploaded to a server while I edit it?", "acceptedAnswer": { "@type": "Answer", "text": "No, the PDF file itself is never uploaded \u2014 loading, rendering, editing, and saving all happen on your own device. The page itself still loads its JavaScript, fonts, and icon library from the network the first time, the same as any website." } },
-        { "@type": "Question", "name": "How does the editor handle a scanned or image-based PDF?", "acceptedAnswer": { "@type": "Answer", "text": "It's detected automatically. A scanned page has no real text layer to select or replace, so the editor shows a clear notice and offers Add Text, Annotate, or a link to the OCR tool instead of pretending existing text can be edited." } },
-        { "@type": "Question", "name": "Can I add a signature to a PDF with this editor?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, in two ways: draw a signature freehand using the pen tool directly on the page, or insert an image of your signature using the image tool." } },
-        { "@type": "Question", "name": "What image formats can I insert into a PDF?", "acceptedAnswer": { "@type": "Answer", "text": "JPG and PNG images can be inserted anywhere on a page, resized and repositioned freely before saving." } },
-        { "@type": "Question", "name": "Can I undo a mistake while editing?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Undo and redo track additions, edits, moves, resizes, and deletions on the current page." } },
-        { "@type": "Question", "name": "Does adding text or images reduce the quality of the rest of the PDF?", "acceptedAnswer": { "@type": "Answer", "text": "No. Original page content is left untouched. Added text is saved as real, sharp PDF text rather than a flattened image, and added images are embedded at their own resolution." } },
-        { "@type": "Question", "name": "Will this work on a large PDF with many pages?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Page thumbnails load as you scroll to them rather than all at once, so opening a long document doesn't require rendering every page up front." } },
-        { "@type": "Question", "name": "Do I need to install anything to use this editor?", "acceptedAnswer": { "@type": "Answer", "text": "No installation or account is required \u2014 it runs in any modern browser, on desktop or mobile." } },
-        { "@type": "Question", "name": "Is this the right tool if I need to permanently remove information from a PDF?", "acceptedAnswer": { "@type": "Answer", "text": "No. Covering content visually here doesn't remove it from the underlying file. For genuine, permanent redaction, use the dedicated Redact PDF tool." } },
-        { "@type": "Question", "name": "Can I edit a PDF on an iPhone or Android phone?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, in the phone's own browser. Pinch with two fingers to zoom, drag two fingers to pan, and use one finger to select, move, or draw depending on the active tool." } },
-        { "@type": "Question", "name": "What happens if I close the tab before downloading?", "acceptedAnswer": { "@type": "Answer", "text": "Unsaved edits are lost, since everything lives in the browser's memory for that tab and nothing is auto-saved to a server. For a long editing session, downloading periodically is a reasonable precaution." } }
-      ]
-    }
-    </script>
+        .tool-group {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 0 8px;
+            border-right: 1px solid var(--border);
+        }
+
+        .tool-group:last-child {
+            border-right: none;
+        }
+
+        .tool-btn {
+            padding: 8px 12px;
+            background: transparent;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-light);
+            font-size: 13px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tool-btn:hover {
+            background: var(--background);
+            color: var(--primary);
+        }
+
+        .tool-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tool-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .tool-separator {
+            width: 1px;
+            height: 24px;
+            background: var(--border);
+            margin: 0 8px;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .pdf-container {
+            flex: 1;
+            overflow: auto;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            background: #e2e8f0;
+            position: relative;
+        }
+
+        .pdf-pages {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .pdf-page {
+            background: white;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            transform-origin: top center;
+            transition: transform 0.3s ease;
+        }
+
+        .pdf-page canvas {
+            display: block;
+        }
+
+        .text-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .editable-text {
+            position: absolute;
+            pointer-events: auto;
+            cursor: text;
+            min-width: 50px;
+            min-height: 20px;
+            border: 1px solid transparent;
+            padding: 2px;
+            border-radius: 3px;
+            font-size: 14px;
+            line-height: 1.4;
+            transition: all 0.2s;
+            background: transparent;
+        }
+
+        .editable-text:hover {
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .editable-text:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.1);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+        }
+
+        .editable-text.selected {
+            border: 2px solid var(--primary);
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .image-overlay {
+            position: absolute;
+            pointer-events: auto;
+            cursor: move;
+        }
+
+        .image-overlay img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            border: 2px solid transparent;
+            border-radius: 4px;
+        }
+
+        .image-overlay:hover {
+            border-color: var(--primary);
+        }
+
+        .image-overlay.selected {
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--surface);
+            border-left: 1px solid var(--border);
+            overflow-y: auto;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar.hidden {
+            width: 0;
+            transform: translateX(100%);
+        }
+
+        .sidebar-content {
+            padding: 20px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 24px;
+        }
+
+        .sidebar-section h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .property-group {
+            margin-bottom: 16px;
+        }
+
+        .property-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-light);
+            margin-bottom: 6px;
+        }
+
+        .property-group input[type="text"],
+        .property-group input[type="number"],
+        .property-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 13px;
+            transition: border-color 0.2s;
+        }
+
+        .property-group input:focus,
+        .property-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .property-group input[type="color"] {
+            height: 40px;
+            padding: 4px;
+            cursor: pointer;
+        }
+
+        .property-group input[type="range"] {
+            width: 100%;
+            cursor: pointer;
+        }
+
+        /* Zoom Controls */
+        .zoom-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 300px;
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            z-index: 80;
+            transition: right 0.3s ease;
+        }
+
+        .zoom-controls.sidebar-hidden {
+            right: 20px;
+        }
+
+        .zoom-btn {
+            padding: 6px 10px;
+            background: transparent;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            color: var(--text-light);
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        .zoom-btn:hover {
+            background: var(--background);
+        }
+
+        .zoom-value {
+            padding: 0 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-light);
+            min-width: 40px;
+            text-align: center;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1100;
+            animation: slideIn 0.3s ease;
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.error {
+            border-left-color: var(--danger);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 240px;
+                position: fixed;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                z-index: 95;
+            }
+
+            .zoom-controls {
+                right: 260px;
+            }
+
+            .toolbar {
+                padding: 8px;
+            }
+
+            .tool-btn {
+                padding: 6px 8px;
+                font-size: 12px;
+            }
+        }
+    </style>
 </head>
-<body class="font-sans bg-slate-50 text-slate-900 dark:bg-dark-bg dark:text-dark-text flex flex-col min-h-screen selection:bg-brand-500 selection:text-white transition-colors duration-300">
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <div class="logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <polyline points="10 9 9 9 8 9"/>
+                    </svg>
+                    PDF Mechanic
+                </div>
+                <div class="file-info">
+                    <span id="fileName">No file loaded</span>
+                    <span id="pageInfo"></span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="tool-btn" onclick="openFile()" title="Open PDF">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                    </svg>
+                    Open
+                </button>
+                <button class="tool-btn" onclick="savePDF()" title="Save PDF">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                        <polyline points="17 21 17 13 7 13 7 21"/>
+                        <polyline points="7 3 7 8 15 8"/>
+                    </svg>
+                    Save
+                </button>
+                <button class="tool-btn" onclick="downloadPDF()" title="Download PDF">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    Download
+                </button>
+            </div>
+        </div>
 
-    <nav class="sticky top-0 z-50 glass-nav border-b border-slate-200 dark:border-dark-border transition-colors" aria-label="Main navigation">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex h-16 items-center justify-between">
-                <a href="index.html" class="flex items-center gap-2 group" aria-label="The PDF Mechanic — Home">
-                    <div class="w-9 h-9 bg-brand-600 rounded-lg flex items-center justify-center text-white text-lg shadow-md group-hover:bg-brand-700 transition">
-                        <i class="fa-solid fa-wrench" aria-hidden="true"></i>
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <div class="tool-group">
+                <button class="tool-btn active" onclick="setTool('select')" id="selectTool">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                    Select
+                </button>
+                <button class="tool-btn" onclick="setTool('text')" id="textTool">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="4 7 4 4 20 4 20 7"/>
+                        <line x1="9" y1="20" x2="15" y2="20"/>
+                        <line x1="12" y1="4" x2="12" y2="20"/>
+                    </svg>
+                    Add Text
+                </button>
+                <button class="tool-btn" onclick="setTool('image')" id="imageTool">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    Add Image
+                </button>
+                <button class="tool-btn" onclick="setTool('sign')" id="signTool">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L15 7H18L15 11L18 16H15L12 21L9 16H6L9 11L6 7H9L12 2Z"/>
+                    </svg>
+                    E-Sign
+                </button>
+            </div>
+            
+            <div class="tool-separator"></div>
+            
+            <div class="tool-group">
+                <button class="tool-btn" onclick="deleteSelected()" title="Delete Selected">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"/>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                    </svg>
+                    Delete
+                </button>
+                <button class="tool-btn" onclick="duplicateSelected()" title="Duplicate">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                    </svg>
+                    Duplicate
+                </button>
+            </div>
+            
+            <div class="tool-separator"></div>
+            
+            <div class="tool-group">
+                <button class="tool-btn" onclick="undoAction()" title="Undo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="1 4 1 10 7 10"/>
+                        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+                    </svg>
+                </button>
+                <button class="tool-btn" onclick="redoAction()" title="Redo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="23 4 23 10 17 10"/>
+                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="tool-separator"></div>
+            
+            <div class="tool-group">
+                <button class="tool-btn" onclick="toggleSidebar()" title="Properties">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="4" y1="21" x2="4" y2="14"/>
+                        <line x1="4" y1="10" x2="4" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="12"/>
+                        <line x1="12" y1="8" x2="12" y2="3"/>
+                        <line x1="20" y1="21" x2="20" y2="16"/>
+                        <line x1="20" y1="12" x2="20" y2="3"/>
+                        <line x1="1" y1="14" x2="7" y2="14"/>
+                        <line x1="9" y1="8" x2="15" y2="8"/>
+                        <line x1="17" y1="16" x2="23" y2="16"/>
+                    </svg>
+                    Properties
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="pdf-container" id="pdfContainer">
+                <div class="pdf-pages" id="pdfPages">
+                    <!-- PDF pages will be rendered here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-content">
+                <div class="sidebar-section">
+                    <h3>Properties</h3>
+                    <div class="property-group">
+                        <label>Font Size</label>
+                        <input type="number" id="fontSize" value="14" min="8" max="72" onchange="updateSelectedProperty('fontSize', this.value)">
                     </div>
-                    <span class="font-display font-bold text-xl tracking-tight hidden sm:block">The PDF Mechanic</span>
-                </a>
-                <div class="flex items-center gap-3">
-                    <a href="index.html" class="text-sm font-medium text-slate-500 hover:text-brand-600 dark:text-slate-400 transition hidden md:block">
-                        <i class="fa-solid fa-arrow-left mr-1" aria-hidden="true"></i> Back to Tools
-                    </a>
-                    <button id="themeToggle" type="button" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-yellow-400 flex items-center justify-center transition hover:ring-2 ring-brand-500" aria-label="Toggle dark mode">
-                        <i class="fa-solid fa-moon dark:hidden" aria-hidden="true"></i>
-                        <i class="fa-solid fa-sun hidden dark:block" aria-hidden="true"></i>
-                    </button>
+                    <div class="property-group">
+                        <label>Font Family</label>
+                        <select id="fontFamily" onchange="updateSelectedProperty('fontFamily', this.value)">
+                            <option value="Arial">Arial</option>
+                            <option value="Helvetica">Helvetica</option>
+                            <option value="Times New Roman">Times New Roman</option>
+                            <option value="Courier New">Courier New</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Verdana">Verdana</option>
+                        </select>
+                    </div>
+                    <div class="property-group">
+                        <label>Text Color</label>
+                        <input type="color" id="textColor" value="#000000" onchange="updateSelectedProperty('color', this.value)">
+                    </div>
+                    <div class="property-group">
+                        <label>Background Color</label>
+                        <input type="color" id="bgColor" value="#ffffff" onchange="updateSelectedProperty('backgroundColor', this.value)">
+                    </div>
+                    <div class="property-group">
+                        <label>Opacity</label>
+                        <input type="range" id="opacity" min="0" max="100" value="100" onchange="updateSelectedProperty('opacity', this.value / 100)">
+                    </div>
                 </div>
             </div>
         </div>
-    </nav>
 
-    <!-- ============================================================
-         LANDING STATE — real, crawlable HTML. This is what Google's
-         renderer sees before any file is opened, so the tool's actual
-         capabilities are described here in plain text, not only inside
-         the interactive editor.
-         ============================================================ -->
-    <main id="landingView">
-        <header class="text-center py-16 sm:py-20 px-4 bg-gradient-to-b from-white to-slate-50 dark:from-dark-card dark:to-dark-bg border-b border-slate-200 dark:border-dark-border">
-            <div class="max-w-3xl mx-auto">
-                <nav aria-label="Breadcrumb" class="text-xs text-slate-500 dark:text-slate-400 mb-6">
-                    <a href="index.html" class="hover:text-brand-600 dark:hover:text-brand-400">Home</a>
-                    <span class="mx-1.5">/</span>
-                    <span class="text-slate-700 dark:text-slate-300">PDF Editor</span>
-                </nav>
-                <h1 class="text-4xl sm:text-5xl font-display font-extrabold mb-5 text-slate-900 dark:text-white leading-tight">
-                    Free PDF Editor <span class="text-brand-600">Online</span>
-                </h1>
-                <p class="text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto">
-                    Add text, images, drawings, and annotations to any PDF, directly in your browser. Your file is never uploaded to a server.
-                </p>
-
-                <div id="uploadArea" role="button" tabindex="0" aria-label="Click or drag a PDF file here to open it in the editor" class="max-w-xl mx-auto p-8 sm:p-12 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-white dark:bg-dark-card hover:border-brand-500 dark:hover:border-brand-500 transition cursor-pointer" onclick="document.getElementById('fileInput').click()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();document.getElementById('fileInput').click();}" ondragover="event.preventDefault(); this.classList.add('drag-active');" ondragleave="this.classList.remove('drag-active');" ondrop="handleDrop(event)">
-                    <input type="file" id="fileInput" accept="application/pdf" aria-label="Choose a PDF file" class="hidden" onchange="handleFileSelect(event)">
-                    <i class="fa-solid fa-file-circle-plus text-4xl text-brand-500 mb-3" aria-hidden="true"></i>
-                    <p class="text-lg font-bold text-slate-800 dark:text-white mb-1">Click or Drag a PDF Here</p>
-                    <p class="text-sm text-slate-500 dark:text-slate-400">Works best under 100MB &middot; Processed locally on your device</p>
-                </div>
-
-                <div id="landingError" class="hidden max-w-xl mx-auto mt-4 inline-alert inline-alert-error text-left" role="alert">
-                    <i class="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true"></i>
-                    <span id="landingErrorText"></span>
-                </div>
-
-                <div class="flex flex-wrap justify-center gap-4 sm:gap-6 mt-8 text-sm font-medium text-slate-500 dark:text-slate-400">
-                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-green-500" aria-hidden="true"></i> No File Upload</span>
-                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-green-500" aria-hidden="true"></i> No Watermark</span>
-                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-green-500" aria-hidden="true"></i> Works on Mobile</span>
-                </div>
-            </div>
-        </header>
-
-        <!-- Honest capability model, stated plainly, above the fold on the landing page -->
-        <section class="max-w-5xl mx-auto px-4 py-14 sm:py-16">
-            <h2 class="text-2xl sm:text-3xl font-display font-bold text-center mb-3 text-slate-900 dark:text-white">What This Editor Can Actually Do</h2>
-            <p class="text-center text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-10">
-                PDF editing tools vary a lot in what "edit" really means. Here's exactly what happens with each type of change, so there are no surprises in your downloaded file.
-            </p>
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-white dark:bg-dark-card rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
-                    <div class="w-11 h-11 rounded-xl bg-green-100 dark:bg-green-900/20 text-green-600 flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-check" aria-hidden="true"></i></div>
-                    <h3 class="font-bold text-lg text-slate-900 dark:text-white mb-2">Add Text &amp; Annotate</h3>
-                    <p class="text-sm text-slate-600 dark:text-slate-400">Fully supported. Add new text, images, drawings, and shapes anywhere on a page. Saved as real, sharp PDF content — not a flattened screenshot.</p>
-                </div>
-                <div class="bg-white dark:bg-dark-card rounded-2xl border border-amber-200 dark:border-amber-800 p-6">
-                    <div class="w-11 h-11 rounded-xl bg-amber-100 dark:bg-amber-900/20 text-amber-600 flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i></div>
-                    <h3 class="font-bold text-lg text-slate-900 dark:text-white mb-2">Quick Text Replace <span class="block text-xs font-semibold uppercase tracking-wide text-amber-600 dark:text-amber-400 mt-1">Best Effort</span></h3>
-                    <p class="text-sm text-slate-600 dark:text-slate-400">For simple, single-line text on PDFs with a real text layer only. Covers the old text and places a close approximation on top — not a lossless, guaranteed-perfect edit.</p>
-                </div>
-                <div class="bg-white dark:bg-dark-card rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
-                    <div class="w-11 h-11 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-image" aria-hidden="true"></i></div>
-                    <h3 class="font-bold text-lg text-slate-900 dark:text-white mb-2">Scanned / Image-Based PDFs</h3>
-                    <p class="text-sm text-slate-600 dark:text-slate-400">Detected automatically. There's no existing text to edit on a scan, so the editor offers Add Text, Annotate, or a link to OCR instead of pretending otherwise.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="bg-white dark:bg-dark-card py-14 sm:py-16 border-y border-slate-200 dark:border-dark-border">
-            <div class="max-w-3xl mx-auto px-4 prose dark:prose-invert">
-                <h2 class="text-2xl sm:text-3xl font-display font-bold mb-6 text-slate-900 dark:text-white">How to Edit a PDF</h2>
-                <ol class="list-decimal pl-5 space-y-2 text-slate-700 dark:text-slate-300 mb-10">
-                    <li>Click or drag your PDF into the upload area above.</li>
-                    <li>Choose a tool from the toolbar — Text, Image, Draw, or Shapes.</li>
-                    <li>Click anywhere on the page to place it, then drag, resize, or restyle as needed.</li>
-                    <li>Move between pages using the thumbnail sidebar or the page controls.</li>
-                    <li>Click Download when finished. The file is generated and saved on your device — nothing is uploaded first.</li>
-                </ol>
-
-                <h2 class="text-2xl sm:text-3xl font-display font-bold mb-4 text-slate-900 dark:text-white">Editing Text That's Already in a PDF</h2>
-                <p class="mb-4">
-                    It's worth being direct about this, since it's the single most common source of disappointment with free PDF editors: genuinely rewriting arbitrary text that's already printed in a PDF — reflowing a paragraph, changing a font throughout a document, fixing a typo buried in a dense block of text — is not something any free, open, browser-based toolset does reliably today. The libraries capable of that kind of deep editing are either commercial or carry licensing terms that don't fit a free tool like this one.
-                </p>
-                <p class="mb-4">
-                    What this editor offers instead, honestly labeled: for a PDF that has a real text layer (not a scan), the <strong>Quick Text Replace (Best Effort)</strong> tool detects existing text runs, lets you select a simple line, and replaces it with new text sized and positioned to closely match the original. It works well for short, single-line corrections — a name, a date, a single word — on documents with straightforward layouts. It is not lossless, doesn't reflow surrounding paragraphs, and may not match unusual or embedded fonts exactly.
-                </p>
-                <p class="mb-6">
-                    For anything more involved, or for a document that isn't a good fit for that tool, the reliable option is covering the area and adding new text on top — which is exactly what most people mean by "editing a PDF" in daily use: correcting a form, adding a missing detail, annotating a document before sending it on.
-                </p>
-
-                <h2 class="text-2xl sm:text-3xl font-display font-bold mb-4 text-slate-900 dark:text-white">Add Text to a PDF</h2>
-                <p class="mb-6">
-                    Select the Text tool, click where you want it, and start typing. Font size, color, bold, and italic are all adjustable from the properties panel, and the text box can be dragged, resized, or rotated at any point before you download. It's saved as real PDF text, not a picture of text, so it stays sharp at any zoom level and remains selectable in the finished file.
-                </p>
-
-                <h2 class="text-2xl sm:text-3xl font-display font-bold mb-4 text-slate-900 dark:text-white">Add Images to a PDF</h2>
-                <p class="mb-6">
-                    The Image tool inserts a JPG or PNG anywhere on the page — a logo, a scanned stamp, a photo of a handwritten signature. Drag a corner to resize it, drag the body to reposition it, and use the rotate handle if it needs straightening. Each image is embedded at its own resolution rather than being flattened into a single page-sized picture, so file size stays reasonable even after several images are added.
-                </p>
-
-                <h2 class="text-2xl sm:text-3xl font-display font-bold mb-4 text-slate-900 dark:text-white">Sign a PDF</h2>
-                <p class="mb-6">
-                    Two ways to add a signature: draw one freehand with the pen tool directly on the page, or insert a photo/scan of an existing handwritten signature using the Image tool and resize it to fit. Neither method produces a cryptographically-verified digital signature in the legal e-signature sense — both are visual marks placed on the page, which is sufficient for most everyday documents but not a substitute for a dedicated e-signature service where legal certification specifically matters.
-                </p>
-
-                <h2 class="text-2xl sm:text-3xl font-display font-bold mb-4 text-slate-900 dark:text-white">Annotate a PDF</h2>
-                <p class="mb-6">
-                    The Draw and Shapes tools cover freehand marking, highlighting, arrows, rectangles, and circles — useful for marking up a document for review, pointing out a specific clause, or sketching a quick correction. Every annotation stays a separate, movable object until you download, so a stray mark is easy to select and delete rather than needing a full undo.
-                </p>
-
-                <h2 class="text-2xl sm:text-3xl font-display font-bold mb-4 text-slate-900 dark:text-white">Editing Scanned PDFs</h2>
-                <p class="mb-6">
-                    A scanned page is a photograph of paper, not text — there's no underlying text layer for the editor to detect or replace, which is why Quick Text Replace won't appear as an option on those pages. The editor checks each page automatically and clearly labels one as scanned/image-based when that's the case, then offers Add Text (to type directly onto a blank line, for instance) or a link to the site's OCR tool if what you actually need is to make the scanned text itself searchable and selectable first.
-                </p>
-
-                <h2 class="text-2xl sm:text-3xl font-display font-bold mb-4 text-slate-900 dark:text-white">Editing PDFs on iPhone and Android</h2>
-                <p class="mb-6">
-                    The editor works in your phone's own browser, no app required. Pinch with two fingers to zoom in and out, drag two fingers to pan around the page, and use one finger to select, move, or draw depending on whichever tool is active — the same gestures you'd expect from any mobile editing app. Zoom is controlled by the editor itself rather than your browser's page zoom, so pinching doesn't fight with placing or resizing objects.
-                </p>
-
-                <h2 class="text-2xl sm:text-3xl font-display font-bold mb-4 text-slate-900 dark:text-white">Privacy: Where Your PDF Actually Goes</h2>
-                <p class="mb-4">
-                    The file you open here is never uploaded anywhere. Loading the PDF, rendering its pages, applying your edits, and generating the final download all happen using JavaScript running in your own browser tab, on your own device.
-                </p>
-                <p class="mb-6">
-                    To be precise about the boundary of that claim: like any website, this page does load its own JavaScript, fonts, and icon library from the network the first time you visit — that's normal web-page loading, not your document. The distinction that matters is that your PDF's actual content never becomes part of any network request. You can verify this yourself in your browser's developer tools: open the Network tab, edit and download a file, and you'll see no outgoing request carrying your PDF's data.
-                </p>
-
-                <h2 class="text-2xl sm:text-3xl font-display font-bold mb-4 text-slate-900 dark:text-white">Known Limitations</h2>
-                <ul class="list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-300 mb-6">
-                    <li>Arbitrary existing text cannot be reflowed or rewritten — see the honest explanation above.</li>
-                    <li>Quick Text Replace works best on short, single-line text with common fonts, and may not match unusual embedded fonts precisely.</li>
-                    <li>Signatures are visual marks, not legally certified digital signatures.</li>
-                    <li>Covering content visually does not remove it from the underlying file — use the dedicated Redact PDF tool for genuine permanent redaction.</li>
-                    <li>Very large or image-heavy PDFs (hundreds of pages) take longer to open, since more data has to be read into your device's memory.</li>
-                </ul>
-            </div>
-        </section>
-
-        <section id="faq" class="max-w-3xl mx-auto px-4 py-14 sm:py-16">
-            <h2 class="text-2xl sm:text-3xl font-display font-bold mb-10 text-center text-slate-900 dark:text-white">Frequently Asked Questions</h2>
-            <div class="space-y-4">
-                <details class="group bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-700 rounded-2xl p-5 cursor-pointer">
-                    <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white text-sm sm:text-base list-none">
-                        <span>Is this PDF editor really free, with no watermark?</span>
-                        <span class="transition group-open:rotate-180 shrink-0"><i class="fa-solid fa-chevron-down text-brand-500" aria-hidden="true"></i></span>
-                    </summary>
-                    <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500 leading-relaxed">Yes. Adding text, images, drawings, or shapes is completely free, with no watermark added to the downloaded file and no page or usage limit.</p>
-                </details>
-                <details class="group bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-700 rounded-2xl p-5 cursor-pointer">
-                    <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white text-sm sm:text-base list-none">
-                        <span>Can I edit the original text already printed in a PDF?</span>
-                        <span class="transition group-open:rotate-180 shrink-0"><i class="fa-solid fa-chevron-down text-brand-500" aria-hidden="true"></i></span>
-                    </summary>
-                    <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500 leading-relaxed">Reliably, only for simple, single-line text on a PDF that has a real text layer, using the Quick Text Replace (Best Effort) tool. It covers the old text and places new text in roughly the same spot, size, and color — it does not reflow surrounding content, and results vary by document. For scanned or image-based PDFs, there's no existing text to replace at all. For anything else, adding new text on top is the reliable option.</p>
-                </details>
-                <details class="group bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-700 rounded-2xl p-5 cursor-pointer">
-                    <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white text-sm sm:text-base list-none">
-                        <span>Is my PDF uploaded to a server while I edit it?</span>
-                        <span class="transition group-open:rotate-180 shrink-0"><i class="fa-solid fa-chevron-down text-brand-500" aria-hidden="true"></i></span>
-                    </summary>
-                    <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500 leading-relaxed">No, the PDF file itself is never uploaded — loading, rendering, editing, and saving all happen on your own device. The page itself still loads its JavaScript, fonts, and icon library from the network the first time, the same as any website.</p>
-                </details>
-                <details class="group bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-700 rounded-2xl p-5 cursor-pointer">
-                    <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white text-sm sm:text-base list-none">
-                        <span>How does the editor handle a scanned or image-based PDF?</span>
-                        <span class="transition group-open:rotate-180 shrink-0"><i class="fa-solid fa-chevron-down text-brand-500" aria-hidden="true"></i></span>
-                    </summary>
-                    <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500 leading-relaxed">It's detected automatically. A scanned page has no real text layer to select or replace, so the editor shows a clear notice and offers Add Text, Annotate, or a link to the OCR tool instead of pretending existing text can be edited.</p>
-                </details>
-                <details class="group bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-700 rounded-2xl p-5 cursor-pointer">
-                    <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white text-sm sm:text-base list-none">
-                        <span>Can I add a signature to a PDF with this editor?</span>
-                        <span class="transition group-open:rotate-180 shrink-0"><i class="fa-solid fa-chevron-down text-brand-500" aria-hidden="true"></i></span>
-                    </summary>
-                    <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500 leading-relaxed">Yes, in two ways: draw a signature freehand using the pen tool directly on the page, or insert an image of your signature using the image tool.</p>
-                </details>
-                <details class="group bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-700 rounded-2xl p-5 cursor-pointer">
-                    <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white text-sm sm:text-base list-none">
-                        <span>What image formats can I insert into a PDF?</span>
-                        <span class="transition group-open:rotate-180 shrink-0"><i class="fa-solid fa-chevron-down text-brand-500" aria-hidden="true"></i></span>
-                    </summary>
-                    <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500 leading-relaxed">JPG and PNG images can be inserted anywhere on a page, resized and repositioned freely before saving.</p>
-                </details>
-                <details class="group bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-700 rounded-2xl p-5 cursor-pointer">
-                    <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white text-sm sm:text-base list-none">
-                        <span>Can I undo a mistake while editing?</span>
-                        <span class="transition group-open:rotate-180 shrink-0"><i class="fa-solid fa-chevron-down text-brand-500" aria-hidden="true"></i></span>
-                    </summary>
-                    <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500 leading-relaxed">Yes. Undo and redo track additions, edits, moves, resizes, and deletions on the current page.</p>
-                </details>
-                <details class="group bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-700 rounded-2xl p-5 cursor-pointer">
-                    <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white text-sm sm:text-base list-none">
-                        <span>Does adding text or images reduce the quality of the rest of the PDF?</span>
-                        <span class="transition group-open:rotate-180 shrink-0"><i class="fa-solid fa-chevron-down text-brand-500" aria-hidden="true"></i></span>
-                    </summary>
-                    <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500 leading-relaxed">No. Original page content is left untouched. Added text is saved as real, sharp PDF text rather than a flattened image, and added images are embedded at their own resolution.</p>
-                </details>
-                <details class="group bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-700 rounded-2xl p-5 cursor-pointer">
-                    <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white text-sm sm:text-base list-none">
-                        <span>Will this work on a large PDF with many pages?</span>
-                        <span class="transition group-open:rotate-180 shrink-0"><i class="fa-solid fa-chevron-down text-brand-500" aria-hidden="true"></i></span>
-                    </summary>
-                    <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500 leading-relaxed">Yes. Page thumbnails load as you scroll to them rather than all at once, so opening a long document doesn't require rendering every page up front.</p>
-                </details>
-                <details class="group bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-700 rounded-2xl p-5 cursor-pointer">
-                    <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white text-sm sm:text-base list-none">
-                        <span>Do I need to install anything to use this editor?</span>
-                        <span class="transition group-open:rotate-180 shrink-0"><i class="fa-solid fa-chevron-down text-brand-500" aria-hidden="true"></i></span>
-                    </summary>
-                    <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500 leading-relaxed">No installation or account is required — it runs in any modern browser, on desktop or mobile.</p>
-                </details>
-                <details class="group bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-700 rounded-2xl p-5 cursor-pointer">
-                    <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white text-sm sm:text-base list-none">
-                        <span>Is this the right tool if I need to permanently remove information from a PDF?</span>
-                        <span class="transition group-open:rotate-180 shrink-0"><i class="fa-solid fa-chevron-down text-brand-500" aria-hidden="true"></i></span>
-                    </summary>
-                    <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500 leading-relaxed">No. Covering content visually here doesn't remove it from the underlying file. For genuine, permanent redaction, use the dedicated <a href="redact-pdf.html" class="text-brand-600 dark:text-brand-400 underline font-semibold">Redact PDF tool</a>.</p>
-                </details>
-                <details class="group bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-700 rounded-2xl p-5 cursor-pointer">
-                    <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white text-sm sm:text-base list-none">
-                        <span>Can I edit a PDF on an iPhone or Android phone?</span>
-                        <span class="transition group-open:rotate-180 shrink-0"><i class="fa-solid fa-chevron-down text-brand-500" aria-hidden="true"></i></span>
-                    </summary>
-                    <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500 leading-relaxed">Yes, in the phone's own browser. Pinch with two fingers to zoom, drag two fingers to pan, and use one finger to select, move, or draw depending on the active tool.</p>
-                </details>
-                <details class="group bg-white dark:bg-dark-card border border-slate-200 dark:border-slate-700 rounded-2xl p-5 cursor-pointer">
-                    <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white text-sm sm:text-base list-none">
-                        <span>What happens if I close the tab before downloading?</span>
-                        <span class="transition group-open:rotate-180 shrink-0"><i class="fa-solid fa-chevron-down text-brand-500" aria-hidden="true"></i></span>
-                    </summary>
-                    <p class="text-sm text-slate-600 dark:text-slate-300 mt-3 pl-2 border-l-2 border-brand-500 leading-relaxed">Unsaved edits are lost, since everything lives in the browser's memory for that tab and nothing is auto-saved to a server. For a long editing session, downloading periodically is a reasonable precaution.</p>
-                </details>
-            </div>
-        </section>
-
-        <section class="max-w-5xl mx-auto px-4 py-14 sm:py-16 border-t border-slate-200 dark:border-slate-800">
-            <h2 class="text-xl font-bold text-center mb-8 text-slate-900 dark:text-white">Related PDF Tools</h2>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                <a href="ocr.html" class="text-center p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 hover:shadow-md transition bg-white dark:bg-dark-card">
-                    <i class="fa-solid fa-magnifying-glass text-brand-600 text-xl mb-2" aria-hidden="true"></i>
-                    <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">OCR PDF</p>
-                </a>
-                <a href="redact-pdf.html" class="text-center p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 hover:shadow-md transition bg-white dark:bg-dark-card">
-                    <i class="fa-solid fa-eraser text-brand-600 text-xl mb-2" aria-hidden="true"></i>
-                    <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">Redact PDF</p>
-                </a>
-                <a href="protect-pdf.html" class="text-center p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 hover:shadow-md transition bg-white dark:bg-dark-card">
-                    <i class="fa-solid fa-lock text-brand-600 text-xl mb-2" aria-hidden="true"></i>
-                    <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">Protect PDF</p>
-                </a>
-                <a href="compressor.html" class="text-center p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 hover:shadow-md transition bg-white dark:bg-dark-card">
-                    <i class="fa-solid fa-compress text-brand-600 text-xl mb-2" aria-hidden="true"></i>
-                    <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">Compress PDF</p>
-                </a>
-            </div>
-            <p class="text-center text-sm text-slate-500 dark:text-slate-400 mt-6 max-w-xl mx-auto">
-                A common workflow: <a href="ocr.html" class="text-brand-600 dark:text-brand-400 underline">OCR</a> a scanned document first to give it a real text layer, edit and sign it here, then <a href="protect-pdf.html" class="text-brand-600 dark:text-brand-400 underline">password-protect</a> or <a href="compressor.html" class="text-brand-600 dark:text-brand-400 underline">compress</a> it before sending.
-            </p>
-        </section>
-    </main>
-
-    <!-- ============================================================
-         EDITOR VIEW — hidden until a file is opened. Not SEO content;
-         all crawlable explanatory text lives in the landing view above.
-         ============================================================ -->
-    <div id="editorView" class="hidden fixed inset-0 z-40 flex flex-col bg-slate-100 dark:bg-slate-950" style="padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom);">
-
-        <!-- Top toolbar -->
-        <div id="editorToolbar" class="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 h-14 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0 overflow-x-auto hide-scrollbar">
-            <button type="button" onclick="exitEditor()" class="tool-btn shrink-0" aria-label="Close editor, back to upload" title="Close">
-                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-            </button>
-            <div class="w-px h-7 bg-slate-200 dark:bg-slate-700 shrink-0" role="separator"></div>
-
-            <div class="flex items-center gap-1 shrink-0" role="group" aria-label="Editing tools">
-                <button type="button" id="toolSelect" onclick="setMode('select')" class="tool-btn active" aria-label="Select tool" aria-pressed="true" title="Select (V)"><i class="fa-solid fa-arrow-pointer" aria-hidden="true"></i></button>
-                <button type="button" id="toolText" onclick="addText()" class="tool-btn" aria-label="Add text" title="Add Text (T)"><i class="fa-solid fa-font" aria-hidden="true"></i></button>
-                <button type="button" id="toolImage" onclick="document.getElementById('imageInput').click()" class="tool-btn" aria-label="Add image" title="Add Image"><i class="fa-solid fa-image" aria-hidden="true"></i></button>
-                <input type="file" id="imageInput" accept="image/png,image/jpeg" class="hidden" aria-label="Choose an image to insert" onchange="addImage(event)">
-                <button type="button" id="toolDraw" onclick="setMode('draw')" class="tool-btn" aria-label="Draw / sign" aria-pressed="false" title="Draw (D)"><i class="fa-solid fa-pen" aria-hidden="true"></i></button>
-                <button type="button" id="toolRect" onclick="addShape('rect')" class="tool-btn" aria-label="Add rectangle shape" title="Rectangle"><i class="fa-regular fa-square" aria-hidden="true"></i></button>
-                <button type="button" id="toolCircle" onclick="addShape('circle')" class="tool-btn" aria-label="Add circle shape" title="Circle"><i class="fa-regular fa-circle" aria-hidden="true"></i></button>
-                <button type="button" id="toolQuickReplace" onclick="toggleQuickReplaceMode()" class="tool-btn" aria-label="Quick text replace, best effort" aria-pressed="false" title="Quick Text Replace (Best Effort)"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i></button>
-            </div>
-
-            <div class="w-px h-7 bg-slate-200 dark:bg-slate-700 shrink-0" role="separator"></div>
-
-            <div class="flex items-center gap-1 shrink-0" role="group" aria-label="History">
-                <button type="button" id="undoBtn" onclick="undo()" class="tool-btn" aria-label="Undo" title="Undo (Ctrl+Z)" disabled><i class="fa-solid fa-rotate-left" aria-hidden="true"></i></button>
-                <button type="button" id="redoBtn" onclick="redo()" class="tool-btn" aria-label="Redo" title="Redo (Ctrl+Y)" disabled><i class="fa-solid fa-rotate-right" aria-hidden="true"></i></button>
-                <button type="button" id="deleteBtn" onclick="deleteSelected()" class="tool-btn" aria-label="Delete selected object" title="Delete"><i class="fa-solid fa-trash" aria-hidden="true"></i></button>
-            </div>
-
-            <div class="w-px h-7 bg-slate-200 dark:bg-slate-700 shrink-0" role="separator"></div>
-
-            <!-- Zoom controls -->
-            <div class="flex items-center gap-1 shrink-0" role="group" aria-label="Zoom controls">
-                <button type="button" onclick="zoomBy(-0.1)" class="tool-btn" aria-label="Zoom out" title="Zoom Out (Ctrl+-)"><i class="fa-solid fa-magnifying-glass-minus" aria-hidden="true"></i></button>
-                <button type="button" id="zoomPercentBtn" onclick="cycleZoomPreset()" class="text-xs font-bold text-slate-600 dark:text-slate-300 w-12 text-center tabular-nums" aria-label="Current zoom level, click to reset to 100%" title="Click to reset to 100%">100%</button>
-                <button type="button" onclick="zoomBy(0.1)" class="tool-btn" aria-label="Zoom in" title="Zoom In (Ctrl+=)"><i class="fa-solid fa-magnifying-glass-plus" aria-hidden="true"></i></button>
-                <button type="button" onclick="fitWidth()" class="tool-btn hidden sm:inline-flex" aria-label="Fit page width" title="Fit Width"><i class="fa-solid fa-arrows-left-right" aria-hidden="true"></i></button>
-                <button type="button" onclick="fitPage()" class="tool-btn hidden sm:inline-flex" aria-label="Fit whole page" title="Fit Page"><i class="fa-solid fa-expand" aria-hidden="true"></i></button>
-            </div>
-
-            <div class="flex-1"></div>
-
-            <!-- Page navigation -->
-            <div class="flex items-center gap-1 shrink-0 text-sm" role="group" aria-label="Page navigation">
-                <button type="button" onclick="changePage(-1)" class="tool-btn" aria-label="Previous page" title="Previous Page"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
-                <span class="text-xs font-semibold text-slate-600 dark:text-slate-300 tabular-nums px-1"><span id="pageIndicator">1</span> / <span id="pageCountLabel">1</span></span>
-                <button type="button" onclick="changePage(1)" class="tool-btn" aria-label="Next page" title="Next Page"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
-            </div>
-
-            <div class="w-px h-7 bg-slate-200 dark:bg-slate-700 shrink-0" role="separator"></div>
-
-            <button type="button" id="saveBtn" onclick="savePDF()" class="shrink-0 bg-brand-600 hover:bg-brand-700 text-white text-sm font-bold px-3 sm:px-4 h-9 rounded-lg flex items-center gap-2 transition" aria-label="Download edited PDF">
-                <i class="fa-solid fa-download" aria-hidden="true"></i> <span class="hidden sm:inline">Download</span>
-            </button>
-        </div>
-
-        <!-- Status banner: replaces alert() with non-blocking inline states -->
-        <div id="statusBanner" class="hidden shrink-0 px-4 py-2 text-sm flex items-center gap-2 border-b" role="status" aria-live="polite">
-            <i id="statusIcon" class="fa-solid fa-circle-notch fa-spin" aria-hidden="true"></i>
-            <span id="statusText"></span>
-            <button type="button onclick="dismissStatus()" class="ml-auto text-xs underline opacity-75 hover:opacity-100" aria-label="Dismiss message">Dismiss</button>
-        </div>
-
-        <!-- Scanned-page notice -->
-        <div id="scannedNotice" class="hidden shrink-0 px-4 py-2 text-xs sm:text-sm bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2 text-slate-600 dark:text-slate-300">
-            <i class="fa-solid fa-circle-info text-slate-400" aria-hidden="true"></i>
-            <span>This page appears to be scanned or image-based — there's no existing text to select or replace. Use Add Text or Annotate, or</span>
-            <a href="ocr.html" class="text-brand-600 dark:text-brand-400 underline font-semibold whitespace-nowrap">run OCR first</a>.
-        </div>
-
-        <!-- Main working area -->
-        <div class="flex-1 flex overflow-hidden min-h-0">
-
-            <!-- Desktop/tablet thumbnail sidebar -->
-            <aside id="thumbnailSidebar" class="hidden md:flex md:flex-col w-28 lg:w-36 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-y-auto shrink-0 p-2 gap-2" aria-label="Page thumbnails">
-                <!-- Thumbnail placeholders injected + lazily rendered by JS via IntersectionObserver -->
-            </aside>
-
-            <!-- Canvas viewport -->
-            <div id="canvasViewport" class="flex-1 relative overflow-hidden bg-slate-300 dark:bg-slate-900 touch-none" aria-label="PDF page editor canvas">
-                <div id="canvasLoading" class="absolute inset-0 flex items-center justify-center bg-slate-100/80 dark:bg-slate-900/80 z-10">
-                    <i class="fa-solid fa-circle-notch fa-spin text-brand-600 text-3xl" aria-hidden="true"></i>
-                </div>
-                <canvas id="fabricCanvas"></canvas>
-            </div>
-
-            <!-- Desktop properties panel -->
-            <aside id="propertiesPanelDesktop" class="hidden lg:flex lg:flex-col w-64 border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-y-auto shrink-0 p-4" aria-label="Object properties">
-                <p class="text-xs font-bold uppercase tracking-wide text-slate-400 mb-3">Properties</p>
-                <div id="propsContentDesktop"><p class="text-xs text-slate-400">Select an object to edit its properties.</p></div>
-                <p class="text-xs font-bold uppercase tracking-wide text-slate-400 mt-6 mb-3">Layers</p>
-                <div id="layersListDesktop" class="space-y-1 text-xs"></div>
-            </aside>
-        </div>
-
-        <!-- Mobile bottom bar: page nav + thumbnails toggle + properties toggle -->
-        <div class="md:hidden flex items-center justify-around h-14 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0" role="group" aria-label="Mobile editor controls">
-            <button type="button" onclick="openMobileSheet('pages')" class="flex flex-col items-center justify-center gap-0.5 text-xs text-slate-600 dark:text-slate-300 w-16 h-full" aria-label="Show page thumbnails">
-                <i class="fa-regular fa-images text-lg" aria-hidden="true"></i> Pages
-            </button>
-            <button type="button" onclick="openMobileSheet('properties')" class="flex flex-col items-center justify-center gap-0.5 text-xs text-slate-600 dark:text-slate-300 w-16 h-full" aria-label="Show object properties">
-                <i class="fa-solid fa-sliders text-lg" aria-hidden="true"></i> Style
-            </button>
-        </div>
-
-        <!-- Mobile bottom sheet (shared for pages + properties) -->
-        <div id="mobileSheetBackdrop" class="hidden fixed inset-0 bg-black/40 z-50" onclick="closeMobileSheet()"></div>
-        <div id="mobileSheet" class="hidden fixed left-0 right-0 bottom-0 z-50 bg-white dark:bg-slate-900 rounded-t-2xl border-t border-slate-200 dark:border-slate-700 max-h-[70vh] flex flex-col" role="dialog" aria-modal="true" aria-label="Editor panel" style="padding-bottom: env(safe-area-inset-bottom);">
-            <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-slate-800 shrink-0">
-                <span id="mobileSheetTitle" class="font-bold text-sm text-slate-800 dark:text-white">Pages</span>
-                <button type="button" onclick="closeMobileSheet()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800" aria-label="Close panel"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
-            </div>
-            <div id="mobileSheetPages" class="p-3 grid grid-cols-3 gap-2 overflow-y-auto"></div>
-            <div id="mobileSheetProperties" class="hidden p-4 overflow-y-auto"></div>
-        </div>
-
-        <!-- Quick Text Replace dialog — a small inline panel, not window.prompt() -->
-        <div id="quickReplaceDialog" class="hidden fixed inset-0 z-[60] flex items-center justify-center bg-black/40 p-4" role="dialog" aria-modal="true" aria-labelledby="quickReplaceTitle">
-            <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-xl max-w-sm w-full p-5">
-                <h3 id="quickReplaceTitle" class="font-bold text-slate-900 dark:text-white mb-1">Quick Text Replace <span class="text-xs font-semibold uppercase text-amber-600 dark:text-amber-400">Best Effort</span></h3>
-                <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">Position and font are approximated, not guaranteed exact.</p>
-                <label for="quickReplaceInput" class="sr-only">Replacement text</label>
-                <input type="text" id="quickReplaceInput" class="w-full border border-slate-300 dark:border-slate-700 dark:bg-slate-800 rounded-lg px-3 py-2 text-sm mb-4" autocomplete="off">
-                <div class="flex gap-2">
-                    <button type="button" id="quickReplaceCancel" class="flex-1 h-10 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-600 dark:text-slate-300">Cancel</button>
-                    <button type="button" id="quickReplaceConfirm" class="flex-1 h-10 rounded-lg bg-brand-600 text-white text-sm font-semibold">Replace</button>
-                </div>
-            </div>
+        <!-- Zoom Controls -->
+        <div class="zoom-controls" id="zoomControls">
+            <button class="zoom-btn" onclick="zoomOut()">−</button>
+            <span class="zoom-value" id="zoomValue">100%</span>
+            <button class="zoom-btn" onclick="zoomIn()">+</button>
+            <button class="zoom-btn" onclick="fitToWidth()">Fit Width</button>
+            <button class="zoom-btn" onclick="resetZoom()">Reset</button>
         </div>
     </div>
 
-    <footer id="siteFooter" class="bg-slate-950 text-slate-400 pt-16 pb-8 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-10">
-            <div class="col-span-1 sm:col-span-2 md:col-span-1">
-                <div class="flex items-center gap-2 mb-4 text-white">
-                    <i class="fa-solid fa-wrench text-brand-600 text-xl" aria-hidden="true"></i>
-                    <span class="font-bold text-xl font-display">The PDF Mechanic</span>
-                </div>
-                <p class="text-sm leading-relaxed text-slate-500 mb-4">
-                    Built for speed and privacy. The only PDF toolkit that works 100% offline in your browser.
-                </p>
-            </div>
-            <div>
-                <h4 class="text-white font-bold text-sm mb-4">Edit &amp; Secure</h4>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="pdf-editor.html" class="text-white font-bold">PDF Editor</a></li>
-                    <li><a href="redact-pdf.html" class="hover:text-brand-500 transition">Redact PDF</a></li>
-                    <li><a href="protect-pdf.html" class="hover:text-brand-500 transition">Protect PDF</a></li>
-                    <li><a href="unlock-pdf.html" class="hover:text-brand-500 transition">Unlock PDF</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-white font-bold text-sm mb-4">Organize &amp; Convert</h4>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="merger.html" class="hover:text-brand-500 transition">Merge PDF</a></li>
-                    <li><a href="compressor.html" class="hover:text-brand-500 transition">Compress PDF</a></li>
-                    <li><a href="ocr.html" class="hover:text-brand-500 transition">OCR PDF</a></li>
-                    <li><a href="pdf-to-word.html" class="hover:text-brand-500 transition">PDF to Word</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-white font-bold text-sm mb-4">Legal</h4>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="privacy.html" class="hover:text-brand-500 transition">Privacy Policy</a></li>
-                    <li><a href="terms.html" class="hover:text-brand-500 transition">Terms of Use</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="border-t border-slate-900 pt-8 text-center text-xs text-slate-600 px-4">
-            &copy; <span id="year"></span> The PDF Mechanic. All rights reserved.
-        </div>
-    </footer>
+    <!-- File Input -->
+    <input type="file" id="fileInput" accept=".pdf" style="display: none" onchange="loadPDF(this)">
+    <input type="file" id="imageInput" accept="image/*" style="display: none" onchange="addImage(this)">
 
-    <script src="common.js" defer></script>
     <script>
-        // ============================================================
-        // LAZY LIBRARY LOADING — pdf.js, Fabric.js, and pdf-lib are
-        // sizeable libraries the visitor doesn't need until they actually
-        // open a file, so none of them load on initial page view.
-        // ============================================================
-        const PDFJS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
-        const PDFJS_WORKER_URL = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-        const FABRIC_URL = 'https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js';
-        const PDFLIB_URL = 'https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js';
+        // PDF.js configuration
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-        function loadScriptOnce(src) {
-            return new Promise((resolve, reject) => {
-                const existing = document.querySelector(`script[src="${src}"]`);
-                if (existing) {
-                    if (existing.dataset.loaded === 'true') { resolve(); return; }
-                    existing.addEventListener('load', () => resolve());
-                    existing.addEventListener('error', () => reject(new Error('Failed to load ' + src)));
-                    return;
-                }
-                const s = document.createElement('script');
-                s.src = src;
-                s.onload = () => { s.dataset.loaded = 'true'; resolve(); };
-                s.onerror = () => reject(new Error('Failed to load ' + src));
-                document.head.appendChild(s);
-            });
-        }
-
-        let editorLibsPromise = null;
-        function ensureEditorLibsLoaded() {
-            if (window.pdfjsLib && window.fabric && window.PDFLib) return Promise.resolve();
-            if (!editorLibsPromise) {
-                editorLibsPromise = Promise.all([
-                    loadScriptOnce(PDFJS_URL).then(() => { pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER_URL; }),
-                    loadScriptOnce(FABRIC_URL),
-                    loadScriptOnce(PDFLIB_URL),
-                ]).catch((err) => { editorLibsPromise = null; throw err; });
-            }
-            return editorLibsPromise;
-        }
-        // ============================================================
-        // STATE
-        // ============================================================
-        let pdfDoc = null;            // pdf.js document (current file)
-        let pdfSaveBuffer = null;     // original ArrayBuffer, kept for export
-        let canvas = null;            // Fabric.js canvas
+        // Global state
+        let pdfDoc = null;
         let currentPage = 1;
-        let numPages = 1;
-        let pageObjects = {};         // { pageNum: fabricJSONString } — added objects only
-        let pageTextLayerCache = new Map(); // pageNum -> 'text' | 'scanned' | undefined (unchecked)
-        let pageTextItemsCache = new Map();  // pageNum -> raw getTextContent() items, for Quick Replace
-        let currentMode = 'select';   // select | draw | quickReplace
-        let isHistoryLocked = false;
-        let historyStacks = {};       // { pageNum: { stack: [...], step: -1 } }
-        const HISTORY_LIMIT = 50;
+        let totalPages = 0;
+        let zoomLevel = 1;
+        let currentTool = 'select';
+        let selectedElement = null;
+        let undoStack = [];
+        let redoStack = [];
+        let pagesData = [];
 
-        // Document-space scale: the fixed internal resolution the Fabric canvas/background
-        // is rendered at, in "PDF points * DOC_SCALE" pixels. This is a document property,
-        // NOT the view zoom — view zoom is handled separately via viewportTransform so the
-        // exported PDF's coordinate math never depends on how zoomed-in the user happens to be.
-        const DOC_SCALE = 1.5;
-
-        let currentZoom = 1;
-        const MIN_ZOOM = 0.25;
-        const MAX_ZOOM = 5;
-
-        // Thumbnail rendering queue (lazy, virtualized via IntersectionObserver)
-        let thumbObserver = null;
-        let thumbQueue = [];
-        let thumbRendering = false;
-        const renderedThumbs = new Set();
-
-        // Track native object URLs / blobs so they can be revoked on exit
-        let activeObjectUrls = [];
-
-        // ============================================================
-        // STATUS BANNER — replaces alert() with inline, non-blocking UI
-        // ============================================================
-        function showStatus(message, type) {
-            const banner = document.getElementById('statusBanner');
-            const icon = document.getElementById('statusIcon');
-            const text = document.getElementById('statusText');
-            text.textContent = message;
-            banner.classList.remove('hidden', 'status-error', 'status-success', 'status-info', 'status-loading');
-            banner.classList.add('status-' + (type || 'info'));
-            if (type === 'loading') icon.className = 'fa-solid fa-circle-notch fa-spin';
-            else if (type === 'error') icon.className = 'fa-solid fa-circle-exclamation';
-            else if (type === 'success') icon.className = 'fa-solid fa-circle-check';
-            else icon.className = 'fa-solid fa-circle-info';
-            if (type !== 'loading') {
-                clearTimeout(showStatus._t);
-                showStatus._t = setTimeout(dismissStatus, type === 'error' ? 6000 : 3000);
-            }
-        }
-        function dismissStatus() {
-            document.getElementById('statusBanner').classList.add('hidden');
-        }
-        function showLandingError(message) {
-            const box = document.getElementById('landingError');
-            document.getElementById('landingErrorText').textContent = message;
-            box.classList.remove('hidden');
-        }
-        function hideLandingError() {
-            document.getElementById('landingError').classList.add('hidden');
-        }
-
-        // ============================================================
-        // FILE LOADING
-        // ============================================================
-        function handleDrop(event) {
-            event.preventDefault();
-            document.getElementById('uploadArea').classList.remove('drag-active');
-            const file = event.dataTransfer.files && event.dataTransfer.files[0];
-            if (file) loadFile(file);
-        }
-        function handleFileSelect(event) {
-            const file = event.target.files[0];
-            if (file) loadFile(file);
-        }
-
-        async function loadFile(file) {
-            hideLandingError();
-            if (file.type !== 'application/pdf' && !/\.pdf$/i.test(file.name)) {
-                showLandingError(`"${file.name}" doesn't look like a PDF file. Please choose a .pdf file.`);
-                return;
-            }
-
-            try {
-                showEditorShell();
-                showStatus('Preparing the editor…', 'loading');
-                await ensureEditorLibsLoaded();
-
-                showStatus('Loading PDF…', 'loading');
-                const arrayBuffer = await file.arrayBuffer();
-                pdfSaveBuffer = arrayBuffer.slice(0); // keep a pristine copy for export
-
-                if (pdfDoc) { try { pdfDoc.destroy(); } catch (e) {} }
-                pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer.slice(0) }).promise;
-                numPages = pdfDoc.numPages;
-
-                pageObjects = {};
-                historyStacks = {};
-                pageTextLayerCache.clear();
-                pageTextItemsCache.clear();
-                currentPage = 1;
-                document.getElementById('pageCountLabel').textContent = numPages;
-
-                initFabricIfNeeded();
-                buildThumbnailPlaceholders();
-                await renderPage(1);
-                fitWidth();
-
-                dismissStatus();
-            } catch (err) {
-                console.error(err);
-                exitEditor();
-                const msg = (err && /Failed to load/.test(err.message))
-                    ? "Couldn't load the editor. Please check your internet connection and try again."
-                    : 'This PDF could not be opened. It may be corrupted or password-protected.';
-                showLandingError(msg);
-            }
-        }
-
-        function showEditorShell() {
-            document.getElementById('editorView').classList.remove('hidden');
-            document.getElementById('landingView').classList.add('hidden');
-            document.getElementById('siteFooter').classList.add('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function exitEditor() {
-            document.getElementById('editorView').classList.add('hidden');
-            document.getElementById('landingView').classList.remove('hidden');
-            document.getElementById('siteFooter').classList.remove('hidden');
-            document.body.style.overflow = '';
-            document.getElementById('fileInput').value = '';
-            activeObjectUrls.forEach(u => { try { URL.revokeObjectURL(u); } catch (e) {} });
-            activeObjectUrls = [];
-        }
-
-        // ============================================================
-        // TEXT-LAYER DETECTION — distinguishes real text-layer pages from
-        // scanned/image-only pages, per page, cached after first check.
-        // ============================================================
-        async function detectPageTextLayer(pageNum) {
-            if (pageTextLayerCache.has(pageNum)) return pageTextLayerCache.get(pageNum);
-            try {
-                const page = await pdfDoc.getPage(pageNum);
-                const textContent = await page.getTextContent();
-                const items = textContent.items || [];
-                const totalChars = items.reduce((sum, it) => sum + (it.str ? it.str.trim().length : 0), 0);
-                const classification = (items.length < 3 || totalChars < 5) ? 'scanned' : 'text';
-                pageTextLayerCache.set(pageNum, classification);
-                pageTextItemsCache.set(pageNum, items);
-                return classification;
-            } catch (e) {
-                console.error('Text layer detection failed', e);
-                pageTextLayerCache.set(pageNum, 'scanned');
-                return 'scanned';
-            }
-        }
-
-        function updateScannedNotice(classification) {
-            const notice = document.getElementById('scannedNotice');
-            const quickBtn = document.getElementById('toolQuickReplace');
-            if (classification === 'scanned') {
-                notice.classList.remove('hidden');
-                quickBtn.disabled = true;
-                quickBtn.classList.add('opacity-40', 'cursor-not-allowed');
-            } else {
-                notice.classList.add('hidden');
-                quickBtn.disabled = false;
-                quickBtn.classList.remove('opacity-40', 'cursor-not-allowed');
-            }
-        }
-        // ============================================================
-        // FABRIC INIT
-        // ============================================================
-        function initFabricIfNeeded() {
-            if (canvas) return;
-            canvas = new fabric.Canvas('fabricCanvas', {
-                preserveObjectStacking: true,
-                selection: true,
-                stopContextMenu: true,
-            });
-            attachHistoryEvents();
-            attachSelectionEvents();
-            attachViewportInteraction();
-            window.addEventListener('resize', debounce(handleViewportResize, 150));
-        }
-
-        function sizeCanvasToContainer() {
-            const container = document.getElementById('canvasViewport');
-            const w = container.clientWidth;
-            const h = container.clientHeight;
-            canvas.setWidth(w);
-            canvas.setHeight(h);
-        }
-
-        function handleViewportResize() {
-            if (!canvas) return;
-            sizeCanvasToContainer();
-            canvas.requestRenderAll();
-        }
-
-        function debounce(fn, ms) {
-            let t;
-            return function (...args) { clearTimeout(t); t = setTimeout(() => fn.apply(this, args), ms); };
-        }
-
-        // ============================================================
-        // PAGE RENDERING
-        // Background is rendered once per page at a capped, DPR-aware
-        // resolution — not re-rasterized on every zoom step. Zoom is a
-        // pure viewport transform; the underlying bitmap resolution is
-        // independent of how zoomed-in the user currently is.
-        // ============================================================
-        async function renderPage(num) {
-            if (currentPage !== num && canvas) saveCurrentPageState();
-
-            currentPage = num;
-            document.getElementById('pageIndicator').textContent = num;
-            document.getElementById('canvasLoading').classList.remove('hidden');
-            highlightActiveThumb(num);
-
-            const page = await pdfDoc.getPage(num);
-            const docViewport = page.getViewport({ scale: DOC_SCALE });
-
-            sizeCanvasToContainer();
-
-            // Background raster: capped effective scale so a 3x-DPR phone doesn't
-            // allocate an unbounded canvas buffer (cap at 2x device pixel ratio).
-            const cappedDpr = Math.min(window.devicePixelRatio || 1, 2);
-            const bgViewport = page.getViewport({ scale: DOC_SCALE * cappedDpr });
-            const rasterCanvas = document.createElement('canvas');
-            rasterCanvas.width = bgViewport.width;
-            rasterCanvas.height = bgViewport.height;
-            const ctx = rasterCanvas.getContext('2d');
-            await page.render({ canvasContext: ctx, viewport: bgViewport }).promise;
-
-            await new Promise((resolve) => {
-                fabric.Image.fromURL(rasterCanvas.toDataURL('image/png'), (img) => {
-                    img.set({
-                        scaleX: docViewport.width / bgViewport.width,
-                        scaleY: docViewport.height / bgViewport.height,
-                        selectable: false,
-                        evented: false,
-                    });
-                    canvas.setBackgroundImage(img, () => { canvas.requestRenderAll(); resolve(); });
-                });
-            });
-
-            // Store document-space page size for zoom fit calculations
-            canvas.__pageDocWidth = docViewport.width;
-            canvas.__pageDocHeight = docViewport.height;
-
-            isHistoryLocked = true;
-            canvas.remove(...canvas.getObjects());
-            if (pageObjects[num]) {
-                await new Promise((resolve) => canvas.loadFromJSON(pageObjects[num], resolve));
-            }
-            isHistoryLocked = false;
-            ensureHistoryStack(num);
-            if (historyStacks[num].stack.length === 0) pushHistory(num);
-            updateUndoRedoButtons();
-            updatePropsPanel(null);
-
-            document.getElementById('canvasLoading').classList.add('hidden');
-
-            // Detect text layer for this page (cached) and show honest notice
-            const classification = await detectPageTextLayer(num);
-            updateScannedNotice(classification);
-
-            canvas.requestRenderAll();
-        }
-
-        function saveCurrentPageState() {
-            if (!canvas) return;
-            pageObjects[currentPage] = JSON.stringify(canvas.toJSON(['pdfMechanicType', 'sourceImageData']));
-        }
-
-        // ============================================================
-        // ZOOM / PAN — Fabric viewportTransform. Objects stay in document
-        // coordinates; only the view matrix changes. Export math (in the
-        // export module) is entirely independent of currentZoom.
-        // ============================================================
-        function clampZoom(z) { return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, z)); }
-
-        function updateZoomLabel() {
-            document.getElementById('zoomPercentBtn').textContent = Math.round(currentZoom * 100) + '%';
-        }
-
-        function applyZoomAtPoint(zoom, point) {
-            zoom = clampZoom(zoom);
-            canvas.zoomToPoint(point, zoom);
-            currentZoom = zoom;
-            updateZoomLabel();
-        }
-
-        function zoomBy(delta) {
-            const center = { x: canvas.getWidth() / 2, y: canvas.getHeight() / 2 };
-            applyZoomAtPoint(currentZoom + delta, center);
-        }
-
-        function cycleZoomPreset() {
-            const center = { x: canvas.getWidth() / 2, y: canvas.getHeight() / 2 };
-            applyZoomAtPoint(1, center);
-            centerDocument();
-        }
-
-        function centerDocument() {
-            if (!canvas.__pageDocWidth) return;
-            const vpt = canvas.viewportTransform.slice();
-            vpt[4] = (canvas.getWidth() - canvas.__pageDocWidth * currentZoom) / 2;
-            vpt[5] = (canvas.getHeight() - canvas.__pageDocHeight * currentZoom) / 2;
-            canvas.setViewportTransform(vpt);
-        }
-
-        function fitWidth() {
-            if (!canvas.__pageDocWidth) return;
-            const zoom = clampZoom((canvas.getWidth() - 24) / canvas.__pageDocWidth);
-            currentZoom = zoom;
-            const vpt = [zoom, 0, 0, zoom, 12, 12];
-            canvas.setViewportTransform(vpt);
-            updateZoomLabel();
-        }
-
-        function fitPage() {
-            if (!canvas.__pageDocWidth) return;
-            const zoom = clampZoom(Math.min(
-                (canvas.getWidth() - 24) / canvas.__pageDocWidth,
-                (canvas.getHeight() - 24) / canvas.__pageDocHeight
-            ));
-            currentZoom = zoom;
-            canvas.setViewportTransform([zoom, 0, 0, zoom, 0, 0]);
-            centerDocument();
-            updateZoomLabel();
-        }
-
-        function panBy(dx, dy) {
-            const vpt = canvas.viewportTransform.slice();
-            vpt[4] += dx;
-            vpt[5] += dy;
-            canvas.setViewportTransform(vpt);
-        }
-
-        // --- Desktop: Ctrl/Cmd + wheel = zoom, plain wheel = pan ---
-        function attachViewportInteraction() {
-            const viewportEl = document.getElementById('canvasViewport');
-
-            canvas.on('mouse:wheel', function (opt) {
-                const e = opt.e;
-                if (e.ctrlKey || e.metaKey) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    let zoom = currentZoom * (0.999 ** e.deltaY);
-                    const rect = canvas.upperCanvasEl.getBoundingClientRect();
-                    applyZoomAtPoint(zoom, { x: e.clientX - rect.left, y: e.clientY - rect.top });
-                } else {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    panBy(-e.deltaX, -e.deltaY);
-                }
-            });
-
-            // --- Mobile: custom two-finger pinch/pan; one finger left untouched
-            //     so Fabric's native select/move/draw handling still applies. ---
-            let pinchState = null;
-
-            viewportEl.addEventListener('touchstart', function (e) {
-                if (e.touches.length === 2) {
-                    canvas.selection = false;
-                    canvas.__wasDrawingMode = canvas.isDrawingMode;
-                    canvas.isDrawingMode = false;
-                    if (canvas.getActiveObject()) canvas.discardActiveObject();
-                    pinchState = getPinchState(e);
-                }
-            }, { passive: true });
-
-            viewportEl.addEventListener('touchmove', function (e) {
-                if (e.touches.length === 2 && pinchState) {
-                    e.preventDefault();
-                    const next = getPinchState(e);
-                    const scaleDelta = next.distance / pinchState.distance;
-                    const rect = canvas.upperCanvasEl.getBoundingClientRect();
-                    const midpoint = { x: next.midX - rect.left, y: next.midY - rect.top };
-                    applyZoomAtPoint(currentZoom * scaleDelta, midpoint);
-                    panBy(next.midX - pinchState.midX, next.midY - pinchState.midY);
-                    pinchState = next;
-                }
-            }, { passive: false });
-
-            function endPinch() {
-                if (pinchState) {
-                    canvas.selection = true;
-                    canvas.isDrawingMode = !!canvas.__wasDrawingMode;
-                    pinchState = null;
-                }
-            }
-            viewportEl.addEventListener('touchend', endPinch, { passive: true });
-            viewportEl.addEventListener('touchcancel', endPinch, { passive: true });
-
-            function getPinchState(e) {
-                const [t1, t2] = [e.touches[0], e.touches[1]];
-                const dx = t2.clientX - t1.clientX, dy = t2.clientY - t1.clientY;
-                return {
-                    distance: Math.sqrt(dx * dx + dy * dy),
-                    midX: (t1.clientX + t2.clientX) / 2,
-                    midY: (t1.clientY + t2.clientY) / 2,
-                };
-            }
-        }
-
-        // Keyboard shortcuts: Ctrl/Cmd +/- for zoom, Ctrl/Cmd+Z/Y for undo/redo
-        document.addEventListener('keydown', function (e) {
-            if (!canvas || document.getElementById('editorView').classList.contains('hidden')) return;
-            const tag = (document.activeElement && document.activeElement.tagName) || '';
-            if (tag === 'INPUT' || tag === 'TEXTAREA' || (canvas.getActiveObject() && canvas.getActiveObject().isEditing)) return;
-            if ((e.ctrlKey || e.metaKey) && (e.key === '=' || e.key === '+')) { e.preventDefault(); zoomBy(0.1); }
-            else if ((e.ctrlKey || e.metaKey) && e.key === '-') { e.preventDefault(); zoomBy(-0.1); }
-            else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z' && !e.shiftKey) { e.preventDefault(); undo(); }
-            else if ((e.ctrlKey || e.metaKey) && (e.key.toLowerCase() === 'y' || (e.key.toLowerCase() === 'z' && e.shiftKey))) { e.preventDefault(); redo(); }
-            else if (e.key === 'Delete' || e.key === 'Backspace') { if (canvas.getActiveObject()) { e.preventDefault(); deleteSelected(); } }
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set up event listeners
+            document.addEventListener('click', handleGlobalClick);
+            document.addEventListener('keydown', handleKeyboardShortcuts);
         });
-        // ============================================================
-        // THUMBNAILS — placeholders built immediately (cheap), actual
-        // pdf.js renders happen lazily as each placeholder scrolls into
-        // view, one at a time via a queue, current page prioritized.
-        // ============================================================
-        function buildThumbnailPlaceholders() {
-            const sidebar = document.getElementById('thumbnailSidebar');
-            sidebar.innerHTML = '';
-            renderedThumbs.clear();
-            thumbQueue = [];
 
-            if (thumbObserver) thumbObserver.disconnect();
-            thumbObserver = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        const num = parseInt(entry.target.dataset.page, 10);
-                        queueThumbRender(num);
-                    }
-                });
-            }, { root: sidebar, rootMargin: '200px 0px' });
-
-            for (let i = 1; i <= numPages; i++) {
-                const wrapper = document.createElement('div');
-                wrapper.className = `thumbnail cursor-pointer rounded-lg border-2 p-1 ${i === 1 ? 'border-brand-500' : 'border-transparent'}`;
-                wrapper.id = `thumb-${i}`;
-                wrapper.dataset.page = i;
-                wrapper.setAttribute('role', 'button');
-                wrapper.setAttribute('tabindex', '0');
-                wrapper.setAttribute('aria-label', `Go to page ${i}`);
-                wrapper.onclick = () => renderPage(i);
-                wrapper.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); renderPage(i); } };
-
-                const placeholder = document.createElement('div');
-                placeholder.className = 'w-full aspect-[3/4] bg-slate-100 dark:bg-slate-800 rounded flex items-center justify-center text-slate-300 dark:text-slate-600';
-                placeholder.innerHTML = '<i class="fa-regular fa-file" aria-hidden="true"></i>';
-                placeholder.id = `thumb-canvas-holder-${i}`;
-
-                const label = document.createElement('div');
-                label.className = 'text-center text-[10px] text-slate-400 mt-1';
-                label.textContent = i;
-
-                wrapper.appendChild(placeholder);
-                wrapper.appendChild(label);
-                sidebar.appendChild(wrapper);
-                thumbObserver.observe(wrapper);
-            }
-
-            // Prioritize page 1 immediately
-            queueThumbRender(1, true);
+        // Open file dialog
+        function openFile() {
+            document.getElementById('fileInput').click();
         }
 
-        function queueThumbRender(num, front) {
-            if (renderedThumbs.has(num) || thumbQueue.includes(num)) return;
-            if (front) thumbQueue.unshift(num); else thumbQueue.push(num);
-            processThumbQueue();
-        }
-
-        async function processThumbQueue() {
-            if (thumbRendering || thumbQueue.length === 0) return;
-            thumbRendering = true;
-            const num = thumbQueue.shift();
-            try {
-                const holder = document.getElementById(`thumb-canvas-holder-${num}`);
-                // Skip if the placeholder was removed (e.g. a new PDF was loaded meanwhile)
-                if (holder && !renderedThumbs.has(num)) {
-                    const page = await pdfDoc.getPage(num);
-                    const viewport = page.getViewport({ scale: 0.22 });
-                    const c = document.createElement('canvas');
-                    c.width = viewport.width;
-                    c.height = viewport.height;
-                    c.className = 'w-full h-auto rounded';
-                    await page.render({ canvasContext: c.getContext('2d'), viewport }).promise;
-                    holder.innerHTML = '';
-                    holder.appendChild(c);
-                    holder.className = 'w-full rounded overflow-hidden';
-                    renderedThumbs.add(num);
-                }
-            } catch (e) {
-                console.error('Thumbnail render failed for page', num, e);
-            }
-            thumbRendering = false;
-            processThumbQueue();
-        }
-
-        function highlightActiveThumb(num) {
-            document.querySelectorAll('.thumbnail').forEach((el) => el.classList.remove('border-brand-500'));
-            document.querySelectorAll('.thumbnail').forEach((el) => el.classList.add('border-transparent'));
-            const active = document.getElementById(`thumb-${num}`);
-            if (active) { active.classList.remove('border-transparent'); active.classList.add('border-brand-500'); active.scrollIntoView({ block: 'nearest' }); }
-            // Also prioritize rendering the neighbours of the page we just opened
-            queueThumbRender(num, true);
-            if (num > 1) queueThumbRender(num - 1);
-            if (num < numPages) queueThumbRender(num + 1);
-        }
-
-        function changePage(delta) {
-            const next = currentPage + delta;
-            if (next >= 1 && next <= numPages) renderPage(next);
-        }
-
-        // ============================================================
-        // UNDO / REDO — per-page history stacks, snapshot on meaningful
-        // events only (object added/modified/removed), not on every
-        // pointer-move during a drag, and capped to bound memory.
-        // ============================================================
-        function ensureHistoryStack(num) {
-            if (!historyStacks[num]) historyStacks[num] = { stack: [], step: -1 };
-        }
-
-        function pushHistory(num) {
-            ensureHistoryStack(num);
-            const h = historyStacks[num];
-            const snapshot = JSON.stringify(canvas.toJSON(['pdfMechanicType', 'sourceImageData']));
-            // Drop any redo states beyond the current step
-            h.stack = h.stack.slice(0, h.step + 1);
-            h.stack.push(snapshot);
-            if (h.stack.length > HISTORY_LIMIT) h.stack.shift();
-            h.step = h.stack.length - 1;
-            updateUndoRedoButtons();
-        }
-
-        function attachHistoryEvents() {
-            const debouncedPush = debounce(() => { if (!isHistoryLocked) pushHistory(currentPage); }, 250);
-            canvas.on('object:added', debouncedPush);
-            canvas.on('object:modified', debouncedPush);
-            canvas.on('object:removed', debouncedPush);
-        }
-
-        function undo() {
-            const h = historyStacks[currentPage];
-            if (!h || h.step <= 0) return;
-            h.step -= 1;
-            isHistoryLocked = true;
-            canvas.loadFromJSON(h.stack[h.step], () => { isHistoryLocked = false; canvas.requestRenderAll(); updateUndoRedoButtons(); updatePropsPanel(null); });
-        }
-
-        function redo() {
-            const h = historyStacks[currentPage];
-            if (!h || h.step >= h.stack.length - 1) return;
-            h.step += 1;
-            isHistoryLocked = true;
-            canvas.loadFromJSON(h.stack[h.step], () => { isHistoryLocked = false; canvas.requestRenderAll(); updateUndoRedoButtons(); updatePropsPanel(null); });
-        }
-
-        function updateUndoRedoButtons() {
-            const h = historyStacks[currentPage] || { stack: [], step: -1 };
-            document.getElementById('undoBtn').disabled = h.step <= 0;
-            document.getElementById('redoBtn').disabled = h.step >= h.stack.length - 1;
-        }
-        // ============================================================
-        // TOOLS — every object added here is tagged with pdfMechanicType
-        // so the export step (Priority 2) knows how to write it back as
-        // real PDF content instead of flattening the page.
-        // ============================================================
-        function setMode(mode) {
-            currentMode = mode;
-            canvas.isDrawingMode = (mode === 'draw');
-            if (mode === 'draw' && !canvas.freeDrawingBrush) {
-                canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
-            }
-            if (canvas.freeDrawingBrush) {
-                canvas.freeDrawingBrush.width = 3;
-                canvas.freeDrawingBrush.color = '#111827';
-            }
-            document.querySelectorAll('.tool-btn[aria-pressed]').forEach((b) => b.setAttribute('aria-pressed', 'false'));
-            document.querySelectorAll('.tool-btn[aria-pressed]').forEach((b) => b.classList.remove('active'));
-            const map = { select: 'toolSelect', draw: 'toolDraw' };
-            if (map[mode]) { document.getElementById(map[mode]).setAttribute('aria-pressed', 'true'); document.getElementById(map[mode]).classList.add('active'); }
-            if (mode !== 'quickReplace') exitQuickReplaceMode();
-        }
-
-        function addText() {
-            setMode('select');
-            const center = canvas.getPointer ? { x: canvas.getWidth() / 2, y: canvas.getHeight() / 2 } : { x: 50, y: 50 };
-            const zoom = currentZoom || 1;
-            const vpt = canvas.viewportTransform;
-            const docPoint = { x: (center.x - vpt[4]) / zoom, y: (center.y - vpt[5]) / zoom };
-            const text = new fabric.IText('Type here', {
-                left: docPoint.x - 60, top: docPoint.y - 12,
-                fontFamily: 'Helvetica', fill: '#000000', fontSize: 24,
-                pdfMechanicType: 'text',
-            });
-            canvas.add(text);
-            canvas.setActiveObject(text);
-            text.enterEditing();
-            canvas.requestRenderAll();
-        }
-
-        function addShape(kind) {
-            setMode('select');
-            const zoom = currentZoom || 1;
-            const vpt = canvas.viewportTransform;
-            const docCenter = { x: (canvas.getWidth() / 2 - vpt[4]) / zoom, y: (canvas.getHeight() / 2 - vpt[5]) / zoom };
-            let shape;
-            if (kind === 'rect') {
-                shape = new fabric.Rect({ left: docCenter.x - 60, top: docCenter.y - 40, width: 120, height: 80, fill: 'transparent', stroke: '#dc2626', strokeWidth: 2, pdfMechanicType: 'rect' });
-            } else {
-                shape = new fabric.Ellipse({ left: docCenter.x - 50, top: docCenter.y - 50, rx: 50, ry: 50, fill: 'transparent', stroke: '#dc2626', strokeWidth: 2, pdfMechanicType: 'circle' });
-            }
-            canvas.add(shape);
-            canvas.setActiveObject(shape);
-            canvas.requestRenderAll();
-        }
-
-        function addImage(event) {
-            const file = event.target.files[0];
+        // Load PDF file
+        async function loadPDF(input) {
+            const file = input.files[0];
             if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (f) => {
-                const dataUrl = f.target.result;
-                fabric.Image.fromURL(dataUrl, (img) => {
-                    const zoom = currentZoom || 1;
-                    const vpt = canvas.viewportTransform;
-                    const docCenter = { x: (canvas.getWidth() / 2 - vpt[4]) / zoom, y: (canvas.getHeight() / 2 - vpt[5]) / zoom };
-                    const maxDim = 220;
-                    const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
-                    img.set({
-                        left: docCenter.x - (img.width * scale) / 2,
-                        top: docCenter.y - (img.height * scale) / 2,
-                        scaleX: scale, scaleY: scale,
-                        pdfMechanicType: 'image',
-                        sourceImageData: dataUrl,       // original bytes, embedded as-is on export
-                        sourceImageFormat: file.type === 'image/png' ? 'png' : 'jpg',
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                totalPages = pdfDoc.numPages;
+                document.getElementById('fileName').textContent = file.name;
+                
+                // Initialize pages data
+                pagesData = [];
+                for (let i = 0; i < totalPages; i++) {
+                    pagesData.push({
+                        elements: [],
+                        pageNumber: i + 1
                     });
-                    canvas.add(img);
-                    canvas.setActiveObject(img);
-                    canvas.requestRenderAll();
-                });
+                }
+                
+                await renderAllPages();
+                showToast('PDF loaded successfully');
+            } catch (error) {
+                console.error('Error loading PDF:', error);
+                showToast('Error loading PDF', 'error');
+            }
+            
+            input.value = '';
+        }
+
+        // Render all pages
+        async function renderAllPages() {
+            const container = document.getElementById('pdfPages');
+            container.innerHTML = '';
+            
+            for (let i = 1; i <= totalPages; i++) {
+                const page = await pdfDoc.getPage(i);
+                const viewport = page.getViewport({ scale: zoomLevel });
+                
+                const pageDiv = document.createElement('div');
+                pageDiv.className = 'pdf-page';
+                pageDiv.style.width = viewport.width + 'px';
+                pageDiv.style.height = viewport.height + 'px';
+                pageDiv.dataset.pageNumber = i;
+                
+                // Canvas for PDF content
+                const canvas = document.createElement('canvas');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                pageDiv.appendChild(canvas);
+                
+                const context = canvas.getContext('2d');
+                await page.render({ canvasContext: context, viewport: viewport }).promise;
+                
+                // Text overlay for editable content
+                const overlay = document.createElement('div');
+                overlay.className = 'text-overlay';
+                pageDiv.appendChild(overlay);
+                
+                container.appendChild(pageDiv);
+            }
+            
+            updatePageInfo();
+        }
+
+        // Set active tool
+        function setTool(tool) {
+            currentTool = tool;
+            
+            // Update button states
+            document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tool + 'Tool').classList.add('active');
+            
+            // Clear selection
+            if (selectedElement) {
+                selectedElement.classList.remove('selected');
+                selectedElement = null;
+            }
+        }
+
+        // Handle global click
+        function handleGlobalClick(e) {
+            const target = e.target;
+            
+            // Handle text/image selection
+            if (target.classList.contains('editable-text') || target.classList.contains('image-overlay')) {
+                selectElement(target);
+            } else if (!target.closest('.sidebar') && !target.closest('.toolbar')) {
+                // Deselect
+                if (selectedElement) {
+                    selectedElement.classList.remove('selected');
+                    selectedElement = null;
+                }
+            }
+            
+            // Handle tool actions
+            if (currentTool === 'text' && target.classList.contains('pdf-page')) {
+                addTextToPage(target, e);
+            } else if (currentTool === 'image' && target.classList.contains('pdf-page')) {
+                document.getElementById('imageInput').click();
+            }
+        }
+
+        // Select element
+        function selectElement(element) {
+            if (selectedElement) {
+                selectedElement.classList.remove('selected');
+            }
+            selectedElement = element;
+            element.classList.add('selected');
+            
+            // Update properties panel
+            updatePropertiesPanel(element);
+        }
+
+        // Add text to page
+        function addTextToPage(pageDiv, event) {
+            const overlay = pageDiv.querySelector('.text-overlay');
+            const rect = pageDiv.getBoundingClientRect();
+            
+            const textElement = document.createElement('div');
+            textElement.className = 'editable-text';
+            textElement.contentEditable = true;
+            textElement.textContent = 'Enter text';
+            textElement.style.left = (event.clientX - rect.left) + 'px';
+            textElement.style.top = (event.clientY - rect.top) + 'px';
+            textElement.style.fontSize = document.getElementById('fontSize').value + 'px';
+            textElement.style.fontFamily = document.getElementById('fontFamily').value;
+            textElement.style.color = document.getElementById('textColor').value;
+            
+            overlay.appendChild(textElement);
+            
+            const pageNumber = parseInt(pageDiv.dataset.pageNumber);
+            pagesData[pageNumber - 1].elements.push(textElement);
+            
+            saveState();
+            selectElement(textElement);
+            
+            // Focus on the new text
+            setTimeout(() => textElement.focus(), 100);
+        }
+
+        // Add image to page
+        function addImage(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imgData = e.target.result;
+                
+                // Find current page
+                const pages = document.querySelectorAll('.pdf-page');
+                const currentPageDiv = pages[currentPage - 1];
+                const overlay = currentPageDiv.querySelector('.text-overlay');
+                
+                const imageContainer = document.createElement('div');
+                imageContainer.className = 'image-overlay';
+                imageContainer.style.left = '100px';
+                imageContainer.style.top = '100px';
+                imageContainer.style.width = '200px';
+                imageContainer.style.height = 'auto';
+                
+                const img = document.createElement('img');
+                img.src = imgData;
+                img.style.width = '100%';
+                img.style.height = 'auto';
+                
+                imageContainer.appendChild(img);
+                overlay.appendChild(imageContainer);
+                
+                const pageNumber = parseInt(currentPageDiv.dataset.pageNumber);
+                pagesData[pageNumber - 1].elements.push(imageContainer);
+                
+                saveState();
+                selectElement(imageContainer);
+                
+                // Make image draggable
+                makeDraggable(imageContainer);
             };
+            
             reader.readAsDataURL(file);
-            event.target.value = '';
+            input.value = '';
         }
 
-        // path:created handling (tagging freehand drawings) is wired in
-        // attachSelectionEvents() below, once canvas exists.
+        // Make element draggable
+        function makeDraggable(element) {
+            let isDragging = false;
+            let startX, startY, originalX, originalY;
+            
+            element.addEventListener('mousedown', (e) => {
+                if (currentTool !== 'select') return;
+                
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                originalX = parseInt(element.style.left);
+                originalY = parseInt(element.style.top);
+                
+                element.style.cursor = 'grabbing';
+                e.preventDefault();
+            });
+            
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                
+                element.style.left = (originalX + dx) + 'px';
+                element.style.top = (originalY + dy) + 'px';
+            });
+            
+            document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    element.style.cursor = 'move';
+                    saveState();
+                }
+            });
+        }
 
+        // Delete selected element
         function deleteSelected() {
-            const active = canvas.getActiveObject();
-            if (!active) return;
-            if (active.type === 'activeSelection') {
-                active.forEachObject((obj) => canvas.remove(obj));
-                canvas.discardActiveObject();
-            } else {
-                canvas.remove(active);
+            if (!selectedElement) return;
+            
+            const pageNumber = parseInt(selectedElement.closest('.pdf-page').dataset.pageNumber);
+            const elements = pagesData[pageNumber - 1].elements;
+            const index = elements.indexOf(selectedElement);
+            
+            if (index > -1) {
+                elements.splice(index, 1);
+                selectedElement.remove();
+                selectedElement = null;
+                saveState();
+                showToast('Element deleted');
             }
-            canvas.requestRenderAll();
         }
 
-        // ============================================================
-        // SELECTION / PROPERTIES PANEL
-        // ============================================================
-        function attachSelectionEvents() {
-            canvas.on('selection:created', (e) => updatePropsPanel(e.selected && e.selected[0]));
-            canvas.on('selection:updated', (e) => updatePropsPanel(e.selected && e.selected[0]));
-            canvas.on('selection:cleared', () => updatePropsPanel(null));
-            canvas.on('path:created', (e) => { if (e.path) e.path.set('pdfMechanicType', 'path'); });
+        // Duplicate selected element
+        function duplicateSelected() {
+            if (!selectedElement) return;
+            
+            const clone = selectedElement.cloneNode(true);
+            
+            // Offset position slightly
+            const left = parseInt(selectedElement.style.left) + 20;
+            const top = parseInt(selectedElement.style.top) + 20;
+            clone.style.left = left + 'px';
+            clone.style.top = top + 'px';
+            
+            selectedElement.parentNode.appendChild(clone);
+            
+            const pageNumber = parseInt(selectedElement.closest('.pdf-page').dataset.pageNumber);
+            pagesData[pageNumber - 1].elements.push(clone);
+            
+            selectElement(clone);
+            saveState();
         }
 
-        function propsHTML(obj) {
-            if (!obj) return '<p class="text-xs text-slate-400">Select an object to edit its properties.</p>';
-            const isText = obj.type === 'i-text' || obj.type === 'text';
-            let html = '';
-            if (isText) {
-                html += `
-                <label class="block text-xs font-semibold text-slate-500 mb-1">Font Size</label>
-                <input type="range" min="8" max="96" value="${Math.round(obj.fontSize)}" oninput="updateProp('fontSize', this.value)" class="w-full mb-3">
-                <label class="block text-xs font-semibold text-slate-500 mb-1">Color</label>
-                <input type="color" value="${obj.fill || '#000000'}" oninput="updateProp('fill', this.value)" class="w-full h-9 rounded mb-3 border border-slate-200 dark:border-slate-700">
-                <div class="flex gap-2 mb-3">
-                    <button type="button" onclick="toggleBold()" class="flex-1 h-9 rounded border border-slate-200 dark:border-slate-700 font-bold ${obj.fontWeight === 'bold' ? 'bg-brand-600 text-white' : ''}" aria-label="Bold">B</button>
-                    <button type="button" onclick="toggleItalic()" class="flex-1 h-9 rounded border border-slate-200 dark:border-slate-700 italic ${obj.fontStyle === 'italic' ? 'bg-brand-600 text-white' : ''}" aria-label="Italic">I</button>
+        // Update properties panel
+        function updatePropertiesPanel(element) {
+            if (element.classList.contains('editable-text')) {
+                document.getElementById('fontSize').value = parseInt(element.style.fontSize);
+                document.getElementById('fontFamily').value = element.style.fontFamily;
+                document.getElementById('textColor').value = element.style.color;
+            }
+        }
+
+        // Update selected element property
+        function updateSelectedProperty(property, value) {
+            if (!selectedElement) return;
+            
+            switch(property) {
+                case 'fontSize':
+                    selectedElement.style.fontSize = value + 'px';
+                    break;
+                case 'fontFamily':
+                    selectedElement.style.fontFamily = value;
+                    break;
+                case 'color':
+                    selectedElement.style.color = value;
+                    break;
+                case 'backgroundColor':
+                    selectedElement.style.backgroundColor = value;
+                    break;
+                case 'opacity':
+                    selectedElement.style.opacity = value;
+                    break;
+            }
+            
+            saveState();
+        }
+
+        // Zoom functions
+        function zoomIn() {
+            if (zoomLevel < 2) {
+                zoomLevel += 0.1;
+                applyZoom();
+            }
+        }
+
+        function zoomOut() {
+            if (zoomLevel > 0.3) {
+                zoomLevel -= 0.1;
+                applyZoom();
+            }
+        }
+
+        function resetZoom() {
+            zoomLevel = 1;
+            applyZoom();
+        }
+
+        function fitToWidth() {
+            const container = document.getElementById('pdfContainer');
+            const containerWidth = container.clientWidth - 40;
+            const firstPage = document.querySelector('.pdf-page');
+            
+            if (firstPage) {
+                const pageWidth = firstPage.offsetWidth / zoomLevel;
+                zoomLevel = (containerWidth / pageWidth) * 0.9;
+                applyZoom();
+            }
+        }
+
+        function applyZoom() {
+            const pages = document.querySelectorAll('.pdf-page');
+            pages.forEach((page, index) => {
+                page.style.transform = `scale(${zoomLevel})`;
+            });
+            
+            document.getElementById('zoomValue').textContent = Math.round(zoomLevel * 100) + '%';
+        }
+
+        // Update page info
+        function updatePageInfo() {
+            document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+        }
+
+        // Toggle sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const zoomControls = document.getElementById('zoomControls');
+            
+            sidebar.classList.toggle('hidden');
+            zoomControls.classList.toggle('sidebar-hidden');
+        }
+
+        // Save PDF
+        function savePDF() {
+            // Save state to localStorage
+            const state = {
+                pagesData: pagesData.map(page => ({
+                    elements: page.elements.map(el => ({
+                        type: el.className,
+                        left: el.style.left,
+                        top: el.style.top,
+                        fontSize: el.style.fontSize,
+                        fontFamily: el.style.fontFamily,
+                        color: el.style.color,
+                        text: el.textContent,
+                        src: el.querySelector('img') ? el.querySelector('img').src : null,
+                        width: el.style.width
+                    }))
+                }))
+            };
+            
+            localStorage.setItem('pdfState', JSON.stringify(state));
+            showToast('Project saved successfully');
+        }
+
+        // Download PDF
+        async function downloadPDF() {
+            try {
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF();
+                
+                for (let i = 1; i <= totalPages; i++) {
+                    if (i > 1) pdf.addPage();
+                    
+                    const pageElement = document.querySelector(`.pdf-page[data-page-number="${i}"]`);
+                    if (pageElement) {
+                        const canvas = await html2canvas(pageElement, {
+                            scale: 2,
+                            useCORS: true,
+                            logging: false
+                        });
+                        
+                        const imgData = canvas.toDataURL('image/png');
+                        const pageWidth = pdf.internal.pageSize.getWidth();
+                        const pageHeight = pdf.internal.pageSize.getHeight();
+                        
+                        pdf.addImage(imgData, 'PNG', 0, 0, pageWidth, pageHeight);
+                    }
+                }
+                
+                pdf.save('edited-document.pdf');
+                showToast('PDF downloaded successfully');
+            } catch (error) {
+                console.error('Error downloading PDF:', error);
+                showToast('Error downloading PDF', 'error');
+            }
+        }
+
+        // Undo/Redo
+        function saveState() {
+            const state = document.getElementById('pdfPages').innerHTML;
+            undoStack.push(state);
+            redoStack = [];
+            
+            // Limit undo stack
+            if (undoStack.length > 50) {
+                undoStack.shift();
+            }
+        }
+
+        function undoAction() {
+            if (undoStack.length > 1) {
+                const currentState = undoStack.pop();
+                redoStack.push(currentState);
+                const previousState = undoStack[undoStack.length - 1];
+                document.getElementById('pdfPages').innerHTML = previousState;
+            }
+        }
+
+        function redoAction() {
+            if (redoStack.length > 0) {
+                const state = redoStack.pop();
+                undoStack.push(state);
+                document.getElementById('pdfPages').innerHTML = state;
+            }
+        }
+
+        // Keyboard shortcuts
+        function handleKeyboardShortcuts(e) {
+            // Ctrl/Cmd + Z for undo
+            if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
+                e.preventDefault();
+                undoAction();
+            }
+            
+            // Ctrl/Cmd + Shift + Z or Ctrl/Cmd + Y for redo
+            if ((e.ctrlKey || e.metaKey) && ((e.key === 'z' && e.shiftKey) || e.key === 'y')) {
+                e.preventDefault();
+                redoAction();
+            }
+            
+            // Delete key for removing selected element
+            if (e.key === 'Delete' && selectedElement) {
+                e.preventDefault();
+                deleteSelected();
+            }
+            
+            // Escape to deselect
+            if (e.key === 'Escape' && selectedElement) {
+                selectedElement.classList.remove('selected');
+                selectedElement = null;
+            }
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = 'toast' + (type === 'error' ? ' error' : '');
+            toast.textContent = message;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Add E-Sign functionality
+        function createSignaturePad() {
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Create Signature</h2>
+                        <button class="close-btn" onclick="closeSignatureModal(this)">&times;</button>
+                    </div>
+                    <canvas id="signatureCanvas" width="500" height="200" style="border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 16px;"></canvas>
+                    <div style="display: flex; gap: 8px; justify-content: flex-end;">
+                        <button class="tool-btn" onclick="clearSignature()">Clear</button>
+                        <button class="tool-btn" style="background: var(--primary); color: white;" onclick="applySignature()">Apply Signature</button>
+                    </div>
                 </div>
-                <label class="block text-xs font-semibold text-slate-500 mb-1">Alignment</label>
-                <div class="flex gap-2 mb-3">
-                    <button type="button" onclick="updateProp('textAlign','left')" class="flex-1 h-9 rounded border border-slate-200 dark:border-slate-700" aria-label="Align left"><i class="fa-solid fa-align-left" aria-hidden="true"></i></button>
-                    <button type="button" onclick="updateProp('textAlign','center')" class="flex-1 h-9 rounded border border-slate-200 dark:border-slate-700" aria-label="Align center"><i class="fa-solid fa-align-center" aria-hidden="true"></i></button>
-                    <button type="button" onclick="updateProp('textAlign','right')" class="flex-1 h-9 rounded border border-slate-200 dark:border-slate-700" aria-label="Align right"><i class="fa-solid fa-align-right" aria-hidden="true"></i></button>
-                </div>`;
-            } else if (obj.stroke !== undefined) {
-                html += `
-                <label class="block text-xs font-semibold text-slate-500 mb-1">Color</label>
-                <input type="color" value="${obj.stroke || '#000000'}" oninput="updateProp('stroke', this.value)" class="w-full h-9 rounded mb-3 border border-slate-200 dark:border-slate-700">`;
-            }
-            html += `<button type="button" onclick="deleteSelected()" class="w-full h-9 rounded bg-red-50 dark:bg-red-900/20 text-red-600 font-semibold text-sm mt-2"><i class="fa-solid fa-trash mr-1" aria-hidden="true"></i> Delete</button>`;
-            return html;
+            `;
+            
+            document.body.appendChild(modal);
+            initializeSignaturePad();
         }
 
-        function updatePropsPanel(obj) {
-            const html = propsHTML(obj);
-            const desktop = document.getElementById('propsContentDesktop');
-            if (desktop) desktop.innerHTML = html;
-            const mobile = document.getElementById('mobileSheetProperties');
-            if (mobile) mobile.innerHTML = html;
+        function initializeSignaturePad() {
+            const canvas = document.getElementById('signatureCanvas');
+            const ctx = canvas.getContext('2d');
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+            
+            canvas.addEventListener('mousedown', (e) => {
+                isDrawing = true;
+                [lastX, lastY] = [e.offsetX, e.offsetY];
+            });
+            
+            canvas.addEventListener('mousemove', (e) => {
+                if (!isDrawing) return;
+                
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 2;
+                ctx.lineCap = 'round';
+                ctx.stroke();
+                
+                [lastX, lastY] = [e.offsetX, e.offsetY];
+            });
+            
+            canvas.addEventListener('mouseup', () => {
+                isDrawing = false;
+            });
+            
+            canvas.addEventListener('mouseleave', () => {
+                isDrawing = false;
+            });
         }
 
-        function updateProp(prop, value) {
-            const active = canvas.getActiveObject();
-            if (!active) return;
-            if (prop === 'fontSize') active.set(prop, parseInt(value, 10));
-            else active.set(prop, value);
-            canvas.requestRenderAll();
-            pushHistory(currentPage);
-        }
-        function toggleBold() {
-            const a = canvas.getActiveObject(); if (!a) return;
-            a.set('fontWeight', a.fontWeight === 'bold' ? 'normal' : 'bold');
-            canvas.requestRenderAll(); updatePropsPanel(a); pushHistory(currentPage);
-        }
-        function toggleItalic() {
-            const a = canvas.getActiveObject(); if (!a) return;
-            a.set('fontStyle', a.fontStyle === 'italic' ? 'normal' : 'italic');
-            canvas.requestRenderAll(); updatePropsPanel(a); pushHistory(currentPage);
+        function clearSignature() {
+            const canvas = document.getElementById('signatureCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
 
-        // ============================================================
-        // MOBILE BOTTOM SHEET (pages / properties)
-        // ============================================================
-        function openMobileSheet(which) {
-            document.getElementById('mobileSheetBackdrop').classList.remove('hidden');
-            document.getElementById('mobileSheet').classList.remove('hidden');
-            const pagesPane = document.getElementById('mobileSheetPages');
-            const propsPane = document.getElementById('mobileSheetProperties');
-            if (which === 'pages') {
-                document.getElementById('mobileSheetTitle').textContent = 'Pages';
-                pagesPane.classList.remove('hidden'); propsPane.classList.add('hidden');
-                populateMobilePages();
-            } else {
-                document.getElementById('mobileSheetTitle').textContent = 'Properties';
-                pagesPane.classList.add('hidden'); propsPane.classList.remove('hidden');
-                updatePropsPanel(canvas.getActiveObject());
-            }
+        function applySignature() {
+            const canvas = document.getElementById('signatureCanvas');
+            const signatureData = canvas.toDataURL();
+            
+            // Add signature to current page
+            const pages = document.querySelectorAll('.pdf-page');
+            const currentPageDiv = pages[currentPage - 1];
+            const overlay = currentPageDiv.querySelector('.text-overlay');
+            
+            const imageContainer = document.createElement('div');
+            imageContainer.className = 'image-overlay';
+            imageContainer.style.left = '100px';
+            imageContainer.style.top = '100px';
+            imageContainer.style.width = '200px';
+            
+            const img = document.createElement('img');
+            img.src = signatureData;
+            img.style.width = '100%';
+            
+            imageContainer.appendChild(img);
+            overlay.appendChild(imageContainer);
+            
+            const pageNumber = parseInt(currentPageDiv.dataset.pageNumber);
+            pagesData[pageNumber - 1].elements.push(imageContainer);
+            
+            saveState();
+            closeSignatureModal(document.querySelector('.close-btn'));
+            showToast('Signature added successfully');
         }
-        function closeMobileSheet() {
-            document.getElementById('mobileSheetBackdrop').classList.add('hidden');
-            document.getElementById('mobileSheet').classList.add('hidden');
-        }
-        function populateMobilePages() {
-            const pane = document.getElementById('mobileSheetPages');
-            pane.innerHTML = '';
-            for (let i = 1; i <= numPages; i++) {
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = `aspect-[3/4] rounded-lg border-2 flex items-center justify-center text-sm font-bold ${i === currentPage ? 'border-brand-500 text-brand-600' : 'border-slate-200 dark:border-slate-700 text-slate-500'}`;
-                btn.textContent = i;
-                btn.setAttribute('aria-label', `Go to page ${i}`);
-                btn.onclick = () => { renderPage(i); closeMobileSheet(); };
-                pane.appendChild(btn);
-            }
-        }
-        // ============================================================
-        // QUICK TEXT REPLACE (BEST EFFORT)
-        // Only offered on pages with a real text layer. Finds the PDF
-        // text run under a click using pdf.js's own coordinate-mapping
-        // helpers, then covers it and places an approximated replacement.
-        // This is explicitly NOT lossless editing — see honest copy
-        // throughout the UI and content sections.
-        // ============================================================
-        let quickReplaceViewport1x = null; // cached scale-1 viewport for the current page
-        let quickReplaceClickHandler = null;
 
-        async function toggleQuickReplaceMode() {
-            const btn = document.getElementById('toolQuickReplace');
-            if (btn.disabled) return;
-            if (currentMode === 'quickReplace') { exitQuickReplaceMode(); return; }
+        function closeSignatureModal(btn) {
+            btn.closest('.modal').remove();
+        }
 
-            const classification = await detectPageTextLayer(currentPage);
-            if (classification === 'scanned') {
-                showStatus('This page has no selectable text to replace — try Add Text instead.', 'info');
+        // Update sign tool to open signature pad
+        const originalSetTool = setTool;
+        setTool = function(tool) {
+            if (tool === 'sign') {
+                createSignaturePad();
                 return;
             }
-            currentMode = 'quickReplace';
-            btn.setAttribute('aria-pressed', 'true');
-            btn.classList.add('active');
-            canvas.defaultCursor = 'crosshair';
-            canvas.selection = false;
-
-            const page = await pdfDoc.getPage(currentPage);
-            quickReplaceViewport1x = page.getViewport({ scale: 1 });
-
-            quickReplaceClickHandler = function (opt) {
-                if (opt.target) return; // clicked an existing object — let normal selection handle it
-                handleQuickReplaceClick(opt);
-            };
-            canvas.on('mouse:down', quickReplaceClickHandler);
-            showStatus('Tap the existing text you want to replace.', 'info');
-        }
-
-        function exitQuickReplaceMode() {
-            if (currentMode === 'quickReplace') currentMode = 'select';
-            const btn = document.getElementById('toolQuickReplace');
-            btn.setAttribute('aria-pressed', 'false');
-            btn.classList.remove('active');
-            canvas.defaultCursor = 'default';
-            canvas.selection = true;
-            if (quickReplaceClickHandler) { canvas.off('mouse:down', quickReplaceClickHandler); quickReplaceClickHandler = null; }
-        }
-
-        function findTextItemAt(pdfX, pdfY) {
-            const items = pageTextItemsCache.get(currentPage) || [];
-            let best = null, bestArea = Infinity;
-            const pad = 2; // small tap-target padding, in PDF points
-            for (const item of items) {
-                if (!item.str || !item.str.trim()) continue;
-                const left = item.transform[4] - pad;
-                const bottom = item.transform[5] - pad;
-                const width = item.width || 1;
-                const height = item.height || Math.abs(item.transform[3]) || 10;
-                const right = left + width + pad * 2;
-                const top = bottom + height + pad * 2;
-                if (pdfX >= left && pdfX <= right && pdfY >= bottom && pdfY <= top) {
-                    const area = width * height;
-                    if (area < bestArea) { bestArea = area; best = item; }
-                }
-            }
-            return best;
-        }
-
-        function handleQuickReplaceClick(opt) {
-            const docPoint = canvas.getPointer(opt.e); // already accounts for viewportTransform
-            const pt1x = { x: docPoint.x / DOC_SCALE, y: docPoint.y / DOC_SCALE };
-            const [pdfX, pdfY] = quickReplaceViewport1x.convertToPdfPoint(pt1x.x, pt1x.y);
-            const item = findTextItemAt(pdfX, pdfY);
-            if (!item) { showStatus('No text detected at that spot — try tapping directly on a line of text.', 'info'); return; }
-            openQuickReplaceDialog(item);
-        }
-
-        function openQuickReplaceDialog(item) {
-            const dialog = document.getElementById('quickReplaceDialog');
-            const input = document.getElementById('quickReplaceInput');
-            input.value = item.str;
-            dialog.classList.remove('hidden');
-            input.focus();
-            input.select();
-            document.getElementById('quickReplaceConfirm').onclick = () => {
-                applyQuickReplace(item, input.value);
-                dialog.classList.add('hidden');
-            };
-            document.getElementById('quickReplaceCancel').onclick = () => dialog.classList.add('hidden');
-        }
-
-        function applyQuickReplace(item, newText) {
-            const height = item.height || Math.abs(item.transform[3]) || 10;
-            const width = item.width || (newText.length * height * 0.55);
-            const left1x = item.transform[4];
-            const bottom1x = item.transform[5];
-
-            // Convert the PDF-space box back to document/DOC_SCALE canvas space
-            const topLeftViewport = quickReplaceViewport1x.convertToViewportPoint(left1x, bottom1x + height);
-            const docLeft = topLeftViewport[0] * DOC_SCALE;
-            const docTop = topLeftViewport[1] * DOC_SCALE;
-            const docWidth = width * DOC_SCALE;
-            const docHeight = height * DOC_SCALE;
-
-            const cover = new fabric.Rect({
-                left: docLeft - 1, top: docTop - 1, width: docWidth + 2, height: docHeight + 2,
-                fill: '#ffffff', stroke: null, selectable: true,
-                pdfMechanicType: 'quickReplaceCover',
-            });
-            const text = new fabric.IText(newText, {
-                left: docLeft, top: docTop, fontSize: Math.max(6, docHeight * 0.82),
-                fontFamily: 'Helvetica', fill: '#000000',
-                pdfMechanicType: 'text',
-            });
-            canvas.add(cover);
-            canvas.add(text);
-            canvas.requestRenderAll();
-            showStatus('Replacement placed — check it looks right before downloading. This is a best-effort match, not guaranteed pixel-perfect.', 'info');
-            exitQuickReplaceMode();
-        }
-        // ============================================================
-        // EXPORT — Priority 2 fix. Previously: every edited page was
-        // fully rasterized to a page-sized PNG and stamped over the
-        // original. Now: text becomes real PDF text, images are embedded
-        // at their own bounds from their ORIGINAL bytes (no re-encoding
-        // through a canvas), shapes become real vector PDF shapes, and
-        // only freehand ink is rasterized — and only its own small
-        // bounding box, not the full page.
-        // ============================================================
-        const HEX_TO_RGB = (hex) => {
-            const h = (hex || '#000000').replace('#', '');
-            const bigint = parseInt(h.length === 3 ? h.split('').map(c => c + c).join('') : h, 16);
-            return { r: ((bigint >> 16) & 255) / 255, g: ((bigint >> 8) & 255) / 255, b: (bigint & 255) / 255 };
+            originalSetTool(tool);
         };
-
-        function pickStandardFont(pdfDocNew, bold, italic) {
-            const { StandardFonts } = PDFLib;
-            let name;
-            if (bold && italic) name = StandardFonts.HelveticaBoldOblique;
-            else if (bold) name = StandardFonts.HelveticaBold;
-            else if (italic) name = StandardFonts.HelveticaOblique;
-            else name = StandardFonts.Helvetica;
-            return pdfDocNew.embedFont(name);
-        }
-
-        // Converts a Fabric object's current on-canvas box (document space,
-        // Y-down, DOC_SCALE units) to PDF space (Y-up, points), accounting
-        // for scale and rotation around the object's true center.
-        function fabricBoxToPdf(obj, pageHeightPts) {
-            const center = obj.getCenterPoint();
-            const wDoc = obj.getScaledWidth();
-            const hDoc = obj.getScaledHeight();
-            const wPdf = wDoc / DOC_SCALE;
-            const hPdf = hDoc / DOC_SCALE;
-            const cxPdf = center.x / DOC_SCALE;
-            const cyPdf = pageHeightPts - (center.y / DOC_SCALE);
-            return {
-                centerX: cxPdf, centerY: cyPdf,
-                width: wPdf, height: hPdf,
-                x: cxPdf - wPdf / 2, y: cyPdf - hPdf / 2,
-                rotate: -(obj.angle || 0), // Fabric angle is clockwise; PDF rotation is counter-clockwise
-            };
-        }
-
-        async function drawTextObject(page, obj, pdfDocNew, fontCache, pageHeightPts) {
-            const { degrees, rgb } = PDFLib;
-            const bold = obj.fontWeight === 'bold';
-            const italic = obj.fontStyle === 'italic';
-            const key = bold + '_' + italic;
-            if (!fontCache[key]) fontCache[key] = await pickStandardFont(pdfDocNew, bold, italic);
-            const font = fontCache[key];
-
-            const box = fabricBoxToPdf(obj, pageHeightPts);
-            const pdfFontSize = (obj.fontSize * obj.scaleY) / DOC_SCALE;
-            const color = HEX_TO_RGB(obj.fill);
-
-            const lines = (obj.text || '').split('\n');
-            const lineHeightPdf = pdfFontSize * 1.16;
-            const angleRad = (obj.angle || 0) * Math.PI / 180;
-
-            lines.forEach((line, i) => {
-                // Position each line starting from the box's top-left, offset
-                // downward per line, then rotated around the object's center
-                // to match Fabric's on-canvas rotation.
-                const unrotatedX = box.x;
-                const unrotatedTopY = box.y + box.height - pdfFontSize * 0.82 - (i * lineHeightPdf);
-                const dx = unrotatedX - box.centerX;
-                const dy = unrotatedTopY - box.centerY;
-                const rx = box.centerX + (dx * Math.cos(-angleRad) - dy * Math.sin(-angleRad));
-                const ry = box.centerY + (dx * Math.sin(-angleRad) + dy * Math.cos(-angleRad));
-                let alignedX = rx;
-                if (obj.textAlign === 'center') alignedX = rx + (box.width - font.widthOfTextAtSize(line, pdfFontSize)) / 2;
-                else if (obj.textAlign === 'right') alignedX = rx + (box.width - font.widthOfTextAtSize(line, pdfFontSize));
-                page.drawText(line, {
-                    x: alignedX, y: ry, size: pdfFontSize, font,
-                    color: rgb(color.r, color.g, color.b),
-                    rotate: degrees(box.rotate),
-                });
-            });
-        }
-
-        async function drawImageObject(page, obj, pdfDocNew, pageHeightPts) {
-            const box = fabricBoxToPdf(obj, pageHeightPts);
-            const { degrees } = PDFLib;
-            const base64 = (obj.sourceImageData || '').split(',')[1];
-            if (!base64) return;
-            const bytes = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
-            const embedded = obj.sourceImageFormat === 'png' ? await pdfDocNew.embedPng(bytes) : await pdfDocNew.embedJpg(bytes);
-            page.drawImage(embedded, {
-                x: box.x, y: box.y, width: box.width, height: box.height,
-                rotate: degrees(box.rotate),
-            });
-        }
-
-        async function drawShapeObject(page, obj, pageHeightPts) {
-            const { rgb } = PDFLib;
-            const box = fabricBoxToPdf(obj, pageHeightPts);
-            const strokeColor = obj.stroke ? HEX_TO_RGB(obj.stroke) : null;
-            const fillColor = (obj.fill && obj.fill !== 'transparent') ? HEX_TO_RGB(obj.fill) : null;
-            const opts = {
-                x: box.centerX, y: box.centerY,
-                borderColor: strokeColor ? rgb(strokeColor.r, strokeColor.g, strokeColor.b) : undefined,
-                borderWidth: obj.strokeWidth || 0,
-                color: fillColor ? rgb(fillColor.r, fillColor.g, fillColor.b) : undefined,
-                rotate: PDFLib.degrees(box.rotate),
-            };
-            if (obj.pdfMechanicType === 'circle') {
-                page.drawEllipse({ ...opts, xScale: box.width / 2, yScale: box.height / 2 });
-            } else {
-                page.drawRectangle({ ...opts, x: box.x, y: box.y, width: box.width, height: box.height });
-            }
-        }
-
-        async function drawCoverRect(page, obj, pageHeightPts) {
-            const { rgb } = PDFLib;
-            const box = fabricBoxToPdf(obj, pageHeightPts);
-            const fillColor = HEX_TO_RGB(obj.fill || '#ffffff');
-            page.drawRectangle({
-                x: box.x, y: box.y, width: box.width, height: box.height,
-                color: rgb(fillColor.r, fillColor.g, fillColor.b),
-                rotate: PDFLib.degrees(box.rotate),
-            });
-        }
-
-        // Freehand ink: the one case where rasterization is appropriate —
-        // but only the path's own small bounding box is rasterized, not
-        // the full page.
-        async function drawPathObject(page, obj, pdfDocNew, pageHeightPts) {
-            const bounds = obj.getBoundingRect(true, true);
-            if (bounds.width < 1 || bounds.height < 1) return;
-            const scaleFactor = 2; // modest supersampling for crisper ink than 1:1
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = Math.ceil(bounds.width * scaleFactor);
-            tempCanvas.height = Math.ceil(bounds.height * scaleFactor);
-            const staticCanvas = new fabric.StaticCanvas(tempCanvas);
-            const clone = await new Promise((resolve) => obj.clone(resolve));
-            clone.set({ left: (obj.left - bounds.left) * scaleFactor, top: (obj.top - bounds.top) * scaleFactor, scaleX: obj.scaleX * scaleFactor, scaleY: obj.scaleY * scaleFactor });
-            staticCanvas.add(clone);
-            staticCanvas.renderAll();
-            const pngData = tempCanvas.toDataURL('image/png');
-            const pngBytes = Uint8Array.from(atob(pngData.split(',')[1]), c => c.charCodeAt(0));
-            const embedded = await pdfDocNew.embedPng(pngBytes);
-            const pdfX = bounds.left / DOC_SCALE;
-            const pdfYTop = pageHeightPts - (bounds.top / DOC_SCALE);
-            const pdfW = bounds.width / DOC_SCALE;
-            const pdfH = bounds.height / DOC_SCALE;
-            page.drawImage(embedded, { x: pdfX, y: pdfYTop - pdfH, width: pdfW, height: pdfH });
-            staticCanvas.dispose();
-        }
-
-        async function savePDF() {
-            saveCurrentPageState();
-            const btn = document.getElementById('saveBtn');
-            const originalHtml = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin" aria-hidden="true"></i>';
-            btn.disabled = true;
-            showStatus('Preparing your download…', 'loading');
-
-            try {
-                if (!pdfSaveBuffer) throw new Error('The original file is no longer available. Please reload and try again.');
-                const { PDFDocument } = PDFLib;
-                const pdfDocNew = await PDFDocument.load(pdfSaveBuffer);
-                const fontCache = {};
-
-                for (let i = 1; i <= numPages; i++) {
-                    const json = pageObjects[i];
-                    if (!json) continue;
-                    const parsed = JSON.parse(json);
-                    const objects = parsed.objects || [];
-                    if (objects.length === 0) continue;
-
-                    const page = pdfDocNew.getPage(i - 1);
-                    const { height: pageHeightPts } = page.getSize();
-
-                    // Load this page's objects into a lightweight offscreen Fabric
-                    // instance so we can read their resolved geometry (scale,
-                    // rotation, bounding box) the same way the editor sees them.
-                    const offCanvas = document.createElement('canvas');
-                    const off = new fabric.StaticCanvas(offCanvas);
-                    await new Promise((resolve) => off.loadFromJSON(json, resolve));
-
-                    // Draw covers first, then text/images/shapes, preserving
-                    // the layering order the user actually created.
-                    for (const obj of off.getObjects()) {
-                        const kind = obj.pdfMechanicType;
-                        if (kind === 'quickReplaceCover') await drawCoverRect(page, obj, pageHeightPts);
-                        else if (kind === 'text') await drawTextObject(page, obj, pdfDocNew, fontCache, pageHeightPts);
-                        else if (kind === 'image') await drawImageObject(page, obj, pdfDocNew, pageHeightPts);
-                        else if (kind === 'rect' || kind === 'circle') await drawShapeObject(page, obj, pageHeightPts);
-                        else if (kind === 'path') await drawPathObject(page, obj, pdfDocNew, pageHeightPts);
-                    }
-                    off.dispose();
-                }
-
-                const pdfBytesSaved = await pdfDocNew.save();
-                const blob = new Blob([pdfBytesSaved], { type: 'application/pdf' });
-                const url = URL.createObjectURL(blob);
-                activeObjectUrls.push(url);
-
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'edited_document_PDF_Mechanic.pdf';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-
-                showStatus('Saved! Your PDF has been downloaded.', 'success');
-            } catch (err) {
-                console.error(err);
-                showStatus('Something went wrong while saving: ' + err.message, 'error');
-            } finally {
-                btn.innerHTML = originalHtml;
-                btn.disabled = false;
-            }
-        }
-
-        // Year + initial UI wiring not already covered by common.js
-        document.getElementById('year') && (document.getElementById('year').textContent = new Date().getFullYear());
     </script>
 </body>
 </html>
