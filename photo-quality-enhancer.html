@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <title>Photo Quality Enhancer Online Free | AI Upscale in Your Browser - The PDF Mechanic</title>
+    <meta name="description" content="Sharpen, denoise and upscale a photo (2x or 4x) using an on-device AI model that runs entirely in your browser. Nothing is ever uploaded. Free, private, unlimited." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.thepdfmechanic.com/photo-quality-enhancer.html" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#2563eb">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Photo Quality Enhancer Free — On-Device AI Upscale, No Upload">
+    <meta property="og:description" content="Sharpen, denoise and upscale a photo using an on-device AI model. Nothing is ever uploaded, unlike most photo enhancers.">
+    <meta property="og:url" content="https://www.thepdfmechanic.com/photo-quality-enhancer.html">
+    <meta property="og:image" content="https://www.thepdfmechanic.com/og-home.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Photo Quality Enhancer Free — On-Device AI Upscale">
+    <meta name="twitter:description" content="On-device AI photo enhancement and upscaling. Nothing ever uploaded.">
+    <meta name="twitter:image" content="https://www.thepdfmechanic.com/og-home.png">
+
+    <link rel="preload" href="https://fonts.gstatic.com/s/outfit/v11/QdbQKvLOfvyp4_82O7h26e3c.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://huggingface.co" crossorigin>
+    <style>
+  @font-face {
+    font-family: 'Outfit'; font-style: normal; font-weight: 700; font-display: swap;
+    src: url(https://fonts.gstatic.com/s/outfit/v11/QdbQKvLOfvyp4_82O7h26e3c.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+</style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
+
+    <!-- Shared site-wide styles (utility classes + common components), cached across every tool page -->
+    <link rel="stylesheet" href="common.css">
+    <style>
+/* photo-quality-enhancer.html-specific: amber brand accent + comparison slider + range controls */
+#uploadArea.drag-active { background-color: #fffbeb; border-color: #d97706; }
+.dark #uploadArea.drag-active { background-color: rgba(120,53,15,0.15); }
+.inline-alert { display: flex; align-items: flex-start; gap: 0.65rem; padding: 0.9rem 1.1rem; border-radius: 0.85rem; font-size: 0.85rem; line-height: 1.5; }
+.callout-box { background: #fffbeb; border: 1px solid #fde68a; border-left: 4px solid #d97706; border-radius: 0.75rem; padding: 1.25rem 1.5rem; }
+.dark .callout-box { background: rgba(120,53,15,0.2); border-color: #92400e; border-left-color: #f59e0b; }
+.callout-box-title { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: #b45309; font-size: 0.95rem; }
+.dark .callout-box-title { color: #fcd34d; }
+.spec-table th { background: #fffbeb; color: #b45309; font-weight: 700; text-align: left; padding: 0.75rem 1rem; white-space: nowrap; }
+.dark .spec-table th { background: rgba(120,53,15,0.3); color: #fcd34d; }
+.bg-amber-50 { background-color: #fffbeb; } .dark .dark\:bg-amber-900\/30 { background-color: rgba(120,53,15,0.3); }
+.border-amber-100 { border-color: #fde68a; } .text-amber-700 { color: #b45309; } .dark .dark\:text-amber-300 { color: #fcd34d; }
+.bg-amber-100 { background-color: #fef3c7; } .text-amber-600 { color: #d97706; } .dark .dark\:bg-amber-900\/20 { background-color: rgba(120,53,15,0.2); }
+.hover\:bg-amber-50:hover { background-color: #fffbeb; }
+.hover\:bg-amber-100:hover { background-color: #fef3c7; }
+.dark .dark\:hover\:bg-amber-900\/50:hover { background-color: rgba(120,53,15,0.5); }
+.marker\:text-amber-500 li::marker, .marker\:text-amber-500::marker { color: #f59e0b; }
+.accent-amber-600 { accent-color: #d97706; }
+
+/* Utilities not present in common.css (this is the first non-PDF tool page,
+   and several of these - the fullscreen preview overlay, format/quality
+   pill grids, image object-fit - aren't used by any other page yet).
+   Verified against common.css line-by-line: none of the below are defined
+   there, so they're defined here to keep the page correct on its own. */
+.bg-black\/90 { background-color: rgba(0,0,0,0.9); }
+.bg-white\/10 { background-color: rgba(255,255,255,0.1); }
+.hover\:bg-white\/20:hover { background-color: rgba(255,255,255,0.2); }
+.mb-0 { margin-bottom: 0; }
+.fixed { position: fixed; }
+.flex-1 { flex: 1 1 0%; }
+.grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.max-w-full { max-width: 100%; }
+.max-h-full { max-height: 100%; }
+.object-contain { object-fit: contain; }
+.object-cover { object-fit: cover; }
+.px-5 { padding-left: 1.25rem; padding-right: 1.25rem; }
+.top-4 { top: 1rem; }
+.right-4 { right: 1rem; }
+.scroll-smooth { scroll-behavior: smooth; }
+.z-\[60\] { z-index: 60; }
+.dark .dark\:text-slate-500 { color: #64748b; }
+@media (min-width: 640px) {
+  .sm\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .sm\:gap-6 { gap: 1.5rem; }
+}
+
+/* Enhancement sliders */
+.enh-slider-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 0.75rem; margin-bottom: 0.9rem; }
+.enh-slider-label { font-size: 0.8rem; font-weight: 600; color: #475569; }
+.dark .enh-slider-label { color: #94a3b8; }
+.enh-slider-value { font-size: 0.75rem; font-weight: 700; color: #b45309; min-width: 2.5rem; text-align: right; }
+.dark .enh-slider-value { color: #fcd34d; }
+input[type="range"].enh-range { grid-column: 1 / -1; width: 100%; height: 6px; border-radius: 999px; background: #e2e8f0; appearance: none; accent-color: #d97706; }
+.dark input[type="range"].enh-range { background: #334155; }
+
+/* Upscale choice pills */
+.upscale-pill { flex: 1; text-align: center; padding: 0.65rem 0.5rem; border-radius: 0.75rem; border: 1.5px solid #e2e8f0; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all .15s; color: #475569; }
+.dark .upscale-pill { border-color: #334155; color: #94a3b8; }
+.upscale-pill.active { border-color: #d97706; background: #fffbeb; color: #b45309; }
+.dark .upscale-pill.active { background: rgba(120,53,15,0.25); color: #fcd34d; }
+.upscale-pill small { display: block; font-weight: 500; opacity: .75; font-size: .68rem; margin-top: 1px; }
+
+/* Before/after comparison viewer */
+.compare-wrap { position: relative; width: 100%; overflow: hidden; border-radius: 1rem; background: repeating-conic-gradient(#e2e8f0 0% 25%, #f8fafc 0% 50%) 50% / 20px 20px; touch-action: none; user-select: none; }
+.dark .compare-wrap { background: repeating-conic-gradient(#1e293b 0% 25%, #0f172a 0% 50%) 50% / 20px 20px; }
+.compare-stage { position: relative; width: 100%; }
+.compare-stage img { display: block; width: 100%; height: auto; pointer-events: none; }
+.compare-after-clip { position: absolute; inset: 0; overflow: hidden; }
+.compare-divider { position: absolute; top: 0; bottom: 0; width: 0; border-left: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,0.25); pointer-events: none; }
+.compare-handle { position: absolute; top: 50%; width: 42px; height: 42px; border-radius: 999px; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; color: #b45309; cursor: ew-resize; transform: translate(-50%, -50%); touch-action: none; }
+.compare-handle:focus-visible { outline: 3px solid #d97706; outline-offset: 2px; }
+.compare-tag { position: absolute; top: 0.6rem; padding: 0.2rem 0.6rem; border-radius: 999px; background: rgba(15,23,42,0.75); color: #fff; font-size: 0.68rem; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; pointer-events: none; }
+.compare-tag.before-tag { left: 0.6rem; }
+.compare-tag.after-tag { right: 0.6rem; }
+.zoom-toolbar { display: flex; align-items: center; gap: 0.4rem; }
+.zoom-btn { width: 2.25rem; height: 2.25rem; border-radius: 0.6rem; background: #f1f5f9; color: #475569; display: flex; align-items: center; justify-content: center; transition: background .15s; }
+.dark .zoom-btn { background: #1e293b; color: #94a3b8; }
+.zoom-btn:hover { background: #e2e8f0; }
+.dark .zoom-btn:hover { background: #334155; }
+.quality-pill { padding: 0.5rem 0; border-radius: 0.65rem; border: 1.5px solid #e2e8f0; font-size: 0.8rem; font-weight: 700; text-align: center; cursor: pointer; color: #475569; }
+.dark .quality-pill { border-color: #334155; color: #94a3b8; }
+.quality-pill.active { border-color: #d97706; background: #fffbeb; color: #b45309; }
+.dark .quality-pill.active { background: rgba(120,53,15,0.25); color: #fcd34d; }
+.progress-bar-track { height: 10px; border-radius: 999px; background: #e2e8f0; overflow: hidden; }
+.dark .progress-bar-track { background: #334155; }
+.progress-bar-fill { height: 100%; background: #d97706; border-radius: 999px; transition: width 0.25s ease; }
+</style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Photo Quality Enhancer - The PDF Mechanic",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Web Browser",
+      "url": "https://www.thepdfmechanic.com/photo-quality-enhancer.html",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "description": "Sharpen, denoise and upscale a photo (2x or 4x) using an on-device AI super-resolution model that runs entirely in the browser. No server, no API, nothing ever uploaded."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Is this photo enhancer free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, completely free, with no signup, no watermark, and no limit on how many photos you enhance." } },
+        { "@type": "Question", "name": "Is my image uploaded to a server?", "acceptedAnswer": { "@type": "Answer", "text": "No. Both the AI upscaling and every enhancement slider run entirely inside your browser using JavaScript and WebAssembly (or WebGPU, when available). Your photo is never sent anywhere." } },
+        { "@type": "Question", "name": "Can I enhance a blurry photo?", "acceptedAnswer": { "@type": "Answer", "text": "To a real but limited degree. Sharpening and the AI upscaler can recover a genuinely blurry or low-resolution photo to a noticeable degree, but no tool, AI or otherwise, can reconstruct detail that was never captured in the first place - a severely out-of-focus or motion-blurred shot will improve, not become sharp like a well-focused photo." } },
+        { "@type": "Question", "name": "Can I upscale an image 2x or 4x?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Both options run a real AI super-resolution model (not simple pixel stretching) that synthesizes plausible extra detail as it enlarges the image." } },
+        { "@type": "Question", "name": "What image formats are supported?", "acceptedAnswer": { "@type": "Answer", "text": "JPG, PNG and WebP for both upload and download. HEIC upload works only if your specific browser can decode it natively; if not, the tool tells you rather than silently failing." } },
+        { "@type": "Question", "name": "Does the tool work on mobile?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, including the drag-to-compare slider, which supports touch as well as mouse. AI upscaling is slower on a phone's processor than on a laptop, especially at 4x." } },
+        { "@type": "Question", "name": "How does client-side image processing work?", "acceptedAnswer": { "@type": "Answer", "text": "Your browser already has everything needed to decode, process and re-encode images - the Canvas API for pixel-level adjustments, and WebAssembly (or WebGPU) to run the AI upscaling model. This tool uses those built-in capabilities directly, so nothing has to leave your device to be processed." } }
+      ]
+    }
+    </script>
+
+</head>
+<body class="font-sans bg-slate-50 text-slate-900 dark:bg-dark-bg dark:text-dark-text flex flex-col min-h-screen selection:bg-brand-500 selection:text-white transition-colors duration-300">
+
+    <nav class="sticky top-0 z-50 glass-nav border-b border-slate-200 dark:border-dark-border transition-colors" aria-label="Main navigation">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+          <a href="index.html" class="flex items-center gap-2 group">
+            <div class="w-9 h-9 bg-brand-600 rounded-lg flex items-center justify-center text-white text-lg shadow-lg group-hover:bg-brand-700 transition">
+                <i class="fa-solid fa-wrench" aria-hidden="true"></i>
+            </div>
+            <span class="font-display font-bold text-xl tracking-tight hidden sm:block">The PDF Mechanic</span>
+          </a>
+          <div class="flex items-center gap-4">
+            <a href="index.html" class="text-sm font-medium hover:text-brand-600 dark:hover:text-brand-500 transition hidden sm:block">
+                <i class="fa-solid fa-arrow-left mr-1" aria-hidden="true"></i> Back to Tools
+            </a>
+            <button id="themeToggle" type="button" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-yellow-400 flex items-center justify-center transition hover:ring-2 ring-brand-500" aria-label="Toggle dark mode">
+                <i class="fa-solid fa-moon dark:hidden" aria-hidden="true"></i>
+                <i class="fa-solid fa-sun hidden dark:block" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <header class="pt-12 sm:pt-16 pb-8 sm:pb-10 text-center px-4">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-xs font-semibold mb-5 sm:mb-6 border border-amber-100">
+            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> 100% Client-Side Processing
+        </div>
+        <h1 class="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-4">
+            Photo Quality Enhancer
+        </h1>
+        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto px-2">
+            Improve image clarity, sharpness and resolution directly in your browser.
+        </p>
+    </header>
+
+    <main class="flex-grow w-full px-4 pb-16 sm:pb-20">
+
+        <div class="max-w-3xl mx-auto bg-white dark:bg-dark-card rounded-3xl shadow-xl border border-slate-200 dark:border-dark-border overflow-hidden p-5 sm:p-8 relative">
+
+            <div id="fileError" class="hidden inline-alert inline-alert-error mb-6" role="alert">
+                <i class="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true"></i>
+                <span id="fileErrorText"></span>
+            </div>
+
+            <!-- Upload -->
+            <div id="uploadArea"
+                 class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-2xl p-8 sm:p-10 text-center hover:bg-amber-50 dark:hover:bg-slate-800 transition cursor-pointer group focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+                 role="button" tabindex="0"
+                 aria-label="Click or drag a photo here to enhance it"
+                 onclick="document.getElementById('fileInput').click()"
+                 onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();document.getElementById('fileInput').click();}"
+                 ondragover="event.preventDefault();this.classList.add('drag-active');"
+                 ondragleave="this.classList.remove('drag-active');"
+                 ondrop="PhotoEnhancer.handleDrop(event)">
+                <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" class="hidden" aria-label="Choose a photo to enhance" onchange="PhotoEnhancer.handleFileSelect(event)">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 bg-amber-100 dark:bg-amber-900/30 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-5 sm:mb-6 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-panorama text-3xl sm:text-4xl" aria-hidden="true"></i>
+                </div>
+                <h2 class="text-lg sm:text-xl font-bold text-slate-800 dark:text-white mb-2">Drop your image here</h2>
+                <p class="text-sm sm:text-base text-slate-500 dark:text-slate-400 mb-1">or choose a file</p>
+                <p class="text-xs text-slate-400 dark:text-slate-500">JPG, PNG or WebP &middot; up to 25MB &middot; processed locally</p>
+            </div>
+
+            <!-- Controls -->
+            <div id="settingsArea" class="hidden">
+                <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800 p-4 rounded-xl mb-6 border border-slate-200 dark:border-slate-700">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <img id="sourceThumb" class="w-11 h-11 rounded-lg object-cover shrink-0 bg-slate-200 dark:bg-slate-700" alt="" aria-hidden="true">
+                        <div class="min-w-0">
+                            <p id="fileName" class="font-bold text-slate-800 dark:text-white truncate text-sm"></p>
+                            <p id="fileMeta" class="text-xs text-slate-500 dark:text-slate-400"></p>
+                        </div>
+                    </div>
+                    <button onclick="PhotoEnhancer.resetTool()" type="button" class="text-slate-400 hover:text-red-500 transition shrink-0 ml-2" aria-label="Remove photo"><i class="fa-solid fa-xmark text-xl" aria-hidden="true"></i></button>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2" id="upscaleLabel">Upscale</label>
+                    <div class="flex gap-2" role="radiogroup" aria-labelledby="upscaleLabel" id="upscaleGroup">
+                        <div class="upscale-pill active" data-value="1" role="radio" aria-checked="true" tabindex="0">Original<small>No AI upscale</small></div>
+                        <div class="upscale-pill" data-value="2" role="radio" aria-checked="false" tabindex="0">2&times;<small>AI upscale</small></div>
+                        <div class="upscale-pill" data-value="4" role="radio" aria-checked="false" tabindex="0">4&times;<small>AI upscale</small></div>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Enhancement</label>
+                        <button id="autoEnhanceBtn" type="button" class="text-xs font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/30 px-3 py-1.5 rounded-lg hover:bg-amber-100 dark:hover:bg-amber-900/50 transition">
+                            <i class="fa-solid fa-wand-magic-sparkles mr-1" aria-hidden="true"></i>Auto Enhance
+                        </button>
+                    </div>
+
+                    <div class="enh-slider-row">
+                        <label class="enh-slider-label" for="sharpnessRange">Sharpness</label>
+                        <span class="enh-slider-value" id="sharpnessValue">0</span>
+                        <input type="range" id="sharpnessRange" class="enh-range" min="0" max="100" value="0" step="1" aria-describedby="sharpnessValue">
+                    </div>
+                    <div class="enh-slider-row">
+                        <label class="enh-slider-label" for="denoiseRange">Noise Reduction</label>
+                        <span class="enh-slider-value" id="denoiseValue">0</span>
+                        <input type="range" id="denoiseRange" class="enh-range" min="0" max="100" value="0" step="1" aria-describedby="denoiseValue">
+                    </div>
+                    <div class="enh-slider-row">
+                        <label class="enh-slider-label" for="contrastRange">Contrast</label>
+                        <span class="enh-slider-value" id="contrastValue">0</span>
+                        <input type="range" id="contrastRange" class="enh-range" min="-50" max="50" value="0" step="1" aria-describedby="contrastValue">
+                    </div>
+                    <div class="enh-slider-row">
+                        <label class="enh-slider-label" for="brightnessRange">Brightness</label>
+                        <span class="enh-slider-value" id="brightnessValue">0</span>
+                        <input type="range" id="brightnessRange" class="enh-range" min="-50" max="50" value="0" step="1" aria-describedby="brightnessValue">
+                    </div>
+                    <div class="enh-slider-row mb-0">
+                        <label class="enh-slider-label" for="saturationRange">Saturation</label>
+                        <span class="enh-slider-value" id="saturationValue">0</span>
+                        <input type="range" id="saturationRange" class="enh-range" min="-50" max="50" value="0" step="1" aria-describedby="saturationValue">
+                    </div>
+                </div>
+
+                <div class="flex gap-3">
+                    <button id="resetControlsBtn" type="button" class="px-5 py-4 rounded-xl font-bold text-sm bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+                        Reset
+                    </button>
+                    <button id="enhanceBtn" type="button" class="flex-1 bg-brand-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-brand-700 transition shadow-lg shadow-brand-500/30 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Enhance Photo
+                    </button>
+                </div>
+
+                <div id="progressContainer" class="hidden mt-6" role="status" aria-live="polite">
+                    <div class="flex items-center justify-between mb-2">
+                        <p id="progressText" class="text-sm font-semibold text-slate-700 dark:text-slate-300">Preparing...</p>
+                        <p id="progressPercent" class="text-sm font-bold text-amber-600">0%</p>
+                    </div>
+                    <div class="progress-bar-track">
+                        <div id="progressBarFill" class="progress-bar-fill" style="width:0%"></div>
+                    </div>
+                    <button id="cancelBtn" type="button" class="mt-3 text-xs font-semibold text-slate-500 hover:text-red-500 dark:text-slate-400 transition">
+                        <i class="fa-solid fa-xmark mr-1" aria-hidden="true"></i>Cancel
+                    </button>
+                </div>
+            </div>
+
+            <!-- Result -->
+            <div id="resultArea" class="hidden">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Before &amp; After</h3>
+                    <div class="zoom-toolbar">
+                        <button type="button" class="zoom-btn" id="zoomOutBtn" aria-label="Zoom out"><i class="fa-solid fa-magnifying-glass-minus" aria-hidden="true"></i></button>
+                        <button type="button" class="zoom-btn" id="zoomFitBtn" aria-label="Fit to screen"><i class="fa-solid fa-expand" aria-hidden="true"></i></button>
+                        <button type="button" class="zoom-btn" id="zoomInBtn" aria-label="Zoom in"><i class="fa-solid fa-magnifying-glass-plus" aria-hidden="true"></i></button>
+                        <button type="button" class="zoom-btn" id="zoomFullBtn" aria-label="Open full-size preview"><i class="fa-solid fa-up-right-and-down-left-from-center" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+
+                <div id="compareWrap" class="compare-wrap">
+                    <div id="compareStage" class="compare-stage">
+                        <img id="beforeImg" alt="Original photo before enhancement">
+                        <div id="afterClip" class="compare-after-clip">
+                            <img id="afterImg" alt="Enhanced photo after processing">
+                        </div>
+                        <div class="compare-tag before-tag">Before</div>
+                        <div class="compare-tag after-tag">After</div>
+                        <div id="compareDivider" class="compare-divider">
+                            <div id="compareHandle" class="compare-handle" role="slider" tabindex="0" aria-label="Before and after comparison slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-orientation="horizontal">
+                                <i class="fa-solid fa-arrows-left-right text-sm" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 mt-4 text-xs">
+                    <div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
+                        <p class="text-slate-400 dark:text-slate-500 font-semibold uppercase mb-1">Original</p>
+                        <p id="statOriginal" class="font-bold text-slate-700 dark:text-slate-200"></p>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
+                        <p class="text-slate-400 dark:text-slate-500 font-semibold uppercase mb-1">Enhanced</p>
+                        <p id="statEnhanced" class="font-bold text-slate-700 dark:text-slate-200"></p>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800">
+                    <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Download Format</label>
+                    <div class="grid grid-cols-3 gap-2 mb-4" role="radiogroup" aria-label="Download format" id="formatGroup">
+                        <div class="quality-pill active" data-format="jpeg" role="radio" aria-checked="true" tabindex="0">JPG</div>
+                        <div class="quality-pill" data-format="png" role="radio" aria-checked="false" tabindex="0">PNG</div>
+                        <div class="quality-pill" data-format="webp" role="radio" aria-checked="false" tabindex="0">WebP</div>
+                    </div>
+
+                    <div id="qualityRow">
+                        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Quality</label>
+                        <div class="grid grid-cols-4 gap-2 mb-2" role="radiogroup" aria-label="Export quality" id="qualityGroup">
+                            <div class="quality-pill" data-quality="0.6" role="radio" aria-checked="false" tabindex="0">60%</div>
+                            <div class="quality-pill" data-quality="0.8" role="radio" aria-checked="false" tabindex="0">80%</div>
+                            <div class="quality-pill active" data-quality="0.9" role="radio" aria-checked="true" tabindex="0">90%</div>
+                            <div class="quality-pill" data-quality="1" role="radio" aria-checked="false" tabindex="0">100%</div>
+                        </div>
+                    </div>
+                    <p id="estimatedSize" class="text-xs text-slate-500 dark:text-slate-400 mb-4"></p>
+
+                    <a id="downloadLink" class="inline-flex items-center justify-center gap-2 bg-green-600 text-white px-8 py-3.5 rounded-xl font-semibold hover:bg-green-700 transition shadow-lg w-full">
+                        <i class="fa-solid fa-download" aria-hidden="true"></i> Download Enhanced Photo
+                    </a>
+                    <button onclick="PhotoEnhancer.resetTool()" type="button" class="block w-full mt-4 text-sm text-slate-500 hover:text-brand-600 dark:text-slate-400 mx-auto">Enhance Another Photo</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Full-size preview dialog -->
+        <div id="fullPreviewDialog" class="hidden fixed inset-0 z-[60] bg-black/90 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Full-size enhanced photo preview">
+            <button id="closePreviewBtn" type="button" class="absolute top-4 right-4 w-11 h-11 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition" aria-label="Close full-size preview">
+                <i class="fa-solid fa-xmark text-xl" aria-hidden="true"></i>
+            </button>
+            <img id="fullPreviewImg" class="max-w-full max-h-full object-contain rounded-lg" alt="Full-size enhanced photo">
+        </div>
+
+        <section class="max-w-5xl mx-auto mb-16 sm:mb-20 mt-16 sm:mt-20">
+            <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-8 sm:mb-12 text-slate-900 dark:text-white font-display">
+                How to Enhance a Photo
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-5 sm:gap-6">
+                <div class="text-center px-2">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-blue-50 dark:bg-blue-900/20 text-brand-600 rounded-2xl flex items-center justify-center text-xl sm:text-2xl mx-auto mb-4 shadow-sm">
+                        <i class="fa-solid fa-upload" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="font-bold text-base sm:text-lg text-slate-900 dark:text-white mb-2">1. Upload</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">Choose a JPG, PNG or WebP photo, or drag it in.</p>
+                </div>
+                <div class="text-center px-2">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-blue-50 dark:bg-blue-900/20 text-brand-600 rounded-2xl flex items-center justify-center text-xl sm:text-2xl mx-auto mb-4 shadow-sm">
+                        <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="font-bold text-base sm:text-lg text-slate-900 dark:text-white mb-2">2. Enhance</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">Pick an upscale level and dial in sharpness, noise and color.</p>
+                </div>
+                <div class="text-center px-2">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-blue-50 dark:bg-blue-900/20 text-brand-600 rounded-2xl flex items-center justify-center text-xl sm:text-2xl mx-auto mb-4 shadow-sm">
+                        <i class="fa-solid fa-left-right" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="font-bold text-base sm:text-lg text-slate-900 dark:text-white mb-2">3. Compare</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">Drag the slider to see exactly what changed, at full zoom.</p>
+                </div>
+                <div class="text-center px-2">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-blue-50 dark:bg-blue-900/20 text-brand-600 rounded-2xl flex items-center justify-center text-xl sm:text-2xl mx-auto mb-4 shadow-sm">
+                        <i class="fa-solid fa-download" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="font-bold text-base sm:text-lg text-slate-900 dark:text-white mb-2">4. Download</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">Save as JPG, PNG or WebP at the quality you choose.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="max-w-3xl mx-auto mb-16 sm:mb-20">
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-5 sm:mb-6 font-display text-center">Why This Is Different From Most Photo Enhancers</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="flex flex-col items-center text-center gap-2">
+                    <div class="w-10 h-10 rounded-lg bg-green-100 dark:bg-green-900/20 text-green-600 flex items-center justify-center text-lg"><i class="fa-solid fa-wifi" aria-hidden="true"></i></div>
+                    <h3 class="font-bold text-slate-900 dark:text-white text-sm">Nothing Ever Uploaded</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">Most online photo enhancers send your image to a server. This one doesn't, ever.</p>
+                </div>
+                <div class="flex flex-col items-center text-center gap-2">
+                    <div class="w-10 h-10 rounded-lg bg-amber-100 dark:bg-amber-900/20 text-amber-600 flex items-center justify-center text-lg"><i class="fa-solid fa-brain" aria-hidden="true"></i></div>
+                    <h3 class="font-bold text-slate-900 dark:text-white text-sm">Real AI Upscaling</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">A genuine super-resolution model, not your photo simply stretched larger.</p>
+                </div>
+                <div class="flex flex-col items-center text-center gap-2">
+                    <div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/20 text-purple-600 flex items-center justify-center text-lg"><i class="fa-solid fa-infinity" aria-hidden="true"></i></div>
+                    <h3 class="font-bold text-slate-900 dark:text-white text-sm">Free, No Limits</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">No per-image cap, no subscription, no watermark.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="max-w-4xl mx-auto px-4 py-16 sm:py-20 border-t border-slate-200 dark:border-slate-800" id="enhancer-guide">
+            <div class="text-center mb-12 sm:mb-14">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 dark:bg-amber-900/30 text-amber-700 text-xs font-semibold mb-5 border border-amber-100">
+                    <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> The Complete Guide
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white font-display mb-4">
+                    How On-Device Photo Enhancement Actually Works
+                </h2>
+                <p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed px-2">
+                    What the AI upscaler is actually doing, how it differs from simply stretching a photo, what the enhancement sliders are and aren't, and what this tool honestly can't fix.
+                </p>
+            </div>
+
+            <div class="text-slate-600 dark:text-slate-400 leading-relaxed space-y-10">
+
+                <div>
+                    <p>"Enhance" gets used loosely online, often to describe an image simply being resized larger with no new detail added - the result looks soft and blocky under any real zoom. This tool draws a hard line between two genuinely different operations: <span class="font-semibold text-slate-800 dark:text-slate-200">upscaling</span>, which uses an AI model trained to plausibly reconstruct detail as it enlarges an image, and <span class="font-semibold text-slate-800 dark:text-slate-200">enhancement</span>, which uses standard, well-understood pixel adjustments (sharpening, noise reduction, contrast, brightness, saturation) that any photo editor performs. Neither is faked as the other here.</p>
+                </div>
+
+                <div>
+                    <h3 class="flex items-center gap-2 text-xl font-bold text-slate-900 dark:text-white mb-3 font-display">
+                        <i class="fa-solid fa-brain text-amber-600" aria-hidden="true"></i> The AI Model: Swin2SR
+                    </h3>
+                    <p>The 2x and 4x upscale options run Swin2SR, an open-source super-resolution model built on the Swin Transformer architecture, converted to ONNX so it can run inside a browser tab via WebAssembly (or WebGPU, on browsers that support it) - no GPU server, no API call. The 4x option specifically uses a variant trained for real-world photo restoration (on realistically degraded images, not just clean textbook downscales), which tends to hold up better on an actual phone photo than a model trained only on pristine test images.</p>
+                    <p class="mt-4">Because the model has learned what sharp edges, textures and fine detail generally look like from a very large set of real photos, it can make an informed, plausible reconstruction as it enlarges your image - closer to what a higher-resolution capture of the same scene would likely show, rather than the same pixels stretched and blurred across more space. That said, it's a reconstruction, not a recovery of information that was never captured; see the limitations section below.</p>
+                    <div class="callout-box mt-5">
+                        <div class="callout-box-title"><i class="fa-solid fa-microchip" aria-hidden="true"></i> Processed in Tiles to Protect Your Device's Memory</div>
+                        <p class="mt-2 text-sm">Running the full model over an entire high-resolution photo at once could exhaust a phone's available memory. Instead, this tool splits the image into overlapping tiles, upscales each one, and blends them back together - the same technique production upscaling tools use to stay stable on ordinary hardware, and why enhancement shows tile-by-tile progress rather than jumping straight to a finished result.</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="flex items-center gap-2 text-xl font-bold text-slate-900 dark:text-white mb-3 font-display">
+                        <i class="fa-solid fa-microchip text-amber-600" aria-hidden="true"></i> WebGPU, WebAssembly, and Why There's a Fallback
+                    </h3>
+                    <p>When your browser supports WebGPU, a relatively recent web standard for direct GPU access, this tool uses it to run the model considerably faster. Roughly 85% of browsers in use today support WebGPU in some form, which leaves a meaningful share that doesn't - older browsers, some non-Chromium browsers, and some Safari versions among them.</p>
+                    <p class="mt-4">This tool checks for WebGPU support before using it and automatically falls back to WebAssembly, a slower but far more universally supported execution path, when it isn't available. Either way the model runs entirely on your device; WebGPU only changes how fast, never whether your photo stays private.</p>
+                </div>
+
+                <div>
+                    <h3 class="flex items-center gap-2 text-xl font-bold text-slate-900 dark:text-white mb-3 font-display">
+                        <i class="fa-solid fa-sliders text-amber-600" aria-hidden="true"></i> What the Enhancement Sliders Actually Do
+                    </h3>
+                    <p>These five controls are ordinary, transparent pixel-level adjustments, not AI, and each does one specific thing:</p>
+                    <ul class="mt-4 space-y-2 list-disc pl-5 marker:text-amber-500">
+                        <li><span class="font-semibold text-slate-800 dark:text-slate-200">Sharpness</span> increases local contrast at edges using an unsharp-style convolution, making detail look crisper. Pushed too far, it creates visible halos around edges - the slider is capped before that becomes severe, but very high values still trade some naturalness for perceived crispness.</li>
+                        <li><span class="font-semibold text-slate-800 dark:text-slate-200">Noise Reduction</span> blends in a smoothed version of the image to soften sensor grain and compression artifacts. Higher values reduce noise more but can also soften genuine fine detail alongside it - a real trade-off, not a free fix.</li>
+                        <li><span class="font-semibold text-slate-800 dark:text-slate-200">Contrast, Brightness and Saturation</span> are the same tonal and color adjustments found in any photo editor, applied directly to pixel values.</li>
+                    </ul>
+                    <p class="mt-4"><span class="font-semibold text-slate-800 dark:text-slate-200">Auto Enhance</span> applies a modest, generally-flattering starting combination of these five sliders, which you can then adjust or reset individually - it's a starting point, not a one-click miracle setting.</p>
+                </div>
+
+                <div>
+                    <h3 class="flex items-center gap-2 text-xl font-bold text-slate-900 dark:text-white mb-3 font-display">
+                        <i class="fa-solid fa-triangle-exclamation text-amber-600" aria-hidden="true"></i> What This Tool Honestly Can't Fix
+                    </h3>
+                    <p>Being upfront about limits matters more than overselling results. A photo that's severely out of focus or has heavy motion blur will look somewhat better after sharpening and AI upscaling, but it will not become genuinely sharp the way a well-focused shot is - the detail needed simply wasn't captured by the camera in the first place, and no processing, AI-based or otherwise, can retroactively record it. Extremely low-resolution or heavily compressed source images (a tiny thumbnail, a screenshot of a screenshot) also have a real ceiling on how much a 4x upscale can recover, since the model is reconstructing plausible detail from very little actual signal to work with.</p>
+                </div>
+
+                <div>
+                    <h3 class="flex items-center gap-2 text-xl font-bold text-slate-900 dark:text-white mb-3 font-display">
+                        <i class="fa-solid fa-lock text-amber-600" aria-hidden="true"></i> Why Privacy Matters More for Photos
+                    </h3>
+                    <p>Photos people want "enhanced" are very often personal ones - family pictures, ID or document photos, old scanned prints, images someone would rather not hand to an unfamiliar server just to sharpen them up. Because both the AI model and every enhancement slider run entirely on your device, your photo's pixel data is never transmitted anywhere. You can confirm this directly: open your browser's developer tools, watch the Network tab while enhancing, and see that beyond the one-time model download for 2x/4x upscaling, nothing carrying your image goes out.</p>
+                </div>
+
+                <div>
+                    <h3 class="flex items-center gap-2 text-xl font-bold text-slate-900 dark:text-white mb-5 font-display">
+                        <i class="fa-solid fa-circle-question text-amber-600" aria-hidden="true"></i> Frequently Asked Questions
+                    </h3>
+                    <div class="space-y-3">
+                        <details class="group bg-white dark:bg-dark-card p-4 rounded-xl border border-slate-200 dark:border-dark-border cursor-pointer">
+                            <summary class="flex justify-between items-center gap-3 font-medium text-slate-800 dark:text-slate-200">
+                                <span>Is this photo enhancer free?</span>
+                                <span class="transition group-open:rotate-180 shrink-0"><i class="fa-solid fa-chevron-down text-brand-600" aria-hidden="true"></i></span>
+                            </summary>
+                            <p class="text-slate-600 dark:text-slate-400 mt-3 text-sm leading-relaxed">Yes, completely free, with no signup, no watermark, and no limit on how many photos you enhance.</p>
+                        </details>
+                        <details class="group bg-white dark:bg-dark-card p-4 rounded-xl border border-slate-200 dark:border-dark-border cursor-pointer">
+                            <summary class="flex justify-between items-center gap-3 font-medium text-slate-800 dark:text-slate-200">
+                                <span>Is my image uploaded to a server?</span>
+                                <span class="transition group-open:rotate-180 shrink-0"><i class="fa-solid fa-chevron-down text-brand-600" aria-hidden="true"></i></span>
+                            </summary>
+                            <p class="text-slate-600 dark:text-slate-400 mt-3 text-sm leading-relaxed">No. Both the AI upscaling and every enhancement slider run entirely inside your browser using JavaScript and WebAssembly (or WebGPU, when available). Your photo is never sent anywhere.</p>
+                        </details>
+                        <details class="group bg-white dark:bg-dark-card p-4 rounded-xl border border-slate-200 dark:border-dark-border cursor-pointer">
+                            <summary class="flex justify-between items-center gap-3 font-medium text-slate-800 dark:text-slate-200">
+                                <span>Can I enhance a blurry photo?</span>
+                                <span class="transition group-open:rotate-180 shrink-0"><i class="fa-solid fa-chevron-down text-brand-600" aria-hidden="true"></i></span>
+                            </summary>
+                            <p class="text-slate-600 dark:text-slate-400 mt-3 text-sm leading-relaxed">To a real but limited degree. Sharpening and the AI upscaler can recover a genuinely blurry or low-resolution photo to a noticeable degree, but no tool, AI or otherwise, can reconstruct detail that was never captured in the first place - a severely out-of-focus or motion-blurred shot will improve, not become sharp like a well-focused photo.</p>
+                        </details>
+                        <details class="group bg-white dark:bg-dark-card p-4 rounded-xl border border-slate-200 dark:border-dark-border cursor-pointer">
+                            <summary class="flex justify-between items-center gap-3 font-medium text-slate-800 dark:text-slate-200">
+                                <span>Can I upscale an image 2x or 4x?</span>
+                                <span class="transition group-open:rotate-180 shrink-0"><i class="fa-solid fa-chevron-down text-brand-600" aria-hidden="true"></i></span>
+                            </summary>
+                            <p class="text-slate-600 dark:text-slate-400 mt-3 text-sm leading-relaxed">Yes. Both options run a real AI super-resolution model (not simple pixel stretching) that synthesizes plausible extra detail as it enlarges the image.</p>
+                        </details>
+                        <details class="group bg-white dark:bg-dark-card p-4 rounded-xl border border-slate-200 dark:border-dark-border cursor-pointer">
+                            <summary class="flex justify-between items-center gap-3 font-medium text-slate-800 dark:text-slate-200">
+                                <span>What image formats are supported?</span>
+                                <span class="transition group-open:rotate-180 shrink-0"><i class="fa-solid fa-chevron-down text-brand-600" aria-hidden="true"></i></span>
+                            </summary>
+                            <p class="text-slate-600 dark:text-slate-400 mt-3 text-sm leading-relaxed">JPG, PNG and WebP for both upload and download. HEIC upload works only if your specific browser can decode it natively; if not, the tool tells you rather than silently failing.</p>
+                        </details>
+                        <details class="group bg-white dark:bg-dark-card p-4 rounded-xl border border-slate-200 dark:border-dark-border cursor-pointer">
+                            <summary class="flex justify-between items-center gap-3 font-medium text-slate-800 dark:text-slate-200">
+                                <span>Does the tool work on mobile?</span>
+                                <span class="transition group-open:rotate-180 shrink-0"><i class="fa-solid fa-chevron-down text-brand-600" aria-hidden="true"></i></span>
+                            </summary>
+                            <p class="text-slate-600 dark:text-slate-400 mt-3 text-sm leading-relaxed">Yes, including the drag-to-compare slider, which supports touch as well as mouse. AI upscaling is slower on a phone's processor than on a laptop, especially at 4x.</p>
+                        </details>
+                        <details class="group bg-white dark:bg-dark-card p-4 rounded-xl border border-slate-200 dark:border-dark-border cursor-pointer">
+                            <summary class="flex justify-between items-center gap-3 font-medium text-slate-800 dark:text-slate-200">
+                                <span>How does client-side image processing work?</span>
+                                <span class="transition group-open:rotate-180 shrink-0"><i class="fa-solid fa-chevron-down text-brand-600" aria-hidden="true"></i></span>
+                            </summary>
+                            <p class="text-slate-600 dark:text-slate-400 mt-3 text-sm leading-relaxed">Your browser already has everything needed to decode, process and re-encode images - the Canvas API for pixel-level adjustments, and WebAssembly (or WebGPU) to run the AI upscaling model. This tool uses those built-in capabilities directly, so nothing has to leave your device to be processed.</p>
+                        </details>
+                    </div>
+                </div>
+
+                <div class="text-center pt-4">
+                    <p class="max-w-2xl mx-auto">Most "photo enhancer" sites online either upload your image to a server or quietly stretch it larger and call that AI. This one does neither: a genuine on-device super-resolution model for upscaling, honest pixel-level controls for everything else, and your photo never leaving your device at any point in between.</p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-950 text-slate-400 pt-16 pb-8 border-t border-slate-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-10">
+            <div class="col-span-1 sm:col-span-2 md:col-span-1">
+                <div class="flex items-center gap-2 mb-4 text-white">
+                    <i class="fa-solid fa-wrench text-brand-600 text-xl" aria-hidden="true"></i>
+                    <span class="font-bold text-xl font-display">The PDF Mechanic</span>
+                </div>
+                <p class="text-sm leading-relaxed text-slate-500 mb-6">
+                    Built for speed and privacy. The only PDF and photo toolkit that works 100% offline in your browser.
+                </p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold text-sm mb-4">Convert</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="photo-quality-enhancer.html" class="hover:text-brand-500 transition">Photo Quality Enhancer</a></li>
+                    <li><a href="images-to-pdf.html" class="hover:text-brand-500 transition">JPG to PDF</a></li>
+                    <li><a href="pdf-to-word.html" class="hover:text-brand-500 transition">PDF to Word</a></li>
+                    <li><a href="pdf-to-excel.html" class="hover:text-brand-500 transition">PDF to Excel</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold text-sm mb-4">Organize</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="merger.html" class="hover:text-brand-500 transition">Merge PDF</a></li>
+                    <li><a href="splitter.html" class="hover:text-brand-500 transition">Split PDF</a></li>
+                    <li><a href="compressor.html" class="hover:text-brand-500 transition">Compress PDF</a></li>
+                    <li><a href="extract-images-from-pdf.html" class="hover:text-brand-500 transition">Extract Images</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold text-sm mb-4">Security &amp; Legal</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="protect-pdf.html" class="hover:text-brand-500 transition">Lock PDF</a></li>
+                    <li><a href="unlock-pdf.html" class="hover:text-brand-500 transition">Unlock PDF</a></li>
+                    <li><a href="privacy.html" class="hover:text-brand-500 transition">Privacy Policy</a></li>
+                    <li><a href="terms.html" class="hover:text-brand-500 transition">Terms of Use</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-slate-900 pt-8 text-center text-xs text-slate-600 px-4">
+            &copy; <span id="year"></span> The PDF Mechanic. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Shared boilerplate (theme toggle, footer year, service worker) - see common.js -->
+    <script src="common.js" defer></script>
+
+    <!-- Tool logic: upload, classical + AI enhancement orchestration, comparison slider, export -->
+    <script src="photo-quality-enhancer.js"></script>
+
+</body>
+</html>
