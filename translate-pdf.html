@@ -508,7 +508,7 @@
         // The translation model runs inside a Web Worker so the page stays
         // responsive (scrolling, other tabs, the rest of the browser) while it
         // downloads and runs - heavy WASM inference on the main thread is what
-        // makes a tab feel frozen. Two settings matter here, both confirmed
+        // makes a tab feel frozen. Several settings matter here, all confirmed
         // against real, reproduced issues rather than guessed:
         // - `numThreads = 1` stops the ONNX runtime from trying to spawn its
         //   own additional worker threads for multi-threaded execution, which
@@ -523,9 +523,21 @@
         //   (github.com/huggingface/transformers.js issues #1286 and #1317).
         //   This worker never sets `device`, so transformers.js falls back to
         //   its default `wasm` backend, which that bug does not affect.
+        // - The library is pinned to 4.3.0, not 4.2.0. On 4.2.0, q8 models
+        //   with a tied embedding matrix (NLLB-200 ties its input/output
+        //   embeddings as `model.shared`, same as this model) fail session
+        //   creation entirely on the wasm backend with
+        //   "TransposeDQWeightsForMatMulNBits Missing required scale" - a
+        //   bug in 4.2.0's QDQ-to-MatMulNBits fusion when a weight/scale
+        //   initializer has two DequantizeLinear consumers, which a tied
+        //   embedding always does. Confirmed as the same bug class as
+        //   huggingface/transformers.js issue #1707, fixed by upgrading past
+        //   4.2.0; this is not the WebGPU garbled-output bug above, it is a
+        //   separate wasm-specific crash that stops the model from loading
+        //   at all, on any device.
         function createTranslateWorker() {
             const workerSource = `
-                import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.2.0';
+                import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.0';
                 env.backends.onnx.wasm.numThreads = 1;
 
                 let translator = null;
