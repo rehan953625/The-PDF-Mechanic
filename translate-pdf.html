@@ -510,9 +510,15 @@
         // downloads and runs - heavy WASM inference on the main thread is what
         // makes a tab feel frozen. Several settings matter here, all confirmed
         // against real, reproduced issues rather than guessed:
-        // - `numThreads = 1` stops the ONNX runtime from trying to spawn its
-        //   own additional worker threads for multi-threaded execution, which
-        //   is what broke worker-based loading the first time this was tried.
+        // - `numThreads` defaults to 1, which stops the ONNX runtime from
+        //   spawning its own additional worker threads - that's what broke
+        //   worker-based loading the first time this was tried, because
+        //   multi-threaded WASM needs SharedArrayBuffer, which only exists
+        //   on pages with cross-origin-isolation (COOP/COEP) headers. It's
+        //   feature-detected (`crossOriginIsolated`) rather than hardcoded,
+        //   so hosting that does send those headers gets real multi-threaded
+        //   translation - several times faster, since that's the main lever
+        //   on translation speed - with zero risk to hosting that doesn't.
         // - `dtype: 'q8'` loads the int8-quantized model variant instead of
         //   full precision, cutting the download from roughly 3.5GB to
         //   roughly 900MB with no meaningful quality loss for this model -
@@ -538,7 +544,18 @@
         function createTranslateWorker() {
             const workerSource = `
                 import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.0';
-                env.backends.onnx.wasm.numThreads = 1;
+                // Single-threaded WASM (numThreads=1) is the only setting that's safe on
+                // every deployment, because multi-threaded WASM needs SharedArrayBuffer,
+                // which the browser only grants on pages served with cross-origin-isolation
+                // headers (COOP/COEP) - most static hosts don't set these by default, and
+                // guessing wrong crashes worker creation outright. crossOriginIsolated is
+                // the standard, safe way to check this at runtime instead of guessing: it's
+                // false (same as today) on hosting without those headers, so this can only
+                // ever make translation faster, never break it. If translation is still slow
+                // after this, it means the site's hosting isn't sending those headers.
+                const canUseThreads = typeof crossOriginIsolated !== 'undefined' && crossOriginIsolated
+                    && typeof navigator !== 'undefined' && navigator.hardwareConcurrency > 1;
+                env.backends.onnx.wasm.numThreads = canUseThreads ? Math.min(navigator.hardwareConcurrency, 4) : 1;
 
                 let translator = null;
 
@@ -563,7 +580,15 @@
                             const { chunks, srcLang, tgtLang } = payload;
                             const results = [];
                             for (let i = 0; i < chunks.length; i++) {
-                                const out = await translator(chunks[i], { src_lang: srcLang, tgt_lang: tgtLang });
+                                // max_new_tokens is capped explicitly because the pipeline's
+                                // own internal default is 256, not the 200 the model's own
+                                // generation_config.json specifies - left uncapped, a chunk
+                                // where the model fails to predict an end-of-sequence token
+                                // (a known NLLB quirk, more common on short inputs) silently
+                                // runs the full 256 single-threaded decode steps instead of
+                                // stopping, which is the main cause of a translation that
+                                // takes far longer than the source text should ever need.
+                                const out = await translator(chunks[i], { src_lang: srcLang, tgt_lang: tgtLang, max_new_tokens: 200 });
                                 results.push(out[0].translation_text);
                                 self.postMessage({ type: 'chunk-done', payload: { current: i + 1, total: chunks.length } });
                             }
@@ -714,15 +739,23 @@
                     });
                 }
 
-                // Translate all chunks, tracking progress as they complete.
+                // Translate all chunks, tracking progress as they complete. A page's
+                // text is split into several short chunks (chunkText() above) because
+                // the model translates a short passage far more reliably than a whole
+                // page at once - so this count is text chunks, not pages, and a single
+                // dense page can genuinely produce more chunks than a document has
+                // pages. The label says so explicitly to avoid that being misread as
+                // the tool double-counting pages.
                 progressText.textContent = `Translating...`;
-                progressSubtext.textContent = `0 / ${chunks.length} passages`;
+                progressSubtext.textContent = chunks.length > 8
+                    ? `0 / ${chunks.length} text chunks - this can take a few minutes on a phone, please keep this tab open`
+                    : `0 / ${chunks.length} text chunks`;
                 const translatedTexts = await new Promise((resolve, reject) => {
                     const onMsg = (e) => {
                         const { type, payload } = e.data;
                         if (type === 'chunk-done') {
                             setProgressRing(payload.current / payload.total);
-                            progressSubtext.textContent = `${payload.current} / ${payload.total} passages`;
+                            progressSubtext.textContent = `${payload.current} / ${payload.total} text chunks`;
                         } else if (type === 'batch-done') {
                             translateWorker.removeEventListener('message', onMsg);
                             resolve(payload.results);
