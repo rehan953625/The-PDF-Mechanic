@@ -742,7 +742,13 @@
         &copy; <span id="year"></span> The PDF Mechanic. All rights reserved.
     </div>
 </footer>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.9/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    if (window.pdfjsLib) {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+</script>
     <script>
         // Merger Logic
         let fileQueue = [];
@@ -803,7 +809,7 @@
         async function createThumbnail(file) {
             try {
                 const arrayBuffer = await file.arrayBuffer();
-                const loadingTask = pdfjsLib.getDocument(arrayBuffer);
+                const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) });
                 const pdf = await loadingTask.promise;
                 const page = await pdf.getPage(1);
                 // Smaller scale for performance
@@ -892,7 +898,7 @@
 
                 for (const item of fileQueue) {
                     const arrayBuffer = await item.file.arrayBuffer();
-                    const pdf = await PDFDocument.load(arrayBuffer);
+                    const pdf = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
                     const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
                     copiedPages.forEach((page) => mergedPdf.addPage(page));
                 }
@@ -911,9 +917,12 @@
                 let name = fileQueue[0].file.name.replace('.pdf','');
                 dl.download = `${name}_merged_PDF_Mechanic.pdf`;
             } catch (e) {
-                console.error(e);
-                showFileError("Error merging files: one or more PDFs might be encrypted, corrupted, or password-protected. Please remove that file and try again.");
-                btn.innerHTML = originalText;
+    console.error(e);
+    if (typeof PDFLib === 'undefined') {
+        showFileError("PDF engine load nahi ho paya. Kripya apna internet connection check karke page refresh karein.");
+    } else {
+        showFileError("Error merging files: one or more PDFs might be encrypted, corrupted, or password-protected. Please remove that file and try again.");
+    }btn.innerHTML = originalText;
                 btn.disabled = false;
                 btn.classList.remove('opacity-70', 'cursor-not-allowed');
             }
