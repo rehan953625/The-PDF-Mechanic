@@ -920,13 +920,14 @@
             } catch (e) {
     console.error(e);
     if (typeof PDFLib === 'undefined') {
-        showFileError("PDF engine load nahi ho paya. Kripya apna internet connection check karke page refresh karein.");
+        showFileError("Failed to load PDF engine. Please check your internet connection and refresh the page.");
     } else {
         showFileError("Error merging files: one or more PDFs might be encrypted, corrupted, or password-protected. Please remove that file and try again.");
-    }btn.innerHTML = originalText;
-                btn.disabled = false;
-                btn.classList.remove('opacity-70', 'cursor-not-allowed');
-            }
+    }
+    btn.innerHTML = originalText;
+    btn.disabled = false;
+    btn.classList.remove('opacity-70', 'cursor-not-allowed');
+}
         }
     </script>
     <script src="common.js" defer></script>
