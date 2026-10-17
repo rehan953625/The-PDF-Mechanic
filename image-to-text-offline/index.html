@@ -5,6 +5,947 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Image to Text Converter Offline (Secure OCR) – The PDF Mechanic</title>
+  <meta name="description" content="Extract text from images (JPG, PNG, WebP) and screenshots offline without uploading files. 100% private, browser-based WebAssembly OCR tool for PC &amp; Mobile.">
+  <meta name="keywords" content="image to text offline, ocr no upload, extract text from screenshot, secure image to text converter, copy text from image pc, jpg to word offline, client side ocr webassembly, private ocr tool">
+  <meta name="author" content="The PDF Mechanic">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://www.thepdfmechanic.com/image-to-text-offline/">
+
+  <!-- Open Graph / Social Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="The PDF Mechanic">
+  <meta property="og:title" content="Image to Text Converter Offline (Secure OCR) – The PDF Mechanic">
+  <meta property="og:description" content="Turn images, scanned documents, and screenshots into editable text instantly. Runs 100% offline in your browser with zero server uploads.">
+  <meta property="og:url" content="https://www.thepdfmechanic.com/image-to-text-offline/">
+  <meta property="og:image" content="https://www.thepdfmechanic.com/og-home.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Secure Offline OCR – Convert Image to Text Without Uploading">
+  <meta name="twitter:description" content="Convert screenshots, scanned receipts, and photos to editable text offline. 100% client-side privacy in your browser.">
+  <meta name="twitter:image" content="https://www.thepdfmechanic.com/og-home.png">
+
+  <!-- Favicon & PWA (Root-Relative Paths) -->
+  <link rel="icon" type="image/svg+xml" href="https://www.thepdfmechanic.com/favicon.svg">
+  <link rel="icon" type="image/png" sizes="48x48" href="https://www.thepdfmechanic.com/favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://www.thepdfmechanic.com/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://www.thepdfmechanic.com/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="https://www.thepdfmechanic.com/android-icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://www.thepdfmechanic.com/apple-touch-icon.png">
+  <link rel="manifest" href="https://www.thepdfmechanic.com/site.webmanifest">
+  <meta name="theme-color" content="#2563eb">
+
+  <!-- Google Fonts Preconnect & Non-Blocking Load for Fast LCP -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap"></noscript>
+
+  <!-- Early Theme Initialization to Prevent FOUC / CLS -->
+  <script>
+    (function() {
+      try {
+        var savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' },
+            'dark-bg': '#0f172a'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+            display: ['Outfit', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Core Web Vitals (CWV) & Layout Stability CSS -->
+  <style>
+    /* Defer below-the-fold layout & paint work for 3,500+ word SEO content (Improves LCP & INP) */
+    .cv-auto {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 700px;
+    }
+    /* Smooth details marker reset */
+    details > summary {
+      list-style: none;
+    }
+    details > summary::-webkit-details-marker {
+      display: none;
+    }
+  </style>
+
+  <!-- Comprehensive Structured Data: WebApplication + BreadcrumbList + FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://www.thepdfmechanic.com/image-to-text-offline/#app",
+        "name": "Image to Text Converter Offline (Secure OCR) – The PDF Mechanic",
+        "url": "https://www.thepdfmechanic.com/image-to-text-offline/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Windows, macOS, Android, iOS, Linux (Browser-based WebAssembly)",
+        "description": "Extract text from images (JPG, PNG, WebP) and screenshots 100% offline inside your web browser without uploading files to any server.",
+        "featureList": [
+          "100% Client-Side Offline OCR Processing via WebAssembly",
+          "Zero Server Uploads & Complete Document Privacy",
+          "Supports JPG, JPEG, PNG, and WebP Screenshots & Photos",
+          "Instant Copy to Clipboard & Editable Text Extraction",
+          "Works on Android, iOS, Windows, and Mac Browsers"
+        ],
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "The PDF Mechanic",
+          "url": "https://www.thepdfmechanic.com/"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://www.thepdfmechanic.com/image-to-text-offline/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.thepdfmechanic.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Image to Text Offline (Secure OCR)",
+            "item": "https://www.thepdfmechanic.com/image-to-text-offline/"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://www.thepdfmechanic.com/image-to-text-offline/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How does this offline image to text tool work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It uses advanced client-side processing (WebAssembly and JavaScript running the Tesseract OCR neural network engine) to analyze pixel patterns and extract text from your images directly inside your browser, without ever needing a remote server."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is my data secure and private when extracting text from IDs or bank statements?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes! Your images never leave your device. Since there is zero file upload to any cloud server, this is the safest way to extract text from sensitive documents like Aadhaar cards, PAN cards, passports, invoices, or bank statements."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which image formats are supported by the offline OCR converter?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Our image-to-text extractor supports all standard raster formats including JPG, JPEG, PNG, and WebP. If you need to run OCR on a multi-page scanned PDF file or export directly to .docx, you can also use our dedicated OCR PDF tool."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need an active internet connection to convert images to text?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Once the webpage and the lightweight language recognition model have loaded once in your browser, you can turn off Wi-Fi or mobile data completely. Every subsequent image extraction functions 100% offline."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is there a file size limit or daily cap on conversions?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Because recognition runs locally on your own hardware, we impose no daily limits, no page caps, and no artificial file size restrictions. Processing very large high-resolution photos simply depends on your device's available RAM."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can this tool read handwritten notes as well as printed text?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The OCR engine is heavily optimized for printed documents, books, receipts, official certificates, and digital screenshots (where accuracy regularly exceeds 98–99%). Neat, well-spaced print handwriting can be recognized, though cursive handwriting is less accurate than printed typography."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does the offline OCR tool work on Android and iPhone browsers?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Absolutely! You can run it natively inside Google Chrome on Android or Safari on iOS without installing any heavy mobile apps or granting intrusive phone permissions."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How can I verify that my image is not being uploaded to a server?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Open your browser's Developer Tools (F12) and switch to the Network tab before selecting your image, or simply switch your phone or laptop to Airplane Mode after opening the tool. You will see zero outgoing file uploads while your text is extracted."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why do numbers like 0 and O or 1 and l sometimes get confused in OCR?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In many sans-serif fonts and low-resolution scans, the pixel geometry of the digit zero (0) and capital letter O, or the number 1, lowercase l, and uppercase I, are nearly identical. Scanning at 300 DPI and doing a quick manual check on invoice numbers or account digits ensures 100% reliability."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is this tool completely free for commercial and personal use?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, the Image to Text extractor by The PDF Mechanic is 100% free forever with no watermarks, no account registration, and no hidden subscription tiers."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-sans leading-relaxed transition-colors duration-200">
+
+  <!-- Sticky Navigation Bar (Fixed Root Links & Inline SVGs for Zero CLS) -->
+  <nav class="sticky top-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors" aria-label="Main Navigation">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 items-center justify-between">
+        <div class="flex items-center gap-4">
+          <a href="https://www.thepdfmechanic.com/" class="flex items-center gap-2.5 group" aria-label="The PDF Mechanic Home">
+            <div class="w-9 h-9 bg-brand-600 rounded-lg flex items-center justify-center text-white shadow-md group-hover:bg-brand-700 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+              </svg>
+            </div>
+            <span class="font-display font-bold text-xl tracking-tight text-slate-900 dark:text-white">The PDF Mechanic</span>
+          </a>
+        </div>
+
+        <div class="hidden lg:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300">
+          <a href="#how-to" class="hover:text-brand-600 dark:hover:text-brand-400 transition">How It Works</a>
+          <a href="#complete-guide" class="hover:text-brand-600 dark:hover:text-brand-400 transition">Complete OCR Guide</a>
+          <a href="#accuracy-settings" class="hover:text-brand-600 dark:hover:text-brand-400 transition">Accuracy &amp; DPI</a>
+          <a href="#use-cases" class="hover:text-brand-600 dark:hover:text-brand-400 transition">Real-World Use Cases</a>
+          <a href="#faq" class="hover:text-brand-600 dark:hover:text-brand-400 transition">FAQ</a>
+        </div>
+
+        <div class="flex items-center gap-3 sm:gap-4">
+          <a href="https://www.thepdfmechanic.com/" class="inline-flex items-center text-sm font-medium text-slate-600 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>
+            </svg>
+            <span>Back Home</span>
+          </a>
+          <button id="themeToggle" type="button" aria-label="Toggle Dark or Light Mode" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-yellow-400 flex items-center justify-center transition hover:ring-2 ring-brand-500">
+            <!-- Moon Icon (Shown in Light Mode) -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+            </svg>
+            <!-- Sun Icon (Shown in Dark Mode) -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb Bar for Clear Crawl Hierarchy -->
+  <div class="bg-white dark:bg-slate-900/60 border-b border-slate-100 dark:border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 text-xs text-slate-500 dark:text-slate-400 flex items-center gap-2">
+      <a href="https://www.thepdfmechanic.com/" class="hover:text-brand-600 dark:hover:text-brand-400 transition">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href="https://www.thepdfmechanic.com/guides.html" class="hover:text-brand-600 dark:hover:text-brand-400 transition">OCR &amp; Conversion Tools</a>
+      <span aria-hidden="true">/</span>
+      <span class="text-slate-800 dark:text-slate-200 font-medium">Image to Text Converter Offline</span>
+    </div>
+  </div>
+
+  <!-- Hero Section (Optimized for Fast LCP) -->
+  <header class="text-center py-16 sm:py-20 px-4 bg-gradient-to-b from-white to-slate-50 dark:from-slate-900 dark:to-slate-950">
+    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 mb-5 text-xs font-semibold tracking-wider text-brand-700 dark:text-brand-300 uppercase bg-brand-50 dark:bg-brand-900/40 border border-brand-200 dark:border-brand-800 rounded-full">
+      <span>Privacy Focused • WebAssembly Powered • 100% Client-Side</span>
+    </div>
+
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-display font-extrabold mb-6 tracking-tight text-slate-900 dark:text-white">
+      Convert Image to <span class="text-brand-600 dark:text-brand-500">Text</span><br>
+      <span class="text-slate-800 dark:text-slate-100">Secure &amp; 100% Offline</span>
+    </h1>
+
+    <p class="max-w-2xl mx-auto text-lg sm:text-xl text-slate-600 dark:text-slate-300 mb-10">
+      Extract editable text from scanned documents, receipts, screenshots, and photos right inside your browser.
+      <strong class="font-semibold text-slate-800 dark:text-white">No Server Uploads. No Signup. Works on Mobile &amp; PC.</strong>
+    </p>
+
+    <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+      <a href="https://www.thepdfmechanic.com/extractor.html"
+         class="w-full sm:w-auto inline-flex items-center justify-center bg-brand-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-brand-700 hover:shadow-lg hover:-translate-y-0.5 transition duration-200">
+        <span>Open Image OCR Tool</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664-.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      </a>
+      <a href="https://www.thepdfmechanic.com/ocr.html"
+         class="w-full sm:w-auto inline-flex items-center justify-center bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 border border-slate-300 dark:border-slate-700 px-7 py-4 rounded-xl font-semibold text-base hover:border-brand-600 dark:hover:border-brand-500 hover:text-brand-600 transition duration-200">
+        <span>Scanned PDF &amp; Word (.docx) OCR</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 text-brand-600 dark:text-brand-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+      </a>
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-4 sm:gap-8 mt-8 text-sm font-medium text-slate-600 dark:text-slate-400">
+      <span class="flex items-center gap-1.5"><span class="text-green-600 dark:text-green-400 font-bold">✔</span> Supports JPG, PNG &amp; WebP</span>
+      <span class="flex items-center gap-1.5"><span class="text-green-600 dark:text-green-400 font-bold">✔</span> One-Click Copy to Clipboard</span>
+      <span class="flex items-center gap-1.5"><span class="text-green-600 dark:text-green-400 font-bold">✔</span> Zero Cloud Data Leakage</span>
+      <span class="flex items-center gap-1.5"><span class="text-green-600 dark:text-green-400 font-bold">✔</span> Works in Airplane Mode</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- Step-by-Step Quick Workflow Section -->
+    <section id="how-to" class="max-w-5xl mx-auto px-4 py-12">
+      <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-6 sm:p-10 shadow-sm border border-slate-200/80 dark:border-slate-700">
+        <div class="max-w-3xl mb-8">
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">3-Step Local Workflow</span>
+          <h2 class="text-2xl sm:text-3xl font-display font-bold mt-1 text-slate-900 dark:text-white">How to Extract Text from Images Offline</h2>
+          <p class="text-slate-600 dark:text-slate-300 mt-2">
+            Converting a photograph, scanned page, or mobile screenshot into selectable text takes less than ten seconds and happens entirely inside your device's memory.
+          </p>
+        </div>
+
+        <ol class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <li class="bg-slate-50 dark:bg-slate-900/70 p-6 rounded-xl border border-slate-200/60 dark:border-slate-700/70">
+            <div class="w-10 h-10 bg-brand-100 dark:bg-brand-900/60 text-brand-700 dark:text-brand-300 rounded-full flex items-center justify-center font-bold text-lg mb-4">1</div>
+            <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white mb-2">Launch the Local OCR Engine</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300">
+              Click <strong>Open Image OCR Tool</strong> above to load our client-side text extractor, or choose the <a href="https://www.thepdfmechanic.com/ocr.html" class="text-brand-600 dark:text-brand-400 underline hover:no-underline">OCR PDF &amp; Word tool</a> for multi-page documents.
+            </p>
+          </li>
+
+          <li class="bg-slate-50 dark:bg-slate-900/70 p-6 rounded-xl border border-slate-200/60 dark:border-slate-700/70">
+            <div class="w-10 h-10 bg-brand-100 dark:bg-brand-900/60 text-brand-700 dark:text-brand-300 rounded-full flex items-center justify-center font-bold text-lg mb-4">2</div>
+            <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white mb-2">Select Your Image or Screenshot</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300">
+              Pick any JPG, JPEG, PNG, or WebP file from your computer or phone gallery. Once the page is loaded, you can even disconnect Wi-Fi or switch to Airplane Mode before selecting your file.
+            </p>
+          </li>
+
+          <li class="bg-slate-50 dark:bg-slate-900/70 p-6 rounded-xl border border-slate-200/60 dark:border-slate-700/70">
+            <div class="w-10 h-10 bg-brand-100 dark:bg-brand-900/60 text-brand-700 dark:text-brand-300 rounded-full flex items-center justify-center font-bold text-lg mb-4">3</div>
+            <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white mb-2">Copy or Export Editable Text</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300">
+              Our WebAssembly OCR model scans each line locally and presents the recognized text in an editable box—ready to copy to your clipboard, paste into Excel, or save into Word.
+            </p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Comprehensive Long-Form SEO Guide (3,000+ Words, CWV Optimized with content-visibility) -->
+    <section id="complete-guide" class="cv-auto max-w-4xl mx-auto px-4 py-12 text-slate-700 dark:text-slate-300">
+      <article class="bg-white dark:bg-slate-800/90 rounded-2xl p-6 sm:p-12 shadow-sm border border-slate-200/80 dark:border-slate-700 space-y-10">
+
+        <!-- Section 1: Deep Introduction & The Privacy Problem -->
+        <header class="border-b border-slate-200 dark:border-slate-700 pb-8">
+          <span class="inline-block text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400 mb-2">The Complete Technical &amp; Practical Handbook</span>
+          <h2 class="text-3xl sm:text-4xl font-display font-bold text-slate-900 dark:text-white leading-tight">
+            Why Use an Offline Image to Text Converter? How Client-Side Browser OCR Protects Your Documents
+          </h2>
+          <p class="mt-4 text-lg text-slate-600 dark:text-slate-300">
+            What actually happens when a browser reads text out of a photograph, why server-based OCR tools create unnecessary privacy risks for personal and business records, and how to get near-100% recognition accuracy from screenshots, camera scans, and official paperwork.
+          </p>
+        </header>
+
+        <div class="space-y-5 text-base sm:text-lg leading-relaxed">
+          <p>
+            Every day, millions of people run into the exact same digital bottleneck: critical text trapped inside a flat image file. It might be a smartphone photo of a textbook chapter, a WhatsApp screenshot of a supplier's bank account details, a scanned GST tax invoice, a photographed whiteboard from an office meeting, or an official government identity document such as an Aadhaar card, PAN card, or passport. To your eyes, the words on screen look perfectly readable. To your computer or phone, however, a JPG or PNG file is nothing more than a two-dimensional grid of colored pixels—it contains no selectable characters, no searchable words, and nothing you can copy or paste into Microsoft Word, Google Docs, or an Excel spreadsheet.
+          </p>
+          <p>
+            Retyping a single two-page contract, a table of invoice line items, or a dense set of study notes by hand takes anywhere from fifteen minutes to an hour, and almost always introduces human typing mistakes along the way—especially in long reference numbers, IFSC codes, dates, and financial figures. That is the exact problem <strong>Optical Character Recognition (OCR)</strong> was invented to solve. An OCR engine inspects the visual geometry of pixels inside an image, identifies lines, segments individual words and characters, and translates those visual shapes into standard digital text characters (UTF-8 / ASCII) that any software can edit and search.
+          </p>
+          <p>
+            There is, however, a major catch with how almost every free online image-to-text converter on the internet operates. Traditional cloud-based OCR websites require you to <strong>upload your image file to their remote server</strong> first. Their backend computer processes your image, extracts the text, and sends the result back to your browser. For a photograph of a public restaurant menu or a page from a novel, uploading to a stranger's server may not feel like a major concern. Put a confidential document into that same workflow—a bank statement, an income certificate, a signed legal agreement, a medical prescription, an employee payroll sheet, or a customer invoice list—and the risk changes completely.
+          </p>
+          <p>
+            <em>The PDF Mechanic</em> was engineered from the ground up to eliminate that trade-off. Instead of shipping your private files across the internet to an unknown cloud server, our <strong>Offline Image to Text Converter</strong> brings the entire OCR engine directly to your browser tab using <strong>WebAssembly (Wasm) and modern client-side JavaScript</strong>. Your photos, screenshots, and scanned documents are analyzed inside your own device's RAM and processor, and never leave your computer or smartphone.
+          </p>
+        </div>
+
+        <!-- Section 2: Cloud OCR vs Offline Browser OCR Comparison Table -->
+        <div class="space-y-5">
+          <h3 class="text-2xl sm:text-3xl font-display font-bold text-slate-900 dark:text-white">
+            Cloud-Based Online OCR vs. The PDF Mechanic's Offline Browser OCR
+          </h3>
+          <p class="text-base sm:text-lg">
+            Many websites advertise themselves as "free online OCR tools," yet behind the scenes they rely on third-party cloud APIs that meter usage, store temporary copies of uploaded files, or force you to sign up after two or three conversions. Understanding the architectural difference between server-side OCR and client-side WebAssembly OCR explains why local processing is faster, safer, and genuinely unrestricted.
+          </p>
+
+          <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700 my-6">
+            <table class="w-full text-left border-collapse text-sm sm:text-base">
+              <thead>
+                <tr class="bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-700">
+                  <th class="p-4 font-display font-bold">Feature / Security Factor</th>
+                  <th class="p-4 font-display font-bold text-brand-700 dark:text-brand-400">The PDF Mechanic (Offline Browser OCR)</th>
+                  <th class="p-4 font-display font-bold text-slate-600 dark:text-slate-400">Traditional Cloud OCR Websites</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                <tr class="bg-white dark:bg-slate-800/60">
+                  <td class="p-4 font-semibold text-slate-900 dark:text-white">Where Image Processing Happens</td>
+                  <td class="p-4 text-slate-700 dark:text-slate-200">100% locally inside your browser tab via WebAssembly</td>
+                  <td class="p-4 text-slate-600 dark:text-slate-400">On remote third-party cloud servers</td>
+                </tr>
+                <tr class="bg-slate-50/70 dark:bg-slate-800/30">
+                  <td class="p-4 font-semibold text-slate-900 dark:text-white">Data Privacy &amp; File Upload Risk</td>
+                  <td class="p-4 text-slate-700 dark:text-slate-200">Zero file upload; images never leave your phone or PC</td>
+                  <td class="p-4 text-slate-600 dark:text-slate-400">Full image is transmitted over the internet and stored in server memory</td>
+                </tr>
+                <tr class="bg-white dark:bg-slate-800/60">
+                  <td class="p-4 font-semibold text-slate-900 dark:text-white">Safe for IDs, Aadhaar, PAN &amp; Bank Docs</td>
+                  <td class="p-4 text-slate-700 dark:text-slate-200">Yes — as private as viewing an image in your local photo viewer</td>
+                  <td class="p-4 text-slate-600 dark:text-slate-400">High risk — sensitive personal data is exposed to external infrastructure</td>
+                </tr>
+                <tr class="bg-slate-50/70 dark:bg-slate-800/30">
+                  <td class="p-4 font-semibold text-slate-900 dark:text-white">Works Without Internet (Airplane Mode)</td>
+                  <td class="p-4 text-slate-700 dark:text-slate-200">Yes — works completely offline once the page &amp; language cache load</td>
+                  <td class="p-4 text-slate-600 dark:text-slate-400">No — fails immediately without an active upload/download connection</td>
+                </tr>
+                <tr class="bg-white dark:bg-slate-800/60">
+                  <td class="p-4 font-semibold text-slate-900 dark:text-white">Daily Page Caps &amp; Usage Quotas</td>
+                  <td class="p-4 text-slate-700 dark:text-slate-200">Unlimited conversions forever (zero server cost to meter)</td>
+                  <td class="p-4 text-slate-600 dark:text-slate-400">Frequently capped at 3–5 files per day unless you buy a subscription</td>
+                </tr>
+                <tr class="bg-slate-50/70 dark:bg-slate-800/30">
+                  <td class="p-4 font-semibold text-slate-900 dark:text-white">Mobile Data Consumption per Scan</td>
+                  <td class="p-4 text-slate-700 dark:text-slate-200">0 MB per image (no heavy 5–10 MB camera photos uploaded)</td>
+                  <td class="p-4 text-slate-600 dark:text-slate-400">Consumes full upload bandwidth for every high-resolution photo</td>
+                </tr>
+                <tr class="bg-white dark:bg-slate-800/60">
+                  <td class="p-4 font-semibold text-slate-900 dark:text-white">Signup, Email &amp; Watermarks</td>
+                  <td class="p-4 text-slate-700 dark:text-slate-200">No account required, no email gate, clean unwatermarked output</td>
+                  <td class="p-4 text-slate-600 dark:text-slate-400">Often requires email registration or adds watermarks to exports</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Section 3: Under the Hood - How Browser-Based WebAssembly OCR Actually Works -->
+        <div class="space-y-5">
+          <h3 class="text-2xl sm:text-3xl font-display font-bold text-slate-900 dark:text-white">
+            How Client-Side Offline OCR Actually Works Inside Your Browser
+          </h3>
+          <p class="text-base sm:text-lg">
+            A common question from developers and privacy-conscious users alike is: <em>"How can a simple webpage perform complex AI character recognition without sending the image to a cloud server?"</em> A decade ago, browsers were too slow to run optical character recognition locally; JavaScript was single-threaded and interpreted, so analyzing millions of pixels inside a browser tab would freeze the screen. Today, three modern web technologies make local, near-native OCR possible on everything from a budget Android smartphone to an office desktop.
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+            <div class="bg-slate-50 dark:bg-slate-900/70 p-6 rounded-xl border border-slate-200 dark:border-slate-700">
+              <h4 class="font-display font-bold text-lg text-slate-900 dark:text-white mb-2">1. WebAssembly (Wasm) Execution Engine</h4>
+              <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300">
+                Our OCR tools compile the industry-standard <strong>Tesseract OCR engine</strong> (originally developed at Hewlett-Packard Laboratories and later enhanced by Google) from C++ directly into WebAssembly binary bytecode. WebAssembly runs inside your browser's secure sandbox at near-native CPU speed, allowing complex matrix math and image processing to execute locally without installing any desktop software.
+              </p>
+            </div>
+
+            <div class="bg-slate-50 dark:bg-slate-900/70 p-6 rounded-xl border border-slate-200 dark:border-slate-700">
+              <h4 class="font-display font-bold text-lg text-slate-900 dark:text-white mb-2">2. HTML5 Canvas &amp; Image Binarization</h4>
+              <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300">
+                When you select a JPG, PNG, or WebP file using the file picker, the browser reads the file directly from your local storage via the standard HTML5 <code>FileReader</code> and <code>Canvas</code> APIs. The engine normalizes contrast, separates dark foreground ink from light page backgrounds (adaptive thresholding), and detects page skew angles before recognition even starts.
+              </p>
+            </div>
+
+            <div class="bg-slate-50 dark:bg-slate-900/70 p-6 rounded-xl border border-slate-200 dark:border-slate-700">
+              <h4 class="font-display font-bold text-lg text-slate-900 dark:text-white mb-2">3. LSTM Neural Network Line Recognition</h4>
+              <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300">
+                Instead of older template-matching OCR that only compared isolated letter shapes one by one, modern Tesseract uses a <strong>Long Short-Term Memory (LSTM) recurrent neural network</strong>. It evaluates entire sequences of characters across a line of text, using surrounding word context to distinguish tricky letter pairs and punctuation accurately.
+              </p>
+            </div>
+
+            <div class="bg-slate-50 dark:bg-slate-900/70 p-6 rounded-xl border border-slate-200 dark:border-slate-700">
+              <h4 class="font-display font-bold text-lg text-slate-900 dark:text-white mb-2">4. Web Workers &amp; Browser Cache Storage</h4>
+              <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300">
+                Recognition runs inside a dedicated background <strong>Web Worker</strong> thread so your browser tab remains responsive while the progress bar updates. Once the compact trained language model downloads on your first visit, your browser caches it locally in IndexedDB/Cache Storage—meaning repeat runs start instantly and work with zero internet connection.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-blue-50 dark:bg-brand-900/30 border-l-4 border-brand-600 p-6 rounded-r-xl">
+            <h4 class="font-display font-bold text-brand-900 dark:text-brand-200 text-lg mb-1">How to Verify Our Zero-Upload Guarantee Yourself in 30 Seconds</h4>
+            <p class="text-brand-800 dark:text-slate-200 text-sm sm:text-base">
+              You never have to take a privacy claim on blind faith. Open our <a href="https://www.thepdfmechanic.com/extractor.html" class="underline font-semibold">Image OCR Tool</a> or <a href="https://www.thepdfmechanic.com/ocr.html" class="underline font-semibold">OCR PDF Tool</a>, press <kbd class="px-2 py-0.5 bg-white dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-600 text-xs font-mono">F12</kbd> on your keyboard to open browser Developer Tools, and click the <strong>Network</strong> tab (or simply turn off your Wi-Fi / enable Airplane Mode after the tool loads). Now select any image from your device and run OCR. You will see <strong>zero outgoing HTTP POST requests</strong> carrying your file—100% of the computation happens right inside your own hardware.
+            </p>
+          </div>
+        </div>
+
+        <!-- Section 4: Which OCR Tool Should You Use? Image Extractor vs OCR PDF & Word -->
+        <div class="space-y-5">
+          <h3 class="text-2xl sm:text-3xl font-display font-bold text-slate-900 dark:text-white">
+            Choosing the Right Workflow on The PDF Mechanic: Image Extractor vs. Full OCR PDF Suite
+          </h3>
+          <p class="text-base sm:text-lg">
+            Depending on whether you are starting with a single smartphone screenshot or a twenty-page scanned PDF contract, we offer two specialized client-side OCR tools that share the same zero-upload privacy philosophy:
+          </p>
+          <ul class="list-disc pl-6 space-y-3 text-base sm:text-lg">
+            <li>
+              <strong>For Quick Screenshots, Receipts &amp; Single Photos (<a href="https://www.thepdfmechanic.com/extractor.html" class="text-brand-600 dark:text-brand-400 underline hover:no-underline">Image to Text Extractor</a>):</strong> Ideal when you have a JPG, PNG, or WebP screenshot and simply want to grab a phone number, address, tracking ID, quotation, or paragraph of text to copy-paste straight into your clipboard, WhatsApp, email, or Excel sheet.
+            </li>
+            <li>
+              <strong>For Scanned PDFs, Multilingual Documents &amp; Word Export (<a href="https://www.thepdfmechanic.com/ocr.html" class="text-brand-600 dark:text-brand-400 underline hover:no-underline">Free OCR PDF &amp; Word Tool</a>):</strong> Designed when you have either a scanned PDF or an image and want three simultaneous output options from a single OCR pass: (1) a <strong>Searchable PDF</strong> with an invisible text layer placed over your original scan so <kbd class="px-1.5 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono">Ctrl+F</kbd> works, (2) a formatted <strong>Microsoft Word (<code>.docx</code>)</strong> file for editing, or (3) a plain copyable text box, with support for English, Hindi (हिन्दी), Spanish, French, and German.
+            </li>
+            <li>
+              <strong>For Native (Non-Scanned) Digital PDFs (<a href="https://www.thepdfmechanic.com/pdf-to-word.html" class="text-brand-600 dark:text-brand-400 underline hover:no-underline">PDF to Word Converter</a>):</strong> If your PDF was originally exported from Word, Google Docs, or billing software and already has selectable text, you do not even need OCR—our native PDF-to-Word converter extracts the existing text layer directly into a clean <code>.docx</code> file in milliseconds.
+            </li>
+          </ul>
+        </div>
+
+        <!-- Section 5: Accuracy, DPI, Lighting & Preprocessing Settings -->
+        <div id="accuracy-settings" class="space-y-5 pt-4">
+          <h3 class="text-2xl sm:text-3xl font-display font-bold text-slate-900 dark:text-white">
+            The Science of OCR Accuracy: DPI, Lighting, Contrast &amp; Font Clarity
+          </h3>
+          <p class="text-base sm:text-lg">
+            Even the most advanced neural network OCR engine is only as accurate as the pixel grid you feed it. When a human reads a slightly blurry photograph of a receipt, our brain automatically fills in missing letters using lifelong knowledge of the subject. An OCR model, by contrast, has to evaluate actual pixel contrast edges. Knowing what helps—and what hurts—character recognition allows you to turn a mediocre 80% scan into a 99%+ accurate text extraction in seconds.
+          </p>
+
+          <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700 my-6">
+            <table class="w-full text-left border-collapse text-sm sm:text-base">
+              <thead>
+                <tr class="bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-700">
+                  <th class="p-4 font-display font-bold">Source Image Type</th>
+                  <th class="p-4 font-display font-bold">Recommended Resolution / Setup</th>
+                  <th class="p-4 font-display font-bold">Typical OCR Accuracy</th>
+                  <th class="p-4 font-display font-bold">Best Preparation Tip</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                <tr class="bg-white dark:bg-slate-800/60">
+                  <td class="p-4 font-semibold text-slate-900 dark:text-white">Digital Screenshots (PC / Mobile)</td>
+                  <td class="p-4">Native screen resolution (PNG or lossless WebP preferred)</td>
+                  <td class="p-4 font-semibold text-green-700 dark:text-green-400">99% – 100%</td>
+                  <td class="p-4">Take the screenshot at 100% zoom or higher; avoid sharing via apps that heavily compress JPEG quality first</td>
+                </tr>
+                <tr class="bg-slate-50/70 dark:bg-slate-800/30">
+                  <td class="p-4 font-semibold text-slate-900 dark:text-white">Flatbed Office Scans &amp; Certificates</td>
+                  <td class="p-4">300 DPI, Greyscale or High-Contrast Black &amp; White</td>
+                  <td class="p-4 font-semibold text-green-700 dark:text-green-400">98% – 99.5%</td>
+                  <td class="p-4">Keep the page flat against the scanner glass so text near the spine or margin does not curve away</td>
+                </tr>
+                <tr class="bg-white dark:bg-slate-800/60">
+                  <td class="p-4 font-semibold text-slate-900 dark:text-white">Smartphone Camera Photos of Paper</td>
+                  <td class="p-4">12 MP+ camera held directly parallel in bright, even daylight</td>
+                  <td class="p-4 font-semibold text-brand-700 dark:text-brand-400">94% – 98%</td>
+                  <td class="p-4">Avoid casting your phone or hand shadow across the page; crop out the surrounding desk or background</td>
+                </tr>
+                <tr class="bg-slate-50/70 dark:bg-slate-800/30">
+                  <td class="p-4 font-semibold text-slate-900 dark:text-white">Thermal Receipts &amp; Courier Labels</td>
+                  <td class="p-4">Close-up macro focus with angled side-lighting to avoid glare</td>
+                  <td class="p-4 font-semibold text-brand-700 dark:text-brand-400">90% – 96%</td>
+                  <td class="p-4">Flatten creases before shooting; faded thermal ink benefits from slightly increasing contrast before OCR</td>
+                </tr>
+                <tr class="bg-white dark:bg-slate-800/60">
+                  <td class="p-4 font-semibold text-slate-900 dark:text-white">Neat Printed Handwriting / Whiteboards</td>
+                  <td class="p-4">High-contrast dark marker/pen on plain white surface</td>
+                  <td class="p-4 font-semibold text-amber-700 dark:text-amber-400">75% – 90%</td>
+                  <td class="p-4">Block-lettered print characters recognize far better than connected cursive script; always proofread output</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="text-xl font-display font-bold text-slate-900 dark:text-white mt-8 mb-3">
+            6 Golden Rules for Getting Clean Text from Tricky Photos
+          </h4>
+          <ol class="list-decimal pl-6 space-y-3 text-base sm:text-lg">
+            <li>
+              <strong>Aim for the 300 DPI Sweet Spot on Physical Scans:</strong> Scanning a document at 72 or 96 DPI leaves too few pixels per character, causing small letters like <code>e</code>, <code>c</code>, and <code>o</code> to blur into closed loops. Conversely, scanning at 1200 DPI creates massive 25 MB files that take four times longer to process in RAM without improving recognition accuracy. Around <strong>300 DPI</strong> is the universal sweet spot for printed text.
+            </li>
+            <li>
+              <strong>Eliminate Uneven Shadows and Glossy Glare:</strong> When you photograph a paper page under a single ceiling bulb at night, your phone often casts a dark shadow across the center of the document. Because OCR engines convert color images into binary black-and-white maps (binarization) before reading characters, a sharp shadow line can fool the algorithm into misreading the shadowed half of the page. Shoot near a window in indirect daylight or use two balanced light sources.
+            </li>
+            <li>
+              <strong>Correct Page Orientation and Skew First:</strong> If a page was photographed upside-down, sideways (90 degrees), or at a steep diagonal tilt, text-line segmentation becomes significantly harder. If your scanned PDF or image is rotated, run it through our offline <a href="https://www.thepdfmechanic.com/rotate-pdf.html" class="text-brand-600 dark:text-brand-400 underline hover:no-underline">Rotate PDF</a> or crop tool first so the text lines sit horizontally.
+            </li>
+            <li>
+              <strong>Crop Out Cluttered Backgrounds, Borders &amp; Fingers:</strong> When a photo includes a patterned wooden desk, another book page in the background, or a hand holding down a corner, the OCR engine wastes time trying to find text patterns in background noise and may insert stray garbage symbols at the start or end of your output. Tightly cropping to the text block itself speeds up processing and keeps the extracted paragraphs clean.
+            </li>
+            <li>
+              <strong>Avoid Repeated Heavy JPEG Compression Before Running OCR:</strong> Forwarding an image multiple times through messaging apps in standard quality mode introduces "ringing" and 8×8 pixel block artifacts around sharp letter edges. Even if the text still looks readable to you, those blurry compression halos around tiny 8pt or 9pt footnotes can lower accuracy. Whenever possible, run OCR on the original camera photo or screenshot before compressing it with our <a href="https://www.thepdfmechanic.com/compressor.html" class="text-brand-600 dark:text-brand-400 underline hover:no-underline">Compress PDF</a> or image optimizer tools.
+            </li>
+            <li>
+              <strong>Always Proofread High-Stakes Numeric Fields (The Homoglyph Rule):</strong> Across all OCR software worldwide, certain characters share nearly identical geometry in modern sans-serif fonts: the number <code>0</code> and capital letter <code>O</code>; the digit <code>1</code>, lowercase <code>l</code> (Lima), and uppercase <code>I</code> (India); the number <code>5</code> and letter <code>S</code>; or the number <code>8</code> and capital <code>B</code>. While the neural network uses dictionary context to get words right, random alphanumeric strings—like GSTIN numbers, bank IFSC codes, invoice IDs, roll numbers, and vehicle chassis numbers—have no dictionary pattern. Always give numeric sequences a five-second visual verification after extraction.
+            </li>
+          </ol>
+        </div>
+
+        <!-- Section 6: Real-World Use Cases Across India & Worldwide -->
+        <div id="use-cases" class="space-y-6 pt-4">
+          <h3 class="text-2xl sm:text-3xl font-display font-bold text-slate-900 dark:text-white">
+            Who Uses Offline Image-to-Text Conversion? 6 High-Impact Workflows
+          </h3>
+          <p class="text-base sm:text-lg">
+            Because browser-based WebAssembly OCR combines zero-upload confidentiality with zero cost and offline availability, it solves practical day-to-day bottlenecks across very different fields:
+          </p>
+
+          <div class="space-y-6">
+            <div class="p-6 rounded-xl bg-slate-50 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700">
+              <h4 class="text-xl font-display font-bold text-slate-900 dark:text-white mb-2">
+                1. E-Commerce Marketplace Sellers &amp; GST Accounting Teams (Amazon, Flipkart, Meesho, IndiaMART)
+              </h4>
+              <p class="text-base text-slate-600 dark:text-slate-300">
+                Marketplace operators and accountants deal with hundreds of supplier bills, courier manifest sheets, thermal shipping labels,eway bills, and photographed purchase invoices every month. Often a vendor sends a photo of a printed GST bill on WhatsApp rather than a digital spreadsheet. Instead of manually typing 15-digit GSTIN numbers, HSN codes, SKU quantities, and taxable amounts into Tally, Excel, or a GST return sheet, you can run the invoice photo through our offline OCR extractor, copy the exact line items in seconds, and keep your supplier pricing and customer addresses 100% off third-party cloud servers.
+              </p>
+            </div>
+
+            <div class="p-6 rounded-xl bg-slate-50 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700">
+              <h4 class="text-xl font-display font-bold text-slate-900 dark:text-white mb-2">
+                2. Government Job Aspirants &amp; Competitive Exam Students (SSC, UPSC, IBPS, Railway RRB, State PSC)
+              </h4>
+              <p class="text-base text-slate-600 dark:text-slate-300">
+                Students preparing for competitive exams routinely collect screenshots of online lecture slides, photographed pages from reference books in the library, newspaper editorials, and official recruitment notifications published as image-only PDFs. With our offline image-to-text converter, you can turn photographed book pages and bilingual Hindi/English study material into editable digital revision notes without burning mobile data. And when it is time to submit your application form, you can pair it with our offline <a href="https://www.thepdfmechanic.com/compressor.html" class="text-brand-600 dark:text-brand-400 underline hover:no-underline">Compress PDF</a> and <a href="https://www.thepdfmechanic.com/merger.html" class="text-brand-600 dark:text-brand-400 underline hover:no-underline">Merge PDF</a> tools to hit strict 20–50 KB photo and 100–200 KB certificate limits safely.
+              </p>
+            </div>
+
+            <div class="p-6 rounded-xl bg-slate-50 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700">
+              <h4 class="text-xl font-display font-bold text-slate-900 dark:text-white mb-2">
+                3. Banking, Legal, Chartered Accountancy &amp; KYC Document Verification
+              </h4>
+              <p class="text-base text-slate-600 dark:text-slate-300">
+                Chartered accountants, loan officers, legal paralegals, and HR onboarding teams regularly need to extract names, addresses, dates of birth, property survey numbers, or contract clauses from scanned affidavits, rent agreements, Aadhaar/PAN copies, and bank statements. Strict client confidentiality and data protection policies prohibit uploading client KYC records to random free web converters. Because The PDF Mechanic executes entirely inside the local browser sandbox, professionals can extract text from sensitive legal and financial paperwork with zero compliance or data-leakage risk.
+              </p>
+            </div>
+
+            <div class="p-6 rounded-xl bg-slate-50 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700">
+              <h4 class="text-xl font-display font-bold text-slate-900 dark:text-white mb-2">
+                4. Software Developers, QA Engineers &amp; Technical Support Teams
+              </h4>
+              <p class="text-base text-slate-600 dark:text-slate-300">
+                Anyone who works in software development or IT support knows the frustration of receiving a bug report where a client or colleague pasted a screenshot of a terminal stack trace, a JSON payload, an error dialog box, or a server log instead of actual text. Rather than retyping a 120-character file path or SQL query from a screenshot—and inevitably mistyping a character—drop the screenshot into our offline OCR tool and copy the exact error message or code snippet immediately.
+              </p>
+            </div>
+
+            <div class="p-6 rounded-xl bg-slate-50 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700">
+              <h4 class="text-xl font-display font-bold text-slate-900 dark:text-white mb-2">
+                5. Healthcare, Medical Records &amp; Insurance Claim Processing
+              </h4>
+              <p class="text-base text-slate-600 dark:text-slate-300">
+                Patients and clinic administrators frequently need to digitize printed pathology lab reports, discharge summaries, and itemised hospital bills for health insurance claims or second opinions. Medical records are among the most sensitive personal documents in existence. Using a 100% client-side offline OCR tool ensures that diagnostic reports and patient identifiers stay strictly on the patient's or hospital's own computer.
+              </p>
+            </div>
+
+            <div class="p-6 rounded-xl bg-slate-50 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700">
+              <h4 class="text-xl font-display font-bold text-slate-900 dark:text-white mb-2">
+                6. Everyday Mobile Users Copying Text from Social Media, Maps &amp; Flyers
+              </h4>
+              <p class="text-base text-slate-600 dark:text-slate-300">
+                Have you ever wanted to copy a courier tracking number from a photo receipt, grab an event address from an Instagram story or WhatsApp poster, save a Wi-Fi password printed on a hotel router sticker, or extract a recipe from a magazine snapshot? Because our web app is lightweight and Progressive Web App (PWA) ready, you can open it in Android Chrome or iOS Safari and extract text in seconds without cluttering your phone's storage with ad-filled scanner apps.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 7: Step-by-Step Troubleshooting & Post-OCR Workflows -->
+        <div id="troubleshooting" class="space-y-5 pt-4">
+          <h3 class="text-2xl sm:text-3xl font-display font-bold text-slate-900 dark:text-white">
+            Troubleshooting Common OCR Challenges &amp; Building Complete Document Workflows
+          </h3>
+          <p class="text-base sm:text-lg">
+            Extracting raw text from an image is often just the first step in a larger document task. Below are practical solutions to the most common formatting and recognition questions users encounter when working with scanned images and PDFs:
+          </p>
+
+          <div class="space-y-4">
+            <div class="border-l-4 border-slate-300 dark:border-slate-600 pl-5 py-1">
+              <h4 class="font-display font-bold text-lg text-slate-900 dark:text-white">What if my image contains a multi-column newspaper layout or data table?</h4>
+              <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-1">
+                Standard OCR reads text from left to right, top to bottom. On a two-column magazine page or a complex invoice table, scanning the whole page at once can sometimes merge lines across columns. The fastest fix is to crop each column or table section separately before running OCR—or, if your table is already inside a digital PDF, use our dedicated <a href="https://www.thepdfmechanic.com/" class="text-brand-600 dark:text-brand-400 underline hover:no-underline">PDF to Excel</a> tool to preserve row and column cells.
+              </p>
+            </div>
+
+            <div class="border-l-4 border-slate-300 dark:border-slate-600 pl-5 py-1">
+              <h4 class="font-display font-bold text-lg text-slate-900 dark:text-white">Why does the very first run take a few extra seconds to initialize?</h4>
+              <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-1">
+                When you run OCR for the first time in a browser session, the WebAssembly runtime downloads and initializes the trained neural network language pack (for example, English or Hindi). Once that one-time download completes, your browser stores the trained model in local cache. Every image you convert afterward starts immediately—even if you disconnect from the internet.
+              </p>
+            </div>
+
+            <div class="border-l-4 border-slate-300 dark:border-slate-600 pl-5 py-1">
+              <h4 class="font-display font-bold text-lg text-slate-900 dark:text-white">How do I turn several photographed pages into one searchable, compressed PDF?</h4>
+              <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-1">
+                If you photographed ten pages of a contract or marksheet with your phone camera: first convert those photos into a single PDF using <a href="https://www.thepdfmechanic.com/images-to-pdf.html" class="text-brand-600 dark:text-brand-400 underline hover:no-underline">JPG to PDF</a>; next, run that PDF through our <a href="https://www.thepdfmechanic.com/ocr.html" class="text-brand-600 dark:text-brand-400 underline hover:no-underline">OCR PDF tool</a> and choose "Searchable PDF" (or <code>.docx</code>); and finally, if you need to email or upload it to a portal with a strict size cap, pass it through <a href="https://www.thepdfmechanic.com/compressor.html" class="text-brand-600 dark:text-brand-400 underline hover:no-underline">Compress PDF</a>. Every single step runs 100% locally in your browser.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-slate-100 dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-700 mt-8">
+            <h4 class="text-xl font-display font-bold text-slate-900 dark:text-white mb-2">
+              Ready to Extract Text Without Compromising Your Privacy?
+            </h4>
+            <p class="text-slate-600 dark:text-slate-300 text-base mb-5">
+              Stop uploading sensitive personal IDs, financial statements, and business invoices to third-party cloud servers. Switch to <strong>The PDF Mechanic's Offline OCR</strong> for a fast, accurate, and 100% client-side experience on Android, iPhone, Windows, or Mac.
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <a href="https://www.thepdfmechanic.com/extractor.html" class="inline-flex items-center bg-brand-600 hover:bg-brand-700 text-white font-semibold px-6 py-3 rounded-xl transition">
+                Launch Offline Image to Text Tool
+              </a>
+              <a href="https://www.thepdfmechanic.com/guides.html" class="inline-flex items-center bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-600 font-semibold px-6 py-3 rounded-xl transition">
+                Browse All PDF &amp; Privacy Guides
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </article>
+    </section>
+
+    <!-- Expanded Frequently Asked Questions Section (Matches JSON-LD Schema) -->
+    <section id="faq" class="cv-auto max-w-4xl mx-auto px-4 py-12 mb-12">
+      <div class="text-center max-w-2xl mx-auto mb-8">
+        <span class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">Got Questions?</span>
+        <h2 class="text-2xl sm:text-3xl font-display font-bold text-slate-900 dark:text-white mt-1">Frequently Asked Questions</h2>
+        <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mt-2">
+          Everything you need to know about offline browser OCR, supported formats, privacy verification, and accuracy.
+        </p>
+      </div>
+
+      <div class="space-y-3">
+        <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 cursor-pointer">
+          <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white gap-4">
+            <span>How does this offline image to text tool work?</span>
+            <span class="transition duration-200 group-open:rotate-180 flex-shrink-0 text-brand-600 dark:text-brand-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 pl-3 border-l-2 border-brand-500">
+            It uses advanced client-side processing (WebAssembly and JavaScript running the Tesseract OCR neural network engine) to analyze pixel patterns and extract text from your images directly inside your browser, without ever needing a remote server.
+          </p>
+        </details>
+
+        <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 cursor-pointer">
+          <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white gap-4">
+            <span>Is my data secure and private when extracting text from IDs or bank statements?</span>
+            <span class="transition duration-200 group-open:rotate-180 flex-shrink-0 text-brand-600 dark:text-brand-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 pl-3 border-l-2 border-brand-500">
+            Yes! Your images never leave your device. Since there is zero file upload to any cloud server, this is the safest way to extract text from sensitive documents like Aadhaar cards, PAN cards, passports, invoices, or bank statements.
+          </p>
+        </details>
+
+        <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 cursor-pointer">
+          <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white gap-4">
+            <span>Which image formats are supported by the offline OCR converter?</span>
+            <span class="transition duration-200 group-open:rotate-180 flex-shrink-0 text-brand-600 dark:text-brand-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 pl-3 border-l-2 border-brand-500">
+            Our image-to-text extractor supports all standard raster formats including JPG, JPEG, PNG, and WebP. If you need to run OCR on a multi-page scanned PDF file or export directly to <code>.docx</code>, you can also use our dedicated <a href="https://www.thepdfmechanic.com/ocr.html" class="text-brand-600 dark:text-brand-400 underline">OCR PDF tool</a>.
+          </p>
+        </details>
+
+        <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 cursor-pointer">
+          <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white gap-4">
+            <span>Do I need an active internet connection to convert images to text?</span>
+            <span class="transition duration-200 group-open:rotate-180 flex-shrink-0 text-brand-600 dark:text-brand-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 pl-3 border-l-2 border-brand-500">
+            No. Once the webpage and the lightweight language recognition model have loaded once in your browser, you can turn off Wi-Fi or mobile data completely. Every subsequent image extraction functions 100% offline.
+          </p>
+        </details>
+
+        <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 cursor-pointer">
+          <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white gap-4">
+            <span>Is there a file size limit or daily cap on conversions?</span>
+            <span class="transition duration-200 group-open:rotate-180 flex-shrink-0 text-brand-600 dark:text-brand-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 pl-3 border-l-2 border-brand-500">
+            Because recognition runs locally on your own hardware, we impose no daily limits, no page caps, and no artificial file size restrictions. Processing very large high-resolution photos simply depends on your device's available RAM.
+          </p>
+        </details>
+
+        <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 cursor-pointer">
+          <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white gap-4">
+            <span>Can this tool read handwritten notes as well as printed text?</span>
+            <span class="transition duration-200 group-open:rotate-180 flex-shrink-0 text-brand-600 dark:text-brand-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 pl-3 border-l-2 border-brand-500">
+            The OCR engine is heavily optimized for printed documents, books, receipts, official certificates, and digital screenshots (where accuracy regularly exceeds 98–99%). Neat, well-spaced print handwriting can be recognized, though connected cursive handwriting is less accurate than printed typography.
+          </p>
+        </details>
+
+        <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 cursor-pointer">
+          <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white gap-4">
+            <span>Does the offline OCR tool work on Android and iPhone browsers?</span>
+            <span class="transition duration-200 group-open:rotate-180 flex-shrink-0 text-brand-600 dark:text-brand-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 pl-3 border-l-2 border-brand-500">
+            Absolutely! You can run it natively inside Google Chrome on Android or Safari on iOS without installing any heavy mobile apps or granting intrusive phone permissions.
+          </p>
+        </details>
+
+        <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 cursor-pointer">
+          <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white gap-4">
+            <span>How can I verify that my image is not being uploaded to a server?</span>
+            <span class="transition duration-200 group-open:rotate-180 flex-shrink-0 text-brand-600 dark:text-brand-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 pl-3 border-l-2 border-brand-500">
+            Open your browser's Developer Tools (F12) and switch to the Network tab before selecting your image, or simply switch your phone or laptop to Airplane Mode after opening the tool. You will see zero outgoing file uploads while your text is extracted.
+          </p>
+        </details>
+
+        <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 cursor-pointer">
+          <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white gap-4">
+            <span>Why do numbers like 0 and O or 1 and l sometimes get confused in OCR?</span>
+            <span class="transition duration-200 group-open:rotate-180 flex-shrink-0 text-brand-600 dark:text-brand-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 pl-3 border-l-2 border-brand-500">
+            In many sans-serif fonts and low-resolution scans, the pixel geometry of the digit zero (0) and capital letter O, or the number 1, lowercase l, and uppercase I, are nearly identical. Scanning at 300 DPI and doing a quick manual check on invoice numbers or account digits ensures 100% reliability.
+          </p>
+        </details>
+
+        <details class="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 cursor-pointer">
+          <summary class="flex justify-between items-center font-bold text-slate-800 dark:text-white gap-4">
+            <span>Is this tool completely free for commercial and personal use?</span>
+            <span class="transition duration-200 group-open:rotate-180 flex-shrink-0 text-brand-600 dark:text-brand-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 mt-3 pl-3 border-l-2 border-brand-500">
+            Yes, the Image to Text extractor by The PDF Mechanic is 100% free forever with no watermarks, no account registration, and no hidden subscription tiers.
+          </p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <!-- Professional Footer (Clean Canonical Links & Inline SVG Icon) -->
+  <footer class="bg-slate-950 text-slate-400 pt-16 pb-8 border-t border-slate-800 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-10">
+      <div class="col-span-1 sm:col-span-2 md:col-span-1">
+        <a href="https://www.thepdfmechanic.com/" class="flex items-center gap-2.5 mb-4 text-white group">
+          <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+            </svg>
+          </div>
+          <span class="font-bold text-xl font-display">The PDF Mechanic</span>
+        </a>
+        <p class="text-sm leading-relaxed text-slate-400 mb-4">
+          Built for speed and privacy. The complete PDF &amp; OCR toolkit that runs 100% offline in your browser using WebAssembly.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold text-sm mb-4">Organize &amp; Edit</h4>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="https://www.thepdfmechanic.com/merger.html" class="hover:text-brand-400 transition">Merge PDF</a></li>
+          <li><a href="https://www.thepdfmechanic.com/compressor.html" class="hover:text-brand-400 transition">Compress PDF</a></li>
+          <li><a href="https://www.thepdfmechanic.com/splitter.html" class="hover:text-brand-400 transition">Split PDF</a></li>
+          <li><a href="https://www.thepdfmechanic.com/rotate-pdf.html" class="hover:text-brand-400 transition">Rotate PDF</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold text-sm mb-4">OCR &amp; Convert</h4>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="https://www.thepdfmechanic.com/image-to-text-offline/" class="text-brand-400 font-medium hover:text-brand-300 transition">Image to Text Offline</a></li>
+          <li><a href="https://www.thepdfmechanic.com/ocr.html" class="hover:text-brand-400 transition">OCR PDF &amp; Word</a></li>
+          <li><a href="https://www.thepdfmechanic.com/pdf-to-word.html" class="hover:text-brand-400 transition">PDF to Word</a></li>
+          <li><a href="https://www.thepdfmechanic.com/images-to-pdf.html" class="hover:text-brand-400 transition">JPG to PDF</a></li>
+          <li><a href="https://www.thepdfmechanic.com/excel-to-pdf.html" class="hover:text-brand-400 transition">Excel to PDF</a></li>
+          <li><a href="https://www.thepdfmechanic.com/html-to-pdf.html" class="hover:text-brand-400 transition">HTML to PDF</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold text-sm mb-4">Resources &amp; Legal</h4>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="https://www.thepdfmechanic.com/guides.html" class="hover:text-brand-400 transition">PDF &amp; Privacy Guides</a></li>
+          <li><a href="https://www.thepdfmechanic.com/privacy.html" class="hover:text-brand-400 transition">Privacy Policy</a></li>
+          <li><a href="https://www.thepdfmechanic.com/terms.html" class="hover:text-brand-400 transition">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-slate-900 pt-8 text-center text-xs text-slate-500 px-4">
+      &copy; <span id="year">2026</span> The PDF Mechanic. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- Clean, Single Theme & Year Script (Sandbox-Safe with try/catch) -->
+  <script>
+    (function() {
+      var themeToggle = document.getElementById('themeToggle');
+      var html = document.documentElement;
+
+      if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+          html.classList.toggle('dark');
+          try {
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+          } catch (e) {}
+        });
+      }
+
+      var yearEl = document.getElementById('year');
+      if (yearEl) {
+        yearEl.textContent = new Date().getFullYear();
+      }
+    })();
+  </script>
+
+</body>
+</html>
+```<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Image to Text Converter Offline (Secure OCR) – The PDF Mechanic</title>
   <meta name="description" content="Extract text from images (JPG, PNG) offline without uploading. Secure OCR tool to copy text from screenshots and documents instantly. 100% Private.">
   <meta name="keywords" content="image to text offline, ocr no upload, extract text from screenshot, secure image to text converter, copy text from image pc, jpg to word offline">
   <meta name="author" content="The PDF Mechanic">
